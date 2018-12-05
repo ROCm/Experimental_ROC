@@ -27,6 +27,35 @@ trap 'errno=$?; print_cmd=$lastcmd; if [ $errno -ne 0 ]; then echo "\"${print_cm
 source "$BASE_DIR/common/common_options.sh"
 parse_args "$@"
 
+# 1.9.1 is an old release, so the deb packages have moved over to an archive
+# tarball. Let's set up a local repo to allow us to do the install here.
+# Store the repo in the source directory or a temp directory.
+if [ $ROCM_SAVE_SOURCE = true ]; then
+    SOURCE_DIR=${ROCM_SOURCE_DIR}
+    if [ ${ROCM_FORCE_GET_CODE} = true ] && [ -d ${SOURCE_DIR}/rocm_1.9.1 ]; then
+        rm -rf ${SOURCE_DIR}/rocm_1.9.1
+    fi
+    mkdir -p ${SOURCE_DIR}
+else
+    SOURCE_DIR=`mktemp -d`
+fi
+cd ${SOURCE_DIR}
+if [ ! -f ${SOURCE_DIR}/yum_1.9.1.tar.bz2 ]; then
+    wget http://repo.radeon.com/rocm/archive/yum_1.9.1.tar.bz2
+fi
+if [ ! -d yum_1.9.1.211 ]; then
+    tar -xf yum_1.9.1.tar.bz2
+fi
+cd yum_1.9.1.211
+REAL_SOURCE_DIR=`realpath ${SOURCE_DIR}`
+sudo sh -c "echo [ROCm] > /etc/yum.repos.d/rocm.repo"
+sudo sh -c "echo name=ROCm >> /etc/yum.repos.d/rocm.repo"
+sudo sh -c "echo baseurl=file://${REAL_SOURCE_DIR}/yum_1.9.1.211/ >> /etc/yum.repos.d/rocm.repo"
+sudo sh -c "echo enabled=1 >> /etc/yum.repos.d/rocm.repo"
+sudo sh -c "echo gpgcheck=0 >> /etc/yum.repos.d/rocm.repo"
+
 sudo yum -y install miopen-hip miopengemm rocm-libs
 # By default, this installs miopen-hip, because PyTorch and Tensorflow use it
 # If you want to use OpenVX you may need to install miopen-opencl instead of miopen-hip
+
+sudo rm -f /etc/yum.repos.d/rocm.repo

@@ -29,10 +29,32 @@ parse_args "$@"
 
 echo "Preparing to set up ROCm requirements. You must be root/sudo for this."
 sudo yum install -y epel-release
-sudo yum install -y dkms kernel-headers-`uname -r` kernel-devel-`uname -r`
+sudo yum install -y dkms kernel-headers-`uname -r` kernel-devel-`uname -r` wget bzip2
+
+# 1.9.1 is an old release, so the deb packages have moved over to an archive
+# tarball. Let's set up a local repo to allow us to do the install here.
+# Store the repo in the source directory or a temp directory.
+if [ $ROCM_SAVE_SOURCE = true ]; then
+    SOURCE_DIR=${ROCM_SOURCE_DIR}
+    if [ ${ROCM_FORCE_GET_CODE} = true ] && [ -d ${SOURCE_DIR}/rocm_1.9.1 ]; then
+        rm -rf ${SOURCE_DIR}/rocm_1.9.1
+    fi
+    mkdir -p ${SOURCE_DIR}
+else
+    SOURCE_DIR=`mktemp -d`
+fi
+cd ${SOURCE_DIR}
+if [ ! -f ${SOURCE_DIR}/yum_1.9.1.tar.bz2 ]; then
+    wget http://repo.radeon.com/rocm/archive/yum_1.9.1.tar.bz2
+fi
+if [ ! -d yum_1.9.1.211 ]; then
+    tar -xf yum_1.9.1.tar.bz2
+fi
+cd yum_1.9.1.211
+REAL_SOURCE_DIR=`realpath ${SOURCE_DIR}`
 sudo sh -c "echo [ROCm] > /etc/yum.repos.d/rocm.repo"
 sudo sh -c "echo name=ROCm >> /etc/yum.repos.d/rocm.repo"
-sudo sh -c "echo baseurl=http://repo.radeon.com/rocm/yum/rpm >> /etc/yum.repos.d/rocm.repo"
+sudo sh -c "echo baseurl=file://${REAL_SOURCE_DIR}/yum_1.9.1.211/ >> /etc/yum.repos.d/rocm.repo"
 sudo sh -c "echo enabled=1 >> /etc/yum.repos.d/rocm.repo"
 sudo sh -c "echo gpgcheck=0 >> /etc/yum.repos.d/rocm.repo"
 
@@ -58,8 +80,10 @@ elif [ ${OS_VERSION_MINOR} -eq 6 ]; then
     echo 'SUBSYSTEM=="kfd", KERNEL=="kfd", TAG+="uaccess", GROUP="video"' | sudo tee /etc/udev/rules.d/70-kfd.rules
 else
     echo "Attempting to run on an unsupported OS version: ${OS_VERSION_NUM}"
+    sudo rm -f /etc/yum.repos.d/rocm.repo
     exit 1
 fi
+sudo rm -f /etc/yum.repos.d/rocm.repo
 
 sudo usermod -a -G video `logname`
 

@@ -27,11 +27,34 @@ trap 'errno=$?; print_cmd=$lastcmd; if [ $errno -ne 0 ]; then echo "\"${print_cm
 source "$BASE_DIR/common/common_options.sh"
 parse_args "$@"
 
-wget -qO - http://repo.radeon.com/rocm/apt/debian/rocm.gpg.key | sudo apt-key add -
-echo 'deb [arch=amd64] http://repo.radeon.com/rocm/apt/debian/ xenial main' | sudo tee /etc/apt/sources.list.d/rocm.list
+# 1.9.1 is an old release, so the deb packages have moved over to an archive
+# tarball. Let's set up a local repo to allow us to do the install here.
+# Store the repo in the source directory or a temp directory.
+if [ $ROCM_SAVE_SOURCE = true ]; then
+    SOURCE_DIR=${ROCM_SOURCE_DIR}
+    if [ ${ROCM_FORCE_GET_CODE} = true ] && [ -d ${SOURCE_DIR}/rocm_1.9.1 ]; then
+        rm -rf ${SOURCE_DIR}/rocm_1.9.1
+    fi
+    mkdir -p ${SOURCE_DIR}
+else
+    SOURCE_DIR=`mktemp -d`
+fi
+cd ${SOURCE_DIR}
+if [ ! -f ${SOURCE_DIR}/apt_1.9.1.tar.bz2 ]; then
+    wget http://repo.radeon.com/rocm/archive/apt_1.9.1.tar.bz2
+fi
+if [ ! -d apt_1.9.1.211 ]; then
+    tar -xf apt_1.9.1.tar.bz2
+fi
+cd apt_1.9.1.211
+cat rocm.gpg.key | sudo apt-key add -
+REAL_SOURCE_DIR=`realpath ${SOURCE_DIR}`
+echo "deb [trusted=yes arch=amd64] file:///${REAL_SOURCE_DIR}/apt_1.9.1.211/ xenial main" | sudo tee /etc/apt/sources.list.d/rocm.list
 sudo apt update
 sudo apt -y install rocm-dkms rocm-cmake atmi rocm_bandwidth_test
 sudo usermod -a -G video `logname`
+sudo apt-key del "CA8B B472 7A47 B4D0 9B4E  E896 9386 B48A 1A69 3C5C"
+sudo rm /etc/apt/sources.list.d/rocm.list
 
 if [ ${ROCM_FORCE_YES} = true ]; then
     ROCM_RUN_NEXT_SCRIPT=true
