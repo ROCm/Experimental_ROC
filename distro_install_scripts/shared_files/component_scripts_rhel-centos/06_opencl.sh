@@ -89,14 +89,14 @@ if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/OCL ]; then
     get_cmake "${SOURCE_DIR}"
     mkdir -p ${SOURCE_DIR}/OCL/
     cd ${SOURCE_DIR}/OCL/
-    ${SOURCE_DIR}/bin/repo init -u https://github.com/RadeonOpenCompute/ROCm-OpenCL-Runtime.git -b roc-1.9.x -m opencl.xml
+    ${SOURCE_DIR}/bin/repo init -u https://github.com/RadeonOpenCompute/ROCm-OpenCL-Runtime.git -b ${ROCM_VERSION_BRANCH} -m opencl.xml
     # Make changes to $(pwd)/.repo/manifests/opencl.xml to add revision numbers
-    sed -i 's#ROCm-OpenCL-Runtime"#ROCm-OpenCL-Runtime" revision="refs/tags/roc-1.9.1"#' $(pwd)/.repo/manifests/opencl.xml
-    sed -i 's#ROCm-OpenCL-Driver"#ROCm-OpenCL-Driver" revision="refs/tags/roc-1.9.1"#' $(pwd)/.repo/manifests/opencl.xml
-    sed -i 's#name="llvm"#name="llvm" revision="refs/tags/roc-1.9.1"#' $(pwd)/.repo/manifests/opencl.xml
-    sed -i 's#name="clang"#name="clang" revision="refs/tags/roc-1.9.1"#' $(pwd)/.repo/manifests/opencl.xml
-    sed -i 's#name="lld"#name="lld" revision="refs/tags/roc-1.9.1"#' $(pwd)/.repo/manifests/opencl.xml
-    sed -i 's#name="ROCm-Device-Libs"#name="ROCm-Device-Libs" revision="refs/tags/roc-1.9.1"#' $(pwd)/.repo/manifests/opencl.xml
+    sed -i 's#ROCm-OpenCL-Runtime"#ROCm-OpenCL-Runtime" revision="refs/tags/${ROCM_VERSION_TAG}"#' $(pwd)/.repo/manifests/opencl.xml
+    sed -i 's#ROCm-OpenCL-Driver"#ROCm-OpenCL-Driver" revision="refs/tags/${ROCM_VERSION_TAG}"#' $(pwd)/.repo/manifests/opencl.xml
+    sed -i 's#name="llvm"#name="llvm" revision="refs/tags/${ROCM_VERSION_TAG}"#' $(pwd)/.repo/manifests/opencl.xml
+    sed -i 's#name="clang"#name="clang" revision="refs/tags/${ROCM_VERSION_TAG}"#' $(pwd)/.repo/manifests/opencl.xml
+    sed -i 's#name="lld"#name="lld" revision="refs/tags/${ROCM_VERSION_TAG}"#' $(pwd)/.repo/manifests/opencl.xml
+    sed -i 's#name="ROCm-Device-Libs"#name="ROCm-Device-Libs" revision="refs/tags/${ROCM_VERSION_TAG}"#' $(pwd)/.repo/manifests/opencl.xml
     ${SOURCE_DIR}/bin/repo sync
 
     rm -f ~/.gitconfig

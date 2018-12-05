@@ -55,7 +55,7 @@ cd ${SOURCE_DIR}
 if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/rocminfo ]; then
     git clone https://github.com/RadeonOpenCompute/rocminfo.git
     cd rocminfo
-    git checkout 6ce8026
+    git checkout 1bb0ccc
 else
     echo "Skipping download of rocminfo, since ${SOURCE_DIR}/rocminfo already exists."
 fi

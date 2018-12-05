@@ -20,6 +20,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 ###############################################################################
+ROCM_VERSION_BRANCH=roc-1.9.x
+ROCM_VERSION_TAG=roc-1.9.2
+
 ROCM_BUILD_DEBUG=false
 ROCM_DEBUG_LEVEL=0
 ROCM_CMAKE_BUILD_TYPE=Release

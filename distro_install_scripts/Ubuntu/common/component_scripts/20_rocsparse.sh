@@ -54,7 +54,7 @@ cd ${SOURCE_DIR}
 if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/rocSPARSE ]; then
     git clone https://github.com/ROCmSoftwarePlatform/rocSPARSE.git
     cd rocSPARSE
-    git checkout tags/v0.1.4.1
+    git checkout tags/v1.0.0
 else
     echo "Skipping download of rocSPARSE, since ${SOURCE_DIR}/rocSPARSE already exists."
 fi

@@ -1,14 +1,14 @@
-## Install ROCm 1.9.1 on Ubuntu 16.04 Using APT
-The scripts in this directory will install ROCm 1.9.1 on Ubuntu 16.04.5 LTS.
+## Install ROCm 1.9.2 on Ubuntu 16.04 Using APT
+The scripts in this directory will install ROCm 1.9.2 on Ubuntu 16.04.5 LTS.
 These scripts will download the files from the AMD ROCm apt repository and install them onto your system.
 These scripts assume a fresh system install, so they will attempt to add packages that are required for ROCm.
 
-### Directions for Installing ROCm 1.9.1
+### Directions for Installing ROCm 1.9.2
 The following directions will set up a fresh installation of Ubuntu with ROCm using the .deb packages distributed by AMD.
 The goal of these scripts is to create a ROCm software installatino using similar directions to those contained at <https://github.com/RadeonOpenCompute/ROCm>.
 
 #### Updating the Kernel
-The following script will prepare the system for ROCm 1.9.1 by updating the kernel on your system to its newest version.
+The following script will prepare the system for ROCm 1.9.2 by updating the kernel on your system to its newest version.
 This script will ask you for your password, since it attempts to run a number of commands with `sudo` to install software to your system.
 
 ```bash

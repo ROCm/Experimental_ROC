@@ -102,7 +102,7 @@ if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/ROCm-CompilerSuppor
     get_cmake "${SOURCE_DIR}"
     git clone https://github.com/RadeonOpenCompute/ROCm-CompilerSupport.git
     cd ROCm-CompilerSupport
-    git checkout tags/roc-1.9.1
+    git checkout tags/${ROCM_VERSION_TAG}
 else
     echo "Skipping download of comgr, since ${SOURCE_DIR}/ROCm-CompilerSupport already exists."
 fi

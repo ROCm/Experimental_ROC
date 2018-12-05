@@ -57,9 +57,9 @@ if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/ROCR-Runtime ]; the
     # We require a new version of cmake to build ROCr on CentOS, so get it here.
     source "$BASE_DIR/common/get_updated_cmake.sh"
     get_cmake "${SOURCE_DIR}"
-    git clone -b roc-1.9.x https://github.com/RadeonOpenCompute/ROCR-Runtime.git
+    git clone -b ${ROCM_VERSION_BRANCH} https://github.com/RadeonOpenCompute/ROCR-Runtime.git
     cd ${SOURCE_DIR}/ROCR-Runtime/src
-    git checkout tags/roc-1.9.1
+    git checkout tags/${ROCM_VERSION_TAG}
 else
     echo "Skipping download of ROCr, since ${SOURCE_DIR}/ROCR-Runtime already exists."
 fi

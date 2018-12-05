@@ -56,9 +56,9 @@ if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/rocr_debug_agent ];
     # We require a new version of cmake to build the ROCr debug agent on CentOS.
     source "$BASE_DIR/common/get_updated_cmake.sh"
     get_cmake "${SOURCE_DIR}"
-    git clone -b roc-1.9.x https://github.com/ROCm-Developer-Tools/rocr_debug_agent.git
+    git clone -b ${ROCM_VERSION_BRANCH} https://github.com/ROCm-Developer-Tools/rocr_debug_agent.git
     cd ${SOURCE_DIR}/rocr_debug_agent/
-    git checkout tags/roc-1.9.1
+    git checkout tags/${ROCM_VERSION_TAG}
 else
     echo "Skipping download of ROCr debug agent, since ${SOURCE_DIR}/rocr_debug_agent already exists."
 fi

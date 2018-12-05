@@ -58,8 +58,7 @@ if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/rocBLAS ]; then
     get_cmake "${SOURCE_DIR}"
     git clone https://github.com/ROCmSoftwarePlatform/rocBLAS.git
     cd rocBLAS
-    # ROCm 1.9.1 RPMs still used the ROCm 1.9.0 rocBLAS, so use that tag.
-    git checkout tags/v14.2.5
+    git checkout tags/v14.3.0
 else
     echo "Skipping download of rocBLAS, since ${SOURCE_DIR}/rocBLAS already exists."
 fi

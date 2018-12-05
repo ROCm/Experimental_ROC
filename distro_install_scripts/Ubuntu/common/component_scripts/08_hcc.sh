@@ -52,9 +52,9 @@ cd ${SOURCE_DIR}
 
 # Download hcc
 if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/hcc ]; then
-    git clone --recursive -b roc-1.9.x https://github.com/RadeonOpenCompute/hcc.git
+    git clone --recursive -b ${ROCM_VERSION_BRANCH} https://github.com/RadeonOpenCompute/hcc.git
     cd ${SOURCE_DIR}/hcc
-    git checkout tags/roc-1.9.1
+    git checkout tags/${ROCM_VERSION_TAG}
     git submodule update
 else
     echo "Skipping download of hcc, since ${SOURCE_DIR}/hcc already exists."
@@ -69,7 +69,7 @@ cd ${SOURCE_DIR}/hcc
 mkdir -p build
 cd build
 
-# HCC in ROCm 1.9.1 does not work properly when doing a debug build. It hits
+# HCC in ROCm 1.9.2 does not work properly when doing a debug build. It hits
 # a number of assertions. So to allow you to build this even with trying to
 # pass in Debug builds, we downgrade to RelWithDebInfo.
 

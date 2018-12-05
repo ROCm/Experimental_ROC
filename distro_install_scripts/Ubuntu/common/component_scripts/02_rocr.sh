@@ -52,9 +52,9 @@ cd ${SOURCE_DIR}
 
 # Download ROCr
 if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/ROCR-Runtime ]; then
-    git clone -b roc-1.9.x https://github.com/RadeonOpenCompute/ROCR-Runtime.git
+    git clone -b ${ROCM_VERSION_BRANCH} https://github.com/RadeonOpenCompute/ROCR-Runtime.git
     cd ${SOURCE_DIR}/ROCR-Runtime/src
-    git checkout tags/roc-1.9.1
+    git checkout tags/${ROCM_VERSION_TAG}
 else
     echo "Skipping download of ROCr, since ${SOURCE_DIR}/ROCR-Runtime already exists."
 fi

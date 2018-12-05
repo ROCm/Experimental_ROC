@@ -57,17 +57,17 @@ cd ${SOURCE_DIR}
 # Download ROCm LLVM
 if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/llvm_amd-common ]; then
     cd ${SOURCE_DIR}
-    git clone -b roc-1.9.x https://github.com/RadeonOpenCompute/llvm.git llvm_amd-common
+    git clone -b ${ROCM_VERSION_BRANCH} https://github.com/RadeonOpenCompute/llvm.git llvm_amd-common
     cd ${SOURCE_DIR}/llvm_amd-common
-    git checkout tags/roc-1.9.1
+    git checkout tags/${ROCM_VERSION_TAG}
     cd ${SOURCE_DIR}/llvm_amd-common/tools
-    git clone -b roc-1.9.x https://github.com/RadeonOpenCompute/lld.git lld
+    git clone -b ${ROCM_VERSION_BRANCH} https://github.com/RadeonOpenCompute/lld.git lld
     cd ${SOURCE_DIR}/llvm_amd-common/tools/lld
-    git checkout tags/roc-1.9.1
+    git checkout tags/${ROCM_VERSION_TAG}
     cd ${SOURCE_DIR}/llvm_amd-common/tools
-    git clone -b roc-1.9.x https://github.com/RadeonOpenCompute/clang.git clang
+    git clone -b ${ROCM_VERSION_BRANCH} https://github.com/RadeonOpenCompute/clang.git clang
     cd ${SOURCE_DIR}/llvm_amd-common/tools/clang
-    git checkout tags/roc-1.9.1
+    git checkout tags/${ROCM_VERSION_TAG}
 else
     echo "Skipping download of ROCm LLVM for device libs, since ${SOURCE_DIR}/llvm_amd-common already exists."
 fi
@@ -77,9 +77,9 @@ if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/ROCm-Device-Libs ];
     source "$BASE_DIR/common/get_updated_cmake.sh"
     get_cmake "${SOURCE_DIR}"
     cd ${SOURCE_DIR}
-    git clone -b roc-1.9.x https://github.com/RadeonOpenCompute/ROCm-Device-Libs.git
+    git clone -b ${ROCM_VERSION_BRANCH} https://github.com/RadeonOpenCompute/ROCm-Device-Libs.git
     cd ${SOURCE_DIR}/ROCm-Device-Libs/
-    git checkout e0162aa858
+    git checkout tags/${ROCM_VERWSION_TAG}
 else
     echo "Skipping download of ROCm Device Libs, since ${SOURCE_DIR}/ROCm-Device-Libs already exists."
 fi

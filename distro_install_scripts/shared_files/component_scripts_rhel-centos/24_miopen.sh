@@ -74,8 +74,8 @@ if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/MIOpen ]; then
     cd ${SOURCE_DIR}
     git clone https://github.com/ROCmSoftwarePlatform/MIOpen.git
     cd MIOpen
-    # v1.5 came with ROCm 1.9
-    git checkout tags/1.5.0
+    # v1.6 came with ROCm 1.9.2
+    git checkout tags/1.6.0
 else
     echo "Skipping download of MIOpen, since ${SOURCE_DIR}/MIOpen already exists."
 fi

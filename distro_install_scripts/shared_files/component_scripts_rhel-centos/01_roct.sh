@@ -57,9 +57,9 @@ if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/ROCT-Thunk-Interfac
     # We require a new version of cmake to build ROCT on CentOS, so get it here.
     source "$BASE_DIR/common/get_updated_cmake.sh"
     get_cmake "${SOURCE_DIR}"
-    git clone -b roc-1.9.x https://github.com/RadeonOpenCompute/ROCT-Thunk-Interface.git
+    git clone -b ${ROCM_VERSION_BRANCH} https://github.com/RadeonOpenCompute/ROCT-Thunk-Interface.git
     cd ${SOURCE_DIR}/ROCT-Thunk-Interface/
-    git checkout tags/roc-1.9.1
+    git checkout tags/${ROCM_VERSION_TAG}
 else
     echo "Skipping download of ROCt, since ${SOURCE_DIR}/ROCT-Thunk-Interface already exists."
 fi

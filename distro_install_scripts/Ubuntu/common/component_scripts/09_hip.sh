@@ -52,9 +52,9 @@ cd ${SOURCE_DIR}
 
 # Download HIP
 if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/HIP ]; then
-    git clone -b roc-1.9.x https://github.com/ROCm-Developer-Tools/HIP.git
+    git clone -b ${ROCM_VERSION_BRANCH} https://github.com/ROCm-Developer-Tools/HIP.git
     cd HIP
-    git checkout tags/roc-1.9.1
+    git checkout tags/${ROCM_VERSION_TAG}
 else
     echo "Skipping download of HIP, since ${SOURCE_DIR}/HIP already exists."
 fi

@@ -50,7 +50,7 @@ if [ ${OS_VERSION_MINOR} -eq 4 ] || [ ${OS_VERSION_MINOR} -eq 5 ]; then
 elif [ ${OS_VERSION_MINOR} -eq 6 ]; then
     # On CentOS 7.6, we can skip the kernel module because the proper KFD
     # version was backported so our user-land tools can work cleanly.
-    # In addition, the ROCm 1.9.1 DKMS module fails to build against the
+    # In addition, the ROCm 1.9.2 DKMS module fails to build against the
     # backported changes, so we must skip the driver.
     sudo yum install -y rocm-dev rocm-cmake atmi rocm_bandwidth_test
     sudo mkdir -p /opt/rocm/.info/
