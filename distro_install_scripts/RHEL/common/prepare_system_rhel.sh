@@ -57,18 +57,21 @@ if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
         else
             echo ""
             echo "Would you like this script to lock your version of RHEL so that"
-            read -p "it is not upgraded when we run `yum update` (y/n)? " answer
+            read -p "it is not upgraded when we run 'yum update' (y/n)? " answer
             case ${answer:0:1} in
                 y|Y )
                     ROCM_FIX_RELEASE=true
                     echo 'User chose "yes". Locking OS version.'
-                    echo "Running `sudo subscription-manager release --set=${OS_VERSION_MAJOR}.${OS_VERSION_MINOR}`"
-                    sudo subscription-manager release --set=${OS_VERSION_MAJOR}.${OS_VERSION_MINOR}
                 ;;
                 * )
+                    ROCM_FIX_RELEASE=false
                     echo 'User chose "no". Will not modify release scription settings.'
                 ;;
             esac
+        fi
+        if [ ${ROCM_FIX_RELEASE} = true ];
+            echo "Running `sudo subscription-manager release --set=${OS_VERSION_MAJOR}.${OS_VERSION_MINOR}`"
+            sudo subscription-manager release --set=${OS_VERSION_MAJOR}.${OS_VERSION_MINOR}
         fi
     elif [ ${OS_VERSION_MINOR} -ne 6 ]; then
         # On 7.6, don't worry about it, as we are up to date.

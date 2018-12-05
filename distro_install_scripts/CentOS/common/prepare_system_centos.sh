@@ -51,27 +51,30 @@ if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
         else
             echo ""
             echo "Would you like this script to lock your version of CentOS so that"
-            read -p "it is not upgraded when we run `yum update` (y/n)? " answer
+            read -p "it is not upgraded when we run 'yum update' (y/n)? " answer
             case ${answer:0:1} in
                 y|Y )
                     ROCM_FIX_RELEASE=true
                     echo 'User chose "yes". Locking OS version.'
-                    echo "Modifying /etc/yum.repos.d/CentOS-Base.repo."
-                    echo "It will be backed up to /etc/yum.repos.d/CentOS-Base.repo.bak if you want to restore it."
-                    sudo cp /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bak
-                    # Force this older version of CentOS to stay at its current version by
-                    # updating the build scripts to not use the most up-to-date mirrors.
-                    sudo sed -i 's/^mirrorlist/#mirrorlist/' /etc/yum.repos.d/CentOS-Base.repo
-                    sudo sed -i 's/^#baseurl/baseurl/' /etc/yum.repos.d/CentOS-Base.repo
-                    if [ ${OS_VERSION_MINOR} -eq 4 ]; then
-                        sudo sed -i 's/mirror.centos.org/vault.centos.org/' /etc/yum.repos.d/CentOS-Base.repo
-                    fi
-                    sudo sed -i 's#centos/$releasever#centos/'${OS_VERSION_NUM}'#' /etc/yum.repos.d/CentOS-Base.repo
                 ;;
                 * )
+                    ROCM_FIX_RELEASE=false
                     echo 'User chose "no". Will not lock in CentOS version.'
                 ;;
             esac
+        fi
+        if [ ${ROCM_FIX_RELEASE} = true ]; then
+            echo "Modifying /etc/yum.repos.d/CentOS-Base.repo."
+            echo "It will be backed up to /etc/yum.repos.d/CentOS-Base.repo.bak if you want to restore it."
+            sudo cp /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bak
+            # Force this older version of CentOS to stay at its current version by
+            # updating the build scripts to not use the most up-to-date mirrors.
+            sudo sed -i 's/^mirrorlist/#mirrorlist/' /etc/yum.repos.d/CentOS-Base.repo
+            sudo sed -i 's/^#baseurl/baseurl/' /etc/yum.repos.d/CentOS-Base.repo
+            if [ ${OS_VERSION_MINOR} -eq 4 ]; then
+                sudo sed -i 's/mirror.centos.org/vault.centos.org/' /etc/yum.repos.d/CentOS-Base.repo
+            fi
+            sudo sed -i 's#centos/$releasever#centos/'${OS_VERSION_NUM}'#' /etc/yum.repos.d/CentOS-Base.repo
         fi
     elif [ ${OS_VERSION_MINOR} -ne 6 ]; then
         # On 7.6, don't worry about it, as we are up to date.
