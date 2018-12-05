@@ -1,0 +1,1 @@
+../common/deb_install_rocm.sh

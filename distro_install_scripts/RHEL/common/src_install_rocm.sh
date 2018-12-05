@@ -1,0 +1,1 @@
+../../shared_files/src_install_rocm_rhel-centos.sh
