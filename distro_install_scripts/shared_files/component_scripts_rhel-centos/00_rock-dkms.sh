@@ -36,7 +36,7 @@ if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
     sudo yum install -y epel-release
     sudo yum -y install dkms kernel-headers-`uname -r` kernel-devel-`uname -r` wget
     # Dependencies for building a custom version of git.
-    sudo yum -y install gettext-devel perl-CPAN perl-devel zlib-devel autoconf libcurl-devel
+    sudo yum -y install gettext-devel perl-CPAN perl-devel zlib-devel autoconf libcurl-devel git
     if [ ${ROCM_INSTALL_PREREQS} = true ] && [ ${ROCM_FORCE_GET_CODE} = false ]; then
         exit 0
     fi
