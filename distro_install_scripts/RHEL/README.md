@@ -1,4 +1,4 @@
-## Scripts for Installing ROCm on CentOS
+## Scripts for Installing ROCm on RHEL
 
 This directory contains directions and scripts for installing ROCm on various versions of CentOS. Each folder has scripts for installing ROCm on a particular version of CentOS; these scripts can be used to install from AMD's binary files or to build and install ROCm from AMD's source distributions.
 
