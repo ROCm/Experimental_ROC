@@ -35,7 +35,7 @@ if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
     echo "You will need to have root privileges to do this."
     echo ""
 
-    OS_VERSION_NUM=`cat /etc/redhat-release | awk '{print $4}'`
+    OS_VERSION_NUM=`cat /etc/redhat-release | sed -rn 's/[^0-9]*([0-9]+\.*[0-9]*\.*[0-9]*).*/\1/p'`
     OS_VERSION_MAJOR=`echo ${OS_VERSION_NUM} | awk -F"." '{print $1}'`
     OS_VERSION_MINOR=`echo ${OS_VERSION_NUM} | awk -F"." '{print $2}'`
     if [ ${OS_VERSION_MAJOR} -ne 7 ]; then
@@ -71,9 +71,7 @@ if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
             # updating the build scripts to not use the most up-to-date mirrors.
             sudo sed -i 's/^mirrorlist/#mirrorlist/' /etc/yum.repos.d/CentOS-Base.repo
             sudo sed -i 's/^#baseurl/baseurl/' /etc/yum.repos.d/CentOS-Base.repo
-            if [ ${OS_VERSION_MINOR} -eq 4 ]; then
-                sudo sed -i 's/mirror.centos.org/vault.centos.org/' /etc/yum.repos.d/CentOS-Base.repo
-            fi
+            sudo sed -i 's/mirror.centos.org/vault.centos.org/' /etc/yum.repos.d/CentOS-Base.repo
             sudo sed -i 's#centos/$releasever#centos/'${OS_VERSION_NUM}'#' /etc/yum.repos.d/CentOS-Base.repo
         fi
     elif [ ${OS_VERSION_MINOR} -ne 6 ]; then

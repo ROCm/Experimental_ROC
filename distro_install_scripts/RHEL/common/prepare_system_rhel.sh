@@ -38,9 +38,8 @@ if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
     sudo subscription-manager repos --enable rhel-7-server-optional-rpms
     sudo subscription-manager repos --enable rhel-7-server-extras-rpms
     sudo rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-    sudo yum-config-manager --enable rhel-server-rhscl-7-rpms
 
-    OS_VERSION_NUM=`cat /etc/redhat-release | awk '{print $4}'`
+    OS_VERSION_NUM=`cat /etc/redhat-release | sed -rn 's/[^0-9]*([0-9]+\.*[0-9]*).*/\1/p'`
     OS_VERSION_MAJOR=`echo ${OS_VERSION_NUM} | awk -F"." '{print $1}'`
     OS_VERSION_MINOR=`echo ${OS_VERSION_NUM} | awk -F"." '{print $2}'`
     if [ ${OS_VERSION_MAJOR} -ne 7 ]; then
@@ -69,7 +68,7 @@ if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
                 ;;
             esac
         fi
-        if [ ${ROCM_FIX_RELEASE} = true ];
+        if [ ${ROCM_FIX_RELEASE} = true ]; then
             echo "Running `sudo subscription-manager release --set=${OS_VERSION_MAJOR}.${OS_VERSION_MINOR}`"
             sudo subscription-manager release --set=${OS_VERSION_MAJOR}.${OS_VERSION_MINOR}
         fi

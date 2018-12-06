@@ -36,7 +36,7 @@ sudo sh -c "echo baseurl=http://repo.radeon.com/rocm/yum/rpm >> /etc/yum.repos.d
 sudo sh -c "echo enabled=1 >> /etc/yum.repos.d/rocm.repo"
 sudo sh -c "echo gpgcheck=0 >> /etc/yum.repos.d/rocm.repo"
 
-OS_VERSION_NUM=`cat /etc/redhat-release | awk '{print $4}'`
+OS_VERSION_NUM=`cat /etc/redhat-release | sed -rn 's/[^0-9]*([0-9]+\.*[0-9]*).*/\1/p'`
 OS_VERSION_MAJOR=`echo ${OS_VERSION_NUM} | awk -F"." '{print $1}'`
 OS_VERSION_MINOR=`echo ${OS_VERSION_NUM} | awk -F"." '{print $2}'`
 if [ ${OS_VERSION_MAJOR} -ne 7 ]; then
@@ -44,11 +44,11 @@ if [ ${OS_VERSION_MAJOR} -ne 7 ]; then
     exit 1
 fi
 if [ ${OS_VERSION_MINOR} -eq 4 ] || [ ${OS_VERSION_MINOR} -eq 5 ]; then
-    # On older versions of CentOS 7, we should install the DKMS kernel module
+    # On older versions of CentOS/RHEL 7, we should install the DKMS kernel module
     # as well as all of the user-level utilities
     sudo yum install -y rocm-dkms rocm-cmake atmi rocm_bandwidth_test
 elif [ ${OS_VERSION_MINOR} -eq 6 ]; then
-    # On CentOS 7.6, we can skip the kernel module because the proper KFD
+    # On CentOS/RHEL 7.6, we can skip the kernel module because the proper KFD
     # version was backported so our user-land tools can work cleanly.
     # In addition, the ROCm 1.9.2 DKMS module fails to build against the
     # backported changes, so we must skip the driver.
