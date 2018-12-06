@@ -39,7 +39,7 @@ if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
     sudo subscription-manager repos --enable rhel-7-server-extras-rpms
     sudo rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 
-    OS_VERSION_NUM=`cat /etc/redhat-release | awk '{print $7}'`
+    OS_VERSION_NUM=`cat /etc/redhat-release | sed -rn 's/[^0-9]*([0-9]+\.*[0-9]*).*/\1/p'`
     OS_VERSION_MAJOR=`echo ${OS_VERSION_NUM} | awk -F"." '{print $1}'`
     OS_VERSION_MINOR=`echo ${OS_VERSION_NUM} | awk -F"." '{print $2}'`
     if [ ${OS_VERSION_MAJOR} -ne 7 ]; then
