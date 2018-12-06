@@ -30,7 +30,19 @@ parse_args "$@"
 wget -qO - http://repo.radeon.com/rocm/apt/debian/rocm.gpg.key | sudo apt-key add -
 echo 'deb [arch=amd64] http://repo.radeon.com/rocm/apt/debian/ xenial main' | sudo tee /etc/apt/sources.list.d/rocm.list
 sudo apt update
-sudo apt -y install rocm-dkms rocm-cmake atmi rocm_bandwidth_test
+
+if [ `lsb_release -rs` = "18.10" ]; then
+    # On Ubuntu 18.10, we can skip the kernel module because the proper
+    # KFD version is available in the upstream kernel to allow our user-land
+    # tools to work. This misses some features, but ROCm 1.9.2 kernel module
+    # fails to build on Ubuntu 18.10, so this is our only option.
+    sudo apt -y install rocm-dev rocm-cmake atmi rocm_bandwidth_test
+    sudo mkdir -p /opt/rocm/.info/
+    echo '1.9.307' | sudo tee /opt/rocm/.info/version
+    echo 'SUBSYSTEM=="kfd", KERNEL=="kfd", TAG+="uaccess", GROUP="video"' | sudo tee /etc/udev/rules.d/70-kfd.rules
+else
+    sudo apt -y install rocm-dkms rocm-cmake atmi rocm_bandwidth_test
+fi
 sudo usermod -a -G video `logname`
 
 if [ ${ROCM_FORCE_YES} = true ]; then

@@ -35,7 +35,13 @@ if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
     sudo apt -y install git cmake build-essential pkg-config libpci-dev
 fi
 
-${BASE_DIR}/component_scripts/00_rock-dkms.sh "$@"
+if [ `lsb_release -rs` != "18.10" ]; then
+    # On Ubuntu 18.10, we can skip the kernel module because the proper
+    # KFD version is available in the upstream kernel to allow our user-land
+    # tools to work. This misses some features, but ROCm 1.9.2 kernel module
+    # fails to build on Ubuntu 18.10, so this is our only option.
+    ${BASE_DIR}/component_scripts/00_rock-dkms.sh "$@"
+fi
 ${BASE_DIR}/component_scripts/01_roct.sh "$@"
 ${BASE_DIR}/component_scripts/02_rocr.sh "$@"
 ${BASE_DIR}/component_scripts/03_rocm_smi.sh "$@"

@@ -1,0 +1,56 @@
+# ROCm 1.9.2 ROCr debug agent won't build on GCC 8.x
+# These fix for GCC 8
+diff --git a/src/AgentUtils.cpp b/src/AgentUtils.cpp
+index 98d6749..0c09a1f 100644
+--- a/src/AgentUtils.cpp
++++ b/src/AgentUtils.cpp
+@@ -305,8 +305,8 @@ DebugAgentStatus SaveWaveStateDumpToFile(std::stringstream& dump)
+         return agentStatus;
+     }
+
+-    char waveStatePath[64];
+-    sprintf(waveStatePath, "%s/ROCm_Wave_State_Dump", g_codeObjDir);
++    std::string waveStatePath = g_codeObjDir;
++    waveStatePath += "/ROCm_Wave_State_Dump";
+     std::ofstream opStream;
+     opStream.open(waveStatePath, std::ofstream::app);
+
+diff --git a/src/HSADebugAgent.cpp b/src/HSADebugAgent.cpp
+index 520878b..e69eda1 100644
+--- a/src/HSADebugAgent.cpp
++++ b/src/HSADebugAgent.cpp
+@@ -597,7 +597,7 @@ static DebugAgentStatus AgentSetDebugTrapHandler()
+             AGENT_ERROR("Cannot allocate memory for trap buffer.");
+             return DEBUG_AGENT_STATUS_FAILURE;
+         }
+-        memset(pTrapHandlerBuffer, 0, sizeof(DebugTrapBuff));
++        *pTrapHandlerBuffer = {};
+
+         pTrapHandlerBuffer->debugEventSignalHandle = debugTrapSignal.handle;
+         if(!IsMultipleOf(pTrapHandlerBuffer, 0x100))
+diff --git a/src/HSADebugInfo.cpp b/src/HSADebugInfo.cpp
+index e595230..021648c 100644
+--- a/src/HSADebugInfo.cpp
++++ b/src/HSADebugInfo.cpp
+@@ -635,7 +635,7 @@ DebugAgentStatus AddCodeObjectToList(CodeObjectInfo *pCodeObject)
+     codeObjectInfoLock.lock();
+
+     // Create temp file for the loaded code object
+-    char codeObjPath[AGENT_MAX_FILE_PATH_LEN];
++    std::string codeObjPath;
+     char sessionID[64];
+     DebugAgentStatus agentStatus = DEBUG_AGENT_STATUS_SUCCESS;
+
+@@ -646,8 +646,10 @@ DebugAgentStatus AddCodeObjectToList(CodeObjectInfo *pCodeObject)
+         return agentStatus;
+     }
+
+-    sprintf(codeObjPath, "%s/ROCm_Code_Object_%d", g_codeObjDir, gs_numCodeObject);
+-    strncpy(&(pCodeObject->path[0]), codeObjPath, sizeof(codeObjPath));
++    codeObjPath = g_codeObjDir;
++    codeObjPath += "/ROCm_CodeObject_";
++    codeObjPath += std::to_string(gs_numCodeObject);
++    strncpy(&(pCodeObject->path[0]), codeObjPath.c_str(), sizeof(pCodeObject->path));
+
+     agentStatus = AddToLinkListEnd<CodeObjectInfo>(pCodeObject, &(_r_amd_gpu_debug.pCodeObjectList));
+     if (agentStatus != DEBUG_AGENT_STATUS_SUCCESS)

@@ -21,6 +21,7 @@ These tools have been built and tested on the following distributions:
 - [Ubuntu](Ubuntu)
     - [Ubuntu 16.04.5 LTS](Ubuntu/Ubuntu_16.04)
     - [Ubuntu 18.04.1 LTS](Ubuntu/Ubuntu_18.04)
+    - [Ubuntu 18.10](Ubuntu/Ubuntu_18.10)
 
 Each major distribution is held in its own directory, and each version of that distribution has its own subdirectory.
 Within those version-specific directories are separate folders for the scripts to install ROCm from binaries and to build ROCm and its components from source.
