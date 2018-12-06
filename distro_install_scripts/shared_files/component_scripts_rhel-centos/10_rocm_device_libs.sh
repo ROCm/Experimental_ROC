@@ -79,7 +79,7 @@ if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/ROCm-Device-Libs ];
     cd ${SOURCE_DIR}
     git clone -b ${ROCM_VERSION_BRANCH} https://github.com/RadeonOpenCompute/ROCm-Device-Libs.git
     cd ${SOURCE_DIR}/ROCm-Device-Libs/
-    git checkout tags/${ROCM_VERWSION_TAG}
+    git checkout tags/${ROCM_VERSION_TAG}
 else
     echo "Skipping download of ROCm Device Libs, since ${SOURCE_DIR}/ROCm-Device-Libs already exists."
 fi
