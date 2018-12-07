@@ -87,7 +87,9 @@ ${ROCM_SUDO_COMMAND} mkdir -p ${ROCM_OUTPUT_DIR}/bin/
 ${ROCM_SUDO_COMMAND} bash -c 'for i in .hipVersion ca findcode.sh finduncodep.sh hipcc hipcc_cmake_linker_helper hipconfig hipconvertinplace-perl.sh hipconvertinplace.sh hipdemangleatp hipexamine-perl.sh hipexamine.sh hipify-cmakefile hipify-perl lpl; do ln -sf '"${ROCM_OUTPUT_DIR}"'/hip/bin/${i} '"${ROCM_OUTPUT_DIR}"'/bin/${i}; done'
 ${ROCM_SUDO_COMMAND} ln -sf ${ROCM_OUTPUT_DIR}/hip/bin/.hipVersion ${ROCM_OUTPUT_DIR}/bin/.hipVersion
 ${ROCM_SUDO_COMMAND} mkdir -p ${ROCM_OUTPUT_DIR}/include/
-${ROCM_SUDO_COMMAND} ln -sf ${ROCM_OUTPUT_DIR}/hip/include/hip ${ROCM_OUTPUT_DIR}/include/hip
+if [ ! -d  ${ROCM_OUTPUT_DIR}/include/hip ]; then
+    ${ROCM_SUDO_COMMAND} ln -sf ${ROCM_OUTPUT_DIR}/hip/include/hip ${ROCM_OUTPUT_DIR}/include/hip
+fi
 ${ROCM_SUDO_COMMAND} mkdir -p ${ROCM_OUTPUT_DIR}/lib/
 ${ROCM_SUDO_COMMAND} bash -c 'for i in .hipInfo hip_hc.ll libhip_device.a libhip_hcc.so libhip_hcc_static.a; do ln -sf '"${ROCM_OUTPUT_DIR}"'/hip/lib/${i} '"${ROCM_OUTPUT_DIR}"'/lib/${i}; done'
 ${ROCM_SUDO_COMMAND} mkdir -p ${ROCM_OUTPUT_DIR}/hip/lib/cmake/hip/
