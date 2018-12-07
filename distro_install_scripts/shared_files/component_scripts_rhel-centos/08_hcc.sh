@@ -111,7 +111,9 @@ ${ROCM_SUDO_COMMAND} make install
 ${ROCM_SUDO_COMMAND} mkdir -p ${ROCM_OUTPUT_DIR}/bin/
 ${ROCM_SUDO_COMMAND} bash -c 'for i in lld clamp-config extractkernel hcc hcc-config; do ln -sf '"${ROCM_OUTPUT_DIR}"'/hcc/bin/${i} '"${ROCM_OUTPUT_DIR}"'/bin/${i}; done'
 ${ROCM_SUDO_COMMAND} mkdir -p ${ROCM_OUTPUT_DIR}/include/
-${ROCM_SUDO_COMMAND} ln -sf ${ROCM_OUTPUT_DIR}/hcc/include ${ROCM_OUTPUT_DIR}/include/hcc
+if [ ! -d ${ROCM_OUTPUT_DIR}/include/hcc ]; then
+    ${ROCM_SUDO_COMMAND} ln -sf ${ROCM_OUTPUT_DIR}/hcc/include ${ROCM_OUTPUT_DIR}/include/hcc
+fi
 ${ROCM_SUDO_COMMAND} mkdir -p ${ROCM_OUTPUT_DIR}/lib/
 ${ROCM_SUDO_COMMAND} bash -c 'for i in libclang_rt.builtins-x86_64.a libhc_am.so libmcwamp.a libmcwamp_atomic.a libmcwamp_cpu.so libmcwamp_hsa.so; do ln -sf '"${ROCM_OUTPUT_DIR}"'/hcc/lib/${i} '"${ROCM_OUTPUT_DIR}"'/lib/${i}; done'
 
