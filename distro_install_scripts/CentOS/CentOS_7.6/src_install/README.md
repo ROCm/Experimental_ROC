@@ -1,5 +1,5 @@
-## Tools to Install ROCm 1.9.2 on CentOS 7.5 From Source
-The scripts in this directory will download, build, and install ROCm 1.9.2 from source on CentOS 7.5.
+## Tools to Install ROCm 1.9.2 on CentOS 7.6 From Source
+The scripts in this directory will download, build, and install ROCm 1.9.2 from source on CentOS 7.6.
 These scripts will download the source code for the ROCm software from AMD's public repositories, build the software locally, and install it onto your system in a desired location.
 These scripts assume a fresh system install, so, by default, they will attempt to add system-wide packages that are required for building the various ROCm projects.
 
@@ -31,7 +31,7 @@ The following script will prepare the system for ROCm by updating the kernel on 
 This script will ask you for your password, since it attempts to run a number of commands with `sudo` to install software to your system.
 
 ```bash
-./00_prepare_system_centos_7.5.sh
+./00_prepare_system_centos_7.6.sh
 ```
 
 It is recommended that you reboot after running this script.
@@ -44,7 +44,7 @@ The following script will install ROCm and the user-land tools and utilities use
 While this script runs, it may sometimes pause to ask you for your password, since it attempts to run a number of commands with `sudo`. It does this in order to install software globally on your system. If you want to avoid the need to enter your password at various throughout the script, you can run the script itself with `sudo`, though this will cause all of the software buiilds to run with root access (which is not necessarily secure).
 
 ```bash
-./01_install_rocm_centos_7.5.sh
+./01_install_rocm_centos_7.6.sh
 ```
 
 This script will install the following software:
@@ -67,20 +67,28 @@ This script will install the following software:
 - ROCm code object manager tool
 
 This script can take a number of optional arguments that may be useful when making a system-wide ROCm installation:
- - `-d / --debug {#}`
-    - This sets the **D**ebug level to build the ROCm software with. The default is "0", which is release mode with symbols stripped. "1" includes debug symbols and compiler optimizations. "2" is no compiler optimizations and with debug symbols.
- - `-g / --get_code`
-    - This tells the script to only **G**et the code for this component, but not to do any of the build or install steps. The data will be stored into the directory specified by the -s argument. If this is not set, the script will fail since there is nowhere to store the code. Other flags are all ignored when this flag is set.
- - `-o / --output_dir {PATH}`
-    - This sets the **O**utput path for the ROCm software to be installed into. By default, the software will be put into "/opt/rocm/". Note that not all ROCm software has been tested outside of this directory structure.
- - `-i / --input_dir {PATH}`
-    - This sets the **I**nput path where any ROCm software required to build these packages can be found. For instance, if you only want to build a subset of the ROCm packages because you have already installed ROCm into "/opt/rocm/", then this should be set to /opt/rocm/ (which may differ from your output path). By default, this points to /opt/rocm/, but if you are trying to build ROCm entirely into a different directory, you may want to set this to be the same as the output directory above.
- - `-s / --source_dir {PATH}`
-    - This tells the scripts to keep the ROCm **S**ource code in the target location after it is built so that it can be modified and rebuilt later. By default, the scripts will download the source code into temporary directories and delete the source after installing the compiled ROCm software.
- - `-y`
-    - Answer **Y**es to any questions the script will ask, without requiring user interaction.
- - `-n`
-    - Answer **N**o to any questions the script will ask, without requiring user interaction.
+ - Options to control the script:
+    - `b / --build_only`
+       - This will force the script to only **B**uild the software, but not to install or package it. This can be useful when trying to make code modifications or debug builds. This flag cannot be set with `-g / --get_code_only`.
+    - `-g / --get_code_only`
+       - This tells the script to only **G**et the code for this component, but not to do any of the build or install steps. The data will be stored into the directory specified by the `-s / --source_dir` argument. If `-s` is not set when `-g` iss set, the script will fail since there is nowhere to store the code. Cannot be passed in with `-b / --build_only`.
+ - Options for configuring the build and installation:
+    - `-d / --debug {#}`
+        - This sets the **D**ebug level to build the ROCm software with. The default is "0", which is release mode with symbols stripped. "1" includes debug symbols and compiler optimizations. "2" is no compiler optimizations and with debug symbols.
+    - `-i / --input_dir {PATH}`
+        - This sets the **I**nput path where any ROCm software required to build these packages can be found. For instance, if you only want to build a subset of the ROCm packages because you have already installed ROCm into "/opt/rocm/", then this should be set to /opt/rocm/ (which may differ from your output path). By default, this points to /opt/rocm/, but if you are trying to build ROCm entirely into a different directory, you may want to set this to be the same as the output directory above.
+    - `-o / --output_dir {PATH}`
+       - This sets the **O**utput path for the ROCm software to be installed into. By default, the software will be put into "/opt/rocm/". Note that not all ROCm software has been tested outside of this directory structure.
+    - `-p / --package {PATH}`
+       -  This requests that, rather than just installing the software after building it, the tool instead builds a system-specific package (e.g. deb, rpm) of the software. The package will be stored in this flag's argument. The package's target installation directory will be based on `-o / --output_dir` option.
+       - After building the package, the script will then attempt to install it onto the system.
+    - `-s / --source_dir {PATH}`
+       - This tells the scripts to keep the ROCm **S**ource code in the target location after it is built so that it can be modified and rebuilt later. By default, the scripts will download the source code into temporary directories and delete the source after installing the compiled ROCm software.
+ - Options for interacting with the script:
+    - `-y`
+        - Answer **Y**es to any questions the script will ask, without requiring user interaction.
+    - `-n`
+        - Answer **N**o to any questions the script will ask, without requiring user interaction.
 
 The script will automatically query the user to ask if it should try to run the next script after it finishes.
 To skip this interactive query, pass "-y" or "-n" on the command line.
@@ -116,7 +124,7 @@ The following script will download, build, and install the ROCm libraries.
 While this script runs, it may sometimes pause to ask you for your password, since it attempts to run a number of commands with `sudo`. It does this in order to install software globally on your system. If you want to avoid the need to enter your password at various throughout the script, you can run the script itself with `sudo`, though this will cause all of the software buiilds to run with root access (which is not necessarily secure).
 
 ```bash
-./03_install_rocm_libraries_centos_7.5.sh
+./03_install_rocm_libraries_centos_7.6.sh
 ```
 
 This script will install the following libraries:
@@ -132,21 +140,29 @@ This script will install the following libraries:
  - MIOpen
     - This will install the HIP version of MIOpen by default.
 
-This script can take a number of optional arguments:
- - `-d / --debug {#}`
-    - This sets the **D**ebug level to build the ROCm software with. The default is "0", which is release mode with symbols stripped. "1" includes debug symbols and compiler optimizations. "2" is no compiler optimizations and with debug symbols.
- - `-g / --get_code`
-    - This tells the script to only **G**et the code for this component, but not to do any of the build or install steps. The data will be stored into the directory specified by the -s argument. If this is not set, the script will fail since there is nowhere to store the code. Other flags are all ignored when this flag is set.
- - `-o / --output_dir {PATH}`
-    - This sets the **O**utput path for the ROCm software to be installed into. By default, the software will be put into "/opt/rocm/". Note that not all ROCm software has been tested outside of this directory structure.
- - `-i / --input_dir {PATH}`
-    - This sets the **I**nput path where any ROCm software required to build these packages can be found. For instance, if you only want to build a subset of the ROCm packages because you have already installed ROCm into "/opt/rocm/", then this should be set to /opt/rocm/ (which may differ from your output path). By default, this points to /opt/rocm/, but if you are trying to build ROCm entirely into a different directory, you may want to set this to be the same as the output directory above.
- - `-s / --source_dir {PATH}`
-    - This tells the scripts to keep the ROCm **S**ource code in the target location after it is built so that it can be modified and rebuilt later. By default, the scripts will download the source code into temporary directories and delete the source after installing the compiled ROCm software.
- - `-y`
-    - Answer **Y**es to any questions the script will ask, without requiring user interaction.
- - `-n`
-    - Answer **N**o to any questions the script will ask, without requiring user interaction.
+This script can take a number of optional arguments that may be useful when making a system-wide ROCm installation:
+ - Options to control the script:
+    - `b / --build_only`
+       - This will force the script to only **B**uild the software, but not to install or package it. This can be useful when trying to make code modifications or debug builds. This flag cannot be set with `-g / --get_code_only`.
+    - `-g / --get_code_only`
+       - This tells the script to only **G**et the code for this component, but not to do any of the build or install steps. The data will be stored into the directory specified by the `-s / --source_dir` argument. If `-s` is not set when `-g` iss set, the script will fail since there is nowhere to store the code. Cannot be passed in with `-b / --build_only`.
+ - Options for configuring the build and installation:
+    - `-d / --debug {#}`
+        - This sets the **D**ebug level to build the ROCm software with. The default is "0", which is release mode with symbols stripped. "1" includes debug symbols and compiler optimizations. "2" is no compiler optimizations and with debug symbols.
+    - `-i / --input_dir {PATH}`
+        - This sets the **I**nput path where any ROCm software required to build these packages can be found. For instance, if you only want to build a subset of the ROCm packages because you have already installed ROCm into "/opt/rocm/", then this should be set to /opt/rocm/ (which may differ from your output path). By default, this points to /opt/rocm/, but if you are trying to build ROCm entirely into a different directory, you may want to set this to be the same as the output directory above.
+    - `-o / --output_dir {PATH}`
+       - This sets the **O**utput path for the ROCm software to be installed into. By default, the software will be put into "/opt/rocm/". Note that not all ROCm software has been tested outside of this directory structure.
+    - `-p / --package {PATH}`
+       -  This requests that, rather than just installing the software after building it, the tool instead builds a system-specific package (e.g. deb, rpm) of the software. The package will be stored in this flag's argument. The package's target installation directory will be based on `-o / --output_dir` option.
+       - After building the package, the script will then attempt to install it onto the system.
+    - `-s / --source_dir {PATH}`
+       - This tells the scripts to keep the ROCm **S**ource code in the target location after it is built so that it can be modified and rebuilt later. By default, the scripts will download the source code into temporary directories and delete the source after installing the compiled ROCm software.
+ - Options for interacting with the script:
+    - `-y`
+        - Answer **Y**es to any questions the script will ask, without requiring user interaction.
+    - `-n`
+        - Answer **N**o to any questions the script will ask, without requiring user interaction.
 
 ### Directions for Locally Installing ROCm
 The following directions will set up ROCm into a local installation.
@@ -167,15 +183,15 @@ This may be useful if you plan to build and install ROCm to a non-standard locat
 If you do not want to install any system-wide dependencies, you can skip this step.
 
 ```bash
-./00_prepare_system_centos_7.5.sh -r
+./00_prepare_system_centos_7.6.sh -r
 ```
 
 The `-r / --required` flag asks this script to install any required dependencies that would normally be needed if you ran this script to perform a system-wide software installation.
 It will not, however, update the kernel as would normally be done for a system-wide software installation.
 
-#### Installing ROCm and ROCm Utilities Locally
-The following scripts will install ROCm and the user-land tools and utilities used in ROCm.
-These will be installed into a local directory and system-wide settings will not be changed.
+#### Installing or Building ROCm and ROCm Utilities Locally
+The following scripts will build ROCm and the user-land tools and utilities used in ROCm.
+These will be installed into a local directory or built into a package, and system-wide settings will not be changed.
 
 To begin with, you may need to install system-wide software dependencies to even build ROCm.
 This *will* require making some system-wide changes.
@@ -183,13 +199,13 @@ But, for instance, you need proper compilers and libraries installed on your sys
 These dependencies can be installed by running:
 
 ```bash
-./01_install_rocm_centos_7.5.sh -r
+./01_install_rocm_centos_7.6.sh -r
 ```
 
 After installing all of the system-wide dependencies, you can download, build, and install ROCm and its utilities to a local destination with the following command:
 
 ```bash
-./01_install_rocm_centos_7.5.sh -l  -i {rocm_installation_directory} -o {rocm_installation_directory}
+./01_install_rocm_centos_7.6.sh -l  -i {rocm_installation_directory} -o {rocm_installation_directory}
 ```
 
 This script will install the following software:
@@ -211,23 +227,30 @@ This script will install the following software:
 - clang-ocl tool to offline compile OpenCL kernels for ROCm
 - ROCm code object manager tool
 
-This script can take a number of optional arguments:
- - `-d / --debug {#}`
-    - This sets the **D**ebug level to build the ROCm software with. The default is "0", which is release mode with symbols stripped. "1" includes debug symbols and compiler optimizations. "2" is no compiler optimizations and with debug symbols.
- - `-g / --get_code`
-    - This tells the script to only **G**et the code for this component, but not to do any of the build or install steps. The data will be stored into the directory specified by the -s argument. If this is not set, the script will fail since there is nowhere to store the code. Other flags are all ignored when this flag is set.
- - `-o / --output_dir {PATH}`
-    - This sets the **O**utput path for the ROCm software to be installed into. By default, the software will be put into "/opt/rocm/". Note that not all ROCm software has been tested outside of this directory structure.
- - `-i / --input_dir {PATH}`
-    - This sets the **I**nput path where any ROCm software required to build these packages can be found. For instance, if you only want to build a subset of the ROCm packages because you have already installed ROCm into "/opt/rocm/", then this should be set to /opt/rocm/ (which may differ from your output path). By default, this points to /opt/rocm/, but if you are trying to build ROCm entirely into a different directory, you may want to set this to be the same as the output directory above.
- - `-s / --source_dir {PATH}`
-    - This tells the scripts to keep the ROCm **S**ource code in the target location after it is built so that it can be modified and rebuilt later. By default, the scripts will download the source code into temporary directories and delete the source after installing the compiled ROCm software.
- - `r / --required`
-    - This will force the system-wide installation of any **R**equired software or packages needed for the software to that will be built. When this flag is passed in, -d, -l, -o, and -i options will all be ignored and the script will exit without building anything. Can be run along-side -g.
- - `-y`
-    - Answer **Y**es to any questions the script will ask, without requiring user interaction.
- - `-n`
-    - Answer **N**o to any questions the script will ask, without requiring user interaction.
+This script can take a number of optional arguments that may be useful when making a system-wide ROCm installation:
+ - Options to control the script:
+    - `b / --build_only`
+       - This will force the script to only **B**uild the software, but not to install or package it. This can be useful when trying to make code modifications or debug builds. This flag cannot be set with `-g / --get_code_only`.
+    - `-g / --get_code_only`
+       - This tells the script to only **G**et the code for this component, but not to do any of the build or install steps. The data will be stored into the directory specified by the `-s / --source_dir` argument. If `-s` is not set when `-g` iss set, the script will fail since there is nowhere to store the code. Cannot be passed in with `-b / --build_only`.
+    - `r / --required`
+        - This will force the system-wide installation of any **R**equired software or packages needed for the software to that will be built. This can be used at the same time as `-g / --get_code_only`
+ - Options for configuring the build and installation:
+    - `-d / --debug {#}`
+        - This sets the **D**ebug level to build the ROCm software with. The default is "0", which is release mode with symbols stripped. "1" includes debug symbols and compiler optimizations. "2" is no compiler optimizations and with debug symbols.
+    - `-i / --input_dir {PATH}`
+        - This sets the **I**nput path where any ROCm software required to build these packages can be found. For instance, if you only want to build a subset of the ROCm packages because you have already installed ROCm into "/opt/rocm/", then this should be set to /opt/rocm/ (which may differ from your output path). By default, this points to /opt/rocm/, but if you are trying to build ROCm entirely into a different directory, you may want to set this to be the same as the output directory above.
+    - `-o / --output_dir {PATH}`
+       - This sets the **O**utput path for the ROCm software to be installed into. By default, the software will be put into "/opt/rocm/". Note that not all ROCm software has been tested outside of this directory structure.
+    - `-p / --package {PATH}`
+       -  This requests that, rather than just installing the software after building it, the tool instead builds a system-specific package (e.g. deb, rpm) of the software. The package will be stored in this flag's argument. The package's target installation directory will be based on `-o / --output_dir` option.
+    - `-s / --source_dir {PATH}`
+       - This tells the scripts to keep the ROCm **S**ource code in the target location after it is built so that it can be modified and rebuilt later. By default, the scripts will download the source code into temporary directories and delete the source after installing the compiled ROCm software.
+ - Options for interacting with the script:
+    - `-y`
+        - Answer **Y**es to any questions the script will ask, without requiring user interaction.
+    - `-n`
+        - Answer **N**o to any questions the script will ask, without requiring user interaction.
 
 The script will automatically query the user to ask if it should try to run the next script after it finishes. To skip this interactive query, pass "-y" or "-n" on the command line.
 
@@ -251,13 +274,13 @@ But, for instance, you need proper compilers and dependencies installed to build
 These dependencies can be installed by running:
 
 ```bash
-./03_install_rocm_libraries_centos_7.5.sh -r
+./03_install_rocm_libraries_centos_7.6.sh -r
 ```
 
 After installing all of the system-wide dependencies, you can download, build, and install the ROCm libraries to a local destination with the following command:
 
 ```bash
-./03_install_rocm_libraries_centos_7.5.sh -l -i ${rocm_installation_directory} -o {rocm_installation_directory}
+./03_install_rocm_libraries_centos_7.6.sh -l -i ${rocm_installation_directory} -o {rocm_installation_directory}
 ```
 
 This script will install the following libraries:
@@ -274,18 +297,31 @@ This script will install the following libraries:
     - This will install the HIP version of MIOpen by default.
 
 This script can take a number of optional arguments:
- - `-d / --debug {#}`
-    - This sets the **D**ebug level to build the ROCm software with. The default is "0", which is release mode with symbols stripped. "1" includes debug symbols and compiler optimizations. "2" is no compiler optimizations and with debug symbols.
- - `-g / --get_code`
-    - This tells the script to only **G**et the code for this component, but not to do any of the build or install steps. The data will be stored into the directory specified by the -s argument. If this is not set, the script will fail since there is nowhere to store the code. Other flags are all ignored when this flag is set.
- - `-o / --output_dir {PATH}`
-    - This sets the **O**utput path for the ROCm software to be installed into. By default, the software will be put into "/opt/rocm/". Note that not all ROCm software has been tested outside of this directory structure.
- - `-i / --input_dir {PATH}`
-    - This sets the **I**nput path where any ROCm software required to build these packages can be found. For instance, if you only want to build a subset of the ROCm packages because you have already installed ROCm into "/opt/rocm/", then this should be set to /opt/rocm/ (which may differ from your output path). By default, this points to /opt/rocm/, but if you are trying to build ROCm entirely into a different directory, you may want to set this to be the same as the output directory above.
- - `-s / --source_dir {PATH}`
-    - This tells the scripts to keep the ROCm **S**ource code in the target location after it is built so that it can be modified and rebuilt later. By default, the scripts will download the source code into temporary directories and delete the source after installing the compiled ROCm software.
- - `r / --required`
-    - This will force the system-wide installation of any **R**equired software or packages needed for the software to that will be built. When this flag is passed in, -d, -l, -o, and -i options will all be ignored and the script will exit without building anything. Can be run along-side -g.
+This script can take a number of optional arguments that may be useful when making a system-wide ROCm installation:
+ - Options to control the script:
+    - `b / --build_only`
+       - This will force the script to only **B**uild the software, but not to install or package it. This can be useful when trying to make code modifications or debug builds. This flag cannot be set with `-g / --get_code_only`.
+    - `-g / --get_code_only`
+       - This tells the script to only **G**et the code for this component, but not to do any of the build or install steps. The data will be stored into the directory specified by the `-s / --source_dir` argument. If `-s` is not set when `-g` iss set, the script will fail since there is nowhere to store the code. Cannot be passed in with `-b / --build_only`.
+    - `r / --required`
+        - This will force the system-wide installation of any **R**equired software or packages needed for the software to that will be built. This can be used at the same time as `-g / --get_code_only`
+ - Options for configuring the build and installation:
+    - `-d / --debug {#}`
+        - This sets the **D**ebug level to build the ROCm software with. The default is "0", which is release mode with symbols stripped. "1" includes debug symbols and compiler optimizations. "2" is no compiler optimizations and with debug symbols.
+    - `-i / --input_dir {PATH}`
+        - This sets the **I**nput path where any ROCm software required to build these packages can be found. For instance, if you only want to build a subset of the ROCm packages because you have already installed ROCm into "/opt/rocm/", then this should be set to /opt/rocm/ (which may differ from your output path). By default, this points to /opt/rocm/, but if you are trying to build ROCm entirely into a different directory, you may want to set this to be the same as the output directory above.
+    - `-o / --output_dir {PATH}`
+       - This sets the **O**utput path for the ROCm software to be installed into. By default, the software will be put into "/opt/rocm/". Note that not all ROCm software has been tested outside of this directory structure.
+    - `-p / --package {PATH}`
+       -  This requests that, rather than just installing the software after building it, the tool instead builds a system-specific package (e.g. deb, rpm) of the software. The package will be stored in this flag's argument. The package's target installation directory will be based on `-o / --output_dir` option.
+       - After building the package, the script will then attempt to install it onto the system.
+    - `-s / --source_dir {PATH}`
+       - This tells the scripts to keep the ROCm **S**ource code in the target location after it is built so that it can be modified and rebuilt later. By default, the scripts will download the source code into temporary directories and delete the source after installing the compiled ROCm software.
+ - Options for interacting with the script:
+    - `-y`
+        - Answer **Y**es to any questions the script will ask, without requiring user interaction.
+    - `-n`
+        - Answer **N**o to any questions the script will ask, without requiring user interaction.
 
 ### Rebuilding or Customizing a Single Piece of Software
 One of the benefits of building ROCm software from source is that you can make modifications to software in order to fix bugs, test new ideas, experiment, add new features, or build with debug symbols.

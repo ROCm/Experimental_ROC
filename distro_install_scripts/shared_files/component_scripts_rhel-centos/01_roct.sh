@@ -76,6 +76,12 @@ cd build
 ${SOURCE_DIR}/cmake/bin/cmake .. -DCMAKE_BUILD_TYPE=${ROCM_CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/
 ${ROCM_SUDO_COMMAND} mkdir -p ${ROCM_OUTPUT_DIR}/lib64/
 make -j `nproc`
+
+if [ ${ROCM_FORCE_BUILD_ONLY} = true ]; then
+    echo "Finished building ROCt. Exiting."
+    exit 0
+fi
+
 ${ROCM_SUDO_COMMAND} make install
 ${ROCM_SUDO_COMMAND} mkdir -p ${ROCM_OUTPUT_DIR}/include/
 ${ROCM_SUDO_COMMAND} cp -R ${SOURCE_DIR}/ROCT-Thunk-Interface/include/* ${ROCM_OUTPUT_DIR}/include/

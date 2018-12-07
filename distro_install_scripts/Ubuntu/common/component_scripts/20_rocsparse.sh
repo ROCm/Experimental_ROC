@@ -72,6 +72,12 @@ sed -i s'#/opt/rocm/bin/hcc#${HIP_HCC_EXECUTABLE} -DCMAKE_PREFIX_PATH='"${ROCM_I
 cd build/release
 HIP_PLATFORM=hcc CXX=${ROCM_INPUT_DIR}/hcc/bin/hcc cmake -DCMAKE_BUILD_TYPE=${ROCM_CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/ -DCMAKE_PREFIX_PATH=${ROCM_INPUT_DIR} -DCMAKE_MODULE_PATH=${ROCM_INPUT_DIR}/hip/cmake/ ../../
 make -j `nproc`
+
+if [ ${ROCM_FORCE_BUILD_ONLY} = true ]; then
+    echo "Finished building rocSPARSE. Exiting."
+    exit 0
+fi
+
 ${ROCM_SUDO_COMMAND} make install
 
 if [ ${ROCM_LOCAL_INSTALL} = false ]; then

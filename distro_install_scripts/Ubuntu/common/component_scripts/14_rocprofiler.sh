@@ -72,6 +72,12 @@ export CMAKE_BUILD_TYPE=${ROCM_CMAKE_BUILD_TYPE}
 export CMAKE_DEBUG_TRACE=0
 cmake -DCMAKE_BUILD_TYPE=${ROCM_CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${ROCM_OUTPUT_DIR} ..
 make -j `nproc`
+
+if [ ${ROCM_FORCE_BUILD_ONLY} = true ]; then
+    echo "Finished building ROC profiler. Exiting."
+    exit 0
+fi
+
 ${ROCM_SUDO_COMMAND} make install
 
 ${ROCM_SUDO_COMMAND} bash -c "for i in bin include lib; do cp -fR ${ROCM_OUTPUT_DIR}/rocprofiler/${i}/* ${ROCM_OUTPUT_DIR}/${i}/; done"

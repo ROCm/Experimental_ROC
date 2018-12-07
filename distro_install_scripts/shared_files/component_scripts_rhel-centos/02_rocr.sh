@@ -96,6 +96,12 @@ rm -f ${TEMP_INCLUDE_DIR}/amd_hsa_*.h
 rm -rf ${SOURCE_DIR}/ROCR-Runtime/src/build/*
 ${SOURCE_DIR}/cmake/bin/cmake .. -DCMAKE_BUILD_TYPE=${ROCM_CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/ -DCMAKE_LIBRARY_PATH=${ROCM_INPUT_DIR}/lib/ -DCMAKE_INCLUDE_PATH=${TEMP_INCLUDE_DIR}
 make -j `nproc`
+
+if [ ${ROCM_FORCE_BUILD_ONLY} = true ]; then
+    echo "Finished building ROCr. Exiting."
+    exit 0
+fi
+
 ${ROCM_SUDO_COMMAND} make install
 rm -rf ${TEMP_INCLUDE_DIR}
 

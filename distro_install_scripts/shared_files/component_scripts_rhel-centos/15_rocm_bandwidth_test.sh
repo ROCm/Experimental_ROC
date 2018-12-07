@@ -75,6 +75,12 @@ cd build
 sed -i.bak 's/LINK_DIRECTORIES(${ROCR_LIB_DIR})/LINK_DIRECTORIES(${ROCR_LIB_DIR} ${ROCR_LIB_DIR}64)/' ../CMakeLists.txt
 cmake -DCMAKE_INSTALL_PREFIX=${ROCM_OUTPUT_DIR} -DCMAKE_BUILD_TYPE=${ROCM_CMAKE_BUILD_TYPE} -DROCR_LIB_DIR=${ROCM_INPUT_DIR}/lib -DROCR_INC_DIR=${ROCM_INPUT_DIR}/include ..
 make -j `nproc`
+
+if [ ${ROCM_FORCE_BUILD_ONLY} = true ]; then
+    echo "Finished building ROCm Bandwidth Test. Exiting."
+    exit 0
+fi
+
 ${ROCM_SUDO_COMMAND} make install
 
 if [ $ROCM_SAVE_SOURCE = false ]; then

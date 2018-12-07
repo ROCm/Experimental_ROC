@@ -91,6 +91,12 @@ if [ ${NUM_BUILD_THREADS} -lt 1 ]; then
 fi
 
 LD_LIBRARY_PATH=${ROCM_INPUT_DIR}/lib/:${ROCM_INPUT_DIR}/hsa/lib/ HCC_HOME=${ROCM_INPUT_DIR}/hcc/ HSA_PATH=${ROCM_INPUT_DIR}/hsa/ ROCM_PATH=${ROCM_INPUT_DIR}/ HIP_PLATFORM=hcc make -j ${NUM_BUILD_THREADS}
+
+if [ ${ROCM_FORCE_BUILD_ONLY} = true ]; then
+    echo "Finished building rocALUTION. Exiting."
+    exit 0
+fi
+
 ${ROCM_SUDO_COMMAND} make install
 
 if [ ${ROCM_LOCAL_INSTALL} = false ]; then

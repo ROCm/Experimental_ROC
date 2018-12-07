@@ -122,6 +122,11 @@ if [ ${ROCM_FORCE_GET_CODE} = true ]; then
     exit 0
 fi
 
+if [ ${ROCM_FORCE_BUILD_ONLY} = true ]; then
+    echo "Nothing to build for ROCK kernel driver unless you are installing. Exiting."
+    exit 0
+fi
+
 if [ ${ROCM_LOCAL_INSTALL} = false ]; then
     ${ROCM_SUDO_COMMAND} cp -R ${SOURCE_DIR}/install_files/etc/* /etc/
     ${ROCM_SUDO_COMMAND} cp -R ${SOURCE_DIR}/install_files/usr/* /usr/

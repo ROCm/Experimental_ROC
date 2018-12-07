@@ -86,6 +86,12 @@ if [ ${NUM_BUILD_THREADS} -lt 1 ]; then
 fi
 
 make -j ${NUM_BUILD_THREADS}
+
+if [ ${ROCM_FORCE_BUILD_ONLY} = true ]; then
+    echo "Finished building rocBLAS. Exiting."
+    exit 0
+fi
+
 ${ROCM_SUDO_COMMAND} make install
 
 if [ ${ROCM_LOCAL_INSTALL} = false ]; then

@@ -69,6 +69,12 @@ mkdir -p build
 cd build
 cmake .. -DHIP_PLATFORM=hcc -DHCC_HOME=${ROCM_INPUT_DIR}/hcc/ -DHSA_PATH=${ROCM_INPUT_DIR} -DCMAKE_BUILD_TYPE=${ROCM_CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/hip/
 make -j `nproc`
+
+if [ ${ROCM_FORCE_BUILD_ONLY} = true ]; then
+    echo "Finished building HIP. Exiting."
+    exit 0
+fi
+
 ${ROCM_SUDO_COMMAND} make install
 
 # Fix up files into the locations they s/hcc/hould be installed into

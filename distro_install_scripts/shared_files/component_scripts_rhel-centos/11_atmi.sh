@@ -75,6 +75,12 @@ export GFXLIST="gfx701 gfx801 gfx802 gfx803 gfx900 gfx906"
 ${SOURCE_DIR}/cmake/bin/cmake -DCMAKE_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/atmi -DCMAKE_BUILD_TYPE=${ROCM_CMAKE_BUILD_TYPE} -DLLVM_DIR=${ROCM_INPUT_DIR}/llvm/ -DDEVICE_LIB_DIR=${ROCM_INPUT_DIR}/lib/ -DHSA_DIR=${ROCM_INPUT_DIR}/ -DATMI_HSA_INTEROP=ON -DATMI_DEVICE_RUNTIME=ON -DATMI_C_EXTENSION=ON ..
 
 make -j `nproc`
+
+if [ ${ROCM_FORCE_BUILD_ONLY} = true ]; then
+    echo "Finished building ATMI. Exiting."
+    exit 0
+fi
+
 ${ROCM_SUDO_COMMAND} make install
 
 unset GFXLIST

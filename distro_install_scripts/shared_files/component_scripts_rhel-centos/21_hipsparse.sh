@@ -72,6 +72,12 @@ mkdir -p build/release
 cd build/release
 ${SOURCE_DIR}/cmake/bin/cmake -DCMAKE_BUILD_TYPE=${ROCM_CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/ -DCMAKE_PREFIX_PATH="${ROCM_INPUT_DIR}/hip/;${ROCM_INPUT_DIR}/hcc/" ../../
 LD_LIBRARY_PATH=${ROCM_INPUT_DIR}/hsa/lib/:${ROCM_INPUT_DIR}/lib/:${LD_LIBRARY_PATH} make -j `nproc`
+
+if [ ${ROCM_FORCE_BUILD_ONLY} = true ]; then
+    echo "Finished building hipSPARSE. Exiting."
+    exit 0
+fi
+
 ${ROCM_SUDO_COMMAND} make install
 
 if [ $ROCM_SAVE_SOURCE = false ]; then

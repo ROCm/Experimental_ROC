@@ -107,6 +107,12 @@ if [ ${NUM_BUILD_THREADS} -lt 1 ]; then
 fi
 
 make -j ${NUM_BUILD_THREADS}
+
+if [ ${ROCM_FORCE_BUILD_ONLY} = true ]; then
+    echo "Finished building hcc. Exiting."
+    exit 0
+fi
+
 ${ROCM_SUDO_COMMAND} make install
 ${ROCM_SUDO_COMMAND} mkdir -p ${ROCM_OUTPUT_DIR}/bin/
 ${ROCM_SUDO_COMMAND} bash -c 'for i in lld clamp-config extractkernel hcc hcc-config; do ln -sf '"${ROCM_OUTPUT_DIR}"'/hcc/bin/${i} '"${ROCM_OUTPUT_DIR}"'/bin/${i}; done'

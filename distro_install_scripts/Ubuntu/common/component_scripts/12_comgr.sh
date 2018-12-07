@@ -65,6 +65,11 @@ if [ ! -d ${ROCM_INPUT_DIR}/llvm ]; then
         echo ""
         echo "Unable to find ROCm LLVM in either ${ROCM_INPUT_DIR}/llvm/ or ${ROCM_OUTPUT_DIR}/llvm/."
         echo "This is required in order to build comgr."
+        if [ ${ROCM_FORCE_BUILD_ONLY} = true ]; then
+            echo "However, you have chosen to do builds only, so we cannot install ROCm LLVM."
+            echo "Unable to continue."
+            exit 1
+        fi
         if [ ${ROCM_FORCE_YES} = true ]; then
             echo "Forcing a build of the ROCm LLVM because of the '-y' flag."
             ROCM_REBUILD_LLVM=true
@@ -114,6 +119,12 @@ mkdir -p build
 cd build
 cmake -DCMAKE_BUILD_TYPE=${ROCM_CMAKE_BUILD_TYPE} -DCMAKE_PREFIX_PATH="${ROCM_LLVM_DIR}:${ROCM_INPUT_DIR}/lib" -DLLVM_DIR=${ROCM_LLVM_DIR} -DCMAKE_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/ ..
 make -j `nproc`
+
+if [ ${ROCM_FORCE_BUILD_ONLY} = true ]; then
+    echo "Finished building comgr. Exiting."
+    exit 0
+fi
+
 ${ROCM_SUDO_COMMAND} make install
 ${ROCM_SUDO_COMMAND} mkdir -p ${ROCM_OUTPUT_DIR}/include/comgr/
 #${ROCM_SUDO_COMMAND} cp ${ROCM_OUTPUT_DIR}/include/amd_comgr.h ${ROCM_OUTPUT_DIR}/include/comgr/

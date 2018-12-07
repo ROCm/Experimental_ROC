@@ -70,6 +70,12 @@ cd ${SOURCE_DIR}/clang-ocl
 mkdir -p build
 cd build
 cmake .. -DCMAKE_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/ -DCMAKE_BUILD_TYPE=${ROCM_CMAKE_BUILD_TYPE}
+
+if [ ${ROCM_FORCE_BUILD_ONLY} = true ]; then
+    echo "Nothing to build for clang-ocl. Exiting."
+    exit 0
+fi
+
 ${ROCM_SUDO_COMMAND} cmake --build . --target install
 
 if [ $ROCM_SAVE_SOURCE = false ]; then

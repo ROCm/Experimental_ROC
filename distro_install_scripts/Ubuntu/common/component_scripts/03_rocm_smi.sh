@@ -63,6 +63,11 @@ if [ ${ROCM_FORCE_GET_CODE} = true ]; then
     exit 0
 fi
 
+if [ ${ROCM_FORCE_BUILD_ONLY} = true ]; then
+    echo "Nothing to build for rocm-smi. Exiting."
+    exit 0
+fi
+
 # Install rocm-smi
 cd ${SOURCE_DIR}/ROC-smi
 ${ROCM_SUDO_COMMAND} mkdir -p ${ROCM_OUTPUT_DIR}/bin/
