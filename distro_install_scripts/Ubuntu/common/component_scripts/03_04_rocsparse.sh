@@ -67,6 +67,7 @@ fi
 cd ${SOURCE_DIR}/rocSPARSE
 mkdir -p build/release
 # Fix some hard-coded locations in the CMake files
+git checkout ./cmake/Dependencies.cmake
 sed -i s'#/opt/rocm/bin/hcc#${HIP_HCC_EXECUTABLE} -DCMAKE_PREFIX_PATH='"${ROCM_INPUT_DIR}"' -DCMAKE_MODULE_PATH='"${ROCM_INPUT_DIR}"'/hip/cmake/#'  ./cmake/Dependencies.cmake
 
 cd build/release

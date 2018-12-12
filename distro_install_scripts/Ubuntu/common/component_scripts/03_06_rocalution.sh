@@ -66,7 +66,9 @@ fi
 cd ${SOURCE_DIR}/rocALUTION
 mkdir -p build/release
 # Fix some hard-coded locations in the CMake files
+git checkout ${SOURCE_DIR}/rocALUTION/cmake/Dependencies.cmake
 sed -i 's#/opt/rocm/bin/hcc#${HIP_HCC_EXECUTABLE} -DCMAKE_PREFIX_PATH='"${ROCM_INPUT_DIR}"' -DCMAKE_MODULE_PATH='"${ROCM_INPUT_DIR}"'/hip/cmake/#'  ${SOURCE_DIR}/rocALUTION/cmake/Dependencies.cmake
+git checkout ${SOURCE_DIR}/rocALUTION/src/CMakeLists.txt
 sed -i "s#-O3#-O3 -I${ROCM_INPUT_DIR}/include/ -I${SOURCE_DIR}/rocALUTION/build/release/rocPRIM/hipcub/include -I${SOURCE_DIR}/rocALUTION/build/release/rocPRIM/include/#" ${SOURCE_DIR}/rocALUTION/src/CMakeLists.txt
 sed -i "s#-g#-g -I${ROCM_INPUT_DIR}/include/ -I${SOURCE_DIR}/rocALUTION/build/release/rocPRIM/hipcub/include -I${SOURCE_DIR}/rocALUTION/build/release/rocPRIM/include/#" ${SOURCE_DIR}/rocALUTION/src/CMakeLists.txt
 
