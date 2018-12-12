@@ -4,7 +4,7 @@ This directory contains directions and scripts for installing ROCm on Ubuntu 18.
 There are two options for installing and building ROCm available in this toolkit.
 
 - [./deb_install](deb_install) will install ROCm from the AMD binary packages downloaded from AMD's `apt` repository
-- [.//src_install](src_install) will download, build, and install ROCm from source code downloaded from AMD's ROCm GitHub repositories
+- [./src_install](src_install) will download, build, and install ROCm from source code downloaded from AMD's ROCm GitHub repositories
     - These scripts can also be used to build custom versions of any one of the ROCm software packages after installing the rest of the ROCm software system from binary packages.
     - These scriptscan also be used to build binary packages of any of the ROCm software.
 

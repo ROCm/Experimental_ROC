@@ -10,7 +10,7 @@ These scripts assume a fresh system install, so, by default, they will attempt t
   * [Installing ROCm Libraries Globally](#installing-rocm-libraries-globally)
 - [Directions for Locally Installing ROCm](#directions-for-locally-installing-rocm)
   * [Install Basic System-Wide Dependencies.](#install-basic-system-wide-dependencies)
-  * [Installing ROCm and ROCm Utilities Locally](#installing-rocm-and-rocm-utilities-locally)
+  * [Installing or Building ROCm and ROCm Utilities Locally](#installing-or-building-rocm-and-rocm-utilities-locally)
   * [Configuring Your Account and Environment](#configuring-your-account-and-environment)
   * [Installing ROCm Libraries Locally](#installing-rocm-libraries-locally)
 - [Rebuilding or Customizing a Single Piece of Software](#rebuilding-or-customizing-a-single-piece-of-software)
