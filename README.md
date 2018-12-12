@@ -12,9 +12,10 @@ However, it is being released with the goal of helping the community, and feedba
 
 ### Linux Distribution Install and Build Tools
 
-This project, located in [./distro_install_scripts](distro_install_scripts), contains directions and scripts for installing ROCm on various Linux distributions.
+This project, located in [./distro_install_scripts](distro_install_scripts), contains directions and scripts for building, packaging, and installing ROCm on various Linux distributions.
 It includes tools for automatically setting up a new system to install ROCm from binaries such as .rpm and .deb files.
 It also contains scripts to allow users to download, optionally modify, and build each piece of the ROCm platform from source code.
+The latter scripts also allow user to build custom binary packages.
 
 These tools to install ROCm from AMD's binary distribution may be useful for users who want an easy way to set up their system to use ROCm without needing to manually stepping through written directions.
 In addition, they can be used (and modified) to automate installations and to potentially install ROCm on distributions that are not officially supported by AMD.

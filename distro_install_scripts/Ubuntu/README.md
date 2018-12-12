@@ -1,7 +1,7 @@
 ## Scripts for Installing ROCm on Ubuntu
 
 This directory contains directions and scripts for installing ROCm on various versions of Ubuntu.
-Each folder has scripts for installing ROCm on a particular version of Ubuntu; these scripts can be used to install from AMD's binary files or to build and install ROCm from AMD's source distributions.
+Each folder has scripts for installing ROCm on a particular version of Ubuntu; these scripts can be used to install from AMD's binary files or to build, install ROCm from AMD's source distributions, and build binary packages.
 
 At this time, these tools have been tested on:
 
