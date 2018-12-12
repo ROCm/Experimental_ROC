@@ -22,6 +22,7 @@
 ###############################################################################
 ROCM_VERSION_BRANCH=roc-1.9.x
 ROCM_VERSION_TAG=roc-1.9.2
+ROCM_VERSION_LONG=1.9.307
 
 PRINT_HELP=false # -h option
 ROCM_FORCE_BUILD_ONLY=false # -b option
@@ -59,6 +60,12 @@ IS_MIOPEN_CALL=false
 
 # We can empty this variable out when we don't want to run commands as sudo
 ROCM_SUDO_COMMAND=sudo
+
+# Send this into RPM builds so that cpack sets the proper permissions for
+# upper-level directories like /opt/ and /opt/rocm/. Othewise, it looks like
+# new packages are causing conflicts with other when they try to change
+# permissions.
+ROCM_CPACK_RPM_PERMISSIONS='-DCPACK_RPM_DEFAULT_DIR_PERMISSIONS=OWNER_READ;OWNER_WRITE;OWNER_EXECUTE;GROUP_READ;GROUP_EXECUTE;WORLD_READ;WORLD_EXECUTE'
 
 display_help() {
     if [ ${IS_MIOPEN_CALL} = false ]; then
@@ -134,7 +141,7 @@ display_help() {
 }
 
 parse_args() {
-    OPTS=`getopt -o hbglrd:i:o:p:s:yn --long help,build_only,get_code_only,local,required,debug:,input_dir:,output_dir:,package:source_dir:miopen_option,force_opencl -n 'parse-options' -- "$@"`
+    OPTS=`getopt -o hbglrd:i:o:p:s:yn --long help,build_only,get_code_only,local,required,debug:,input_dir:,output_dir:,package:,source_dir:,miopen_option,force_opencl -n 'parse-options' -- "$@"`
     if [ $? != 0 ]; then
         echo "Failed to parse command-line options with `getopt`" >&2
         exit 1
@@ -215,12 +222,5 @@ parse_args() {
         if [ $ROCM_DEBUG_LEVEL -eq 2 ]; then
             ROCM_CMAKE_BUILD_TYPE=Debug
         fi
-    fi
-
-    if [ ${ROCM_FORCE_PACKAGE} = true ]; then
-        echo "Building packages is not supported at this time."
-        echo "This feature will be added soon."
-        echo "Exiting."
-        exit 0
     fi
 }

@@ -1,0 +1,11 @@
+Package: rocm-dev
+Version: ROCM_PKG_VERSION
+Section: devel
+Priority: optional
+Architecture: amd64
+Depends: hsa-rocr-dev, hsa-ext-rocr-dev, rocm-device-libs, rocm-utils, hcc, hip_base, hip_doc, hip_hcc, hip_samples, rocm-smi, hsakmt-roct, hsakmt-roct-dev, hsa-amd-aqlprofile, comgr, rocr_debug_agent
+Homepage: https://github.com/RadeonOpenCompute/ROCm
+Installed-Size: 1
+Maintainer: Advanced Micro Devices Inc.
+Description: Radeon Open Compute (ROCm) Runtime software stack
+

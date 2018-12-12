@@ -1,0 +1,8 @@
+Package: rocm-opencl
+Version: 1.2.0-ROCM_OPENCL_PKG_VER
+Section: devel
+Priority: optional
+Architecture: amd64
+Maintainer: Laurent Morichetti
+Description: OpenCL/ROCm
+Depends: hsa-rocr-dev (>= 1.1.5)

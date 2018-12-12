@@ -1,0 +1,70 @@
+# Update HIP cmake files to that the packaging can work with versions of
+# CMake that require CPACK_RPM_DEFAULT_DIR_PERMISSIONS to make proper
+# RPM files
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a4da3b19..ca4b4a00 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -290,6 +290,12 @@ endif()
+ #############################
+ # Packaging steps
+ #############################
++if(DEFINED CPACK_RPM_DEFAULT_DIR_PERMISSIONS)
++    set(PROJECT_DEFAULT_DIR_PERMISSIONS ${CPACK_RPM_DEFAULT_DIR_PERMISSIONS})
++else(DEFINED CPACK_RPM_DEFAULT_DIR_PERMISSIONS)
++    set(PROJECT_DEFAULT_DIR_PERMISSIONS OWNER_READ;OWNER_WRITE;OWNER_EXECUTE;GROUP_READ;GROUP_EXECUTE;WORLD_READ;WORLD_EXECUTE)
++endif(DEFINED CPACK_RPM_DEFAULT_DIR_PERMISSIONS)
++
+ # Package: hip_base
+ set(BUILD_DIR ${CMAKE_CURRENT_BINARY_DIR}/packages/hip_base)
+ configure_file(packaging/hip_base.txt ${BUILD_DIR}/CMakeLists.txt @ONLY)
+diff --git a/packaging/hip_base.txt b/packaging/hip_base.txt
+index a44f0acb..20980c8e 100644
+--- a/packaging/hip_base.txt
++++ b/packaging/hip_base.txt
+@@ -37,4 +37,5 @@ set(CPACK_RPM_PACKAGE_AUTOREQPROV " no")
+ set(CPACK_RPM_PACKAGE_REQUIRES "perl >= 5.0")
+ set(CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST_ADDITION "/opt")
+ set(CPACK_SOURCE_GENERATOR "TGZ")
++set(CPACK_RPM_DEFAULT_DIR_PERMISSIONS @PROJECT_DEFAULT_DIR_PERMISSIONS@)
+ include(CPack)
+diff --git a/packaging/hip_doc.txt b/packaging/hip_doc.txt
+index 5987c2c1..33bcc913 100644
+--- a/packaging/hip_doc.txt
++++ b/packaging/hip_doc.txt
+@@ -38,4 +38,5 @@ set(CPACK_RPM_PACKAGE_AUTOREQPROV " no")
+ set(CPACK_RPM_PACKAGE_REQUIRES "hip_base = ${CPACK_PACKAGE_VERSION}")
+ set(CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST_ADDITION "/opt")
+ set(CPACK_SOURCE_GENERATOR "TGZ")
++set(CPACK_RPM_DEFAULT_DIR_PERMISSIONS @PROJECT_DEFAULT_DIR_PERMISSIONS@)
+ include(CPack)
+diff --git a/packaging/hip_hcc.txt b/packaging/hip_hcc.txt
+index 9d4b9676..e76b1f11 100644
+--- a/packaging/hip_hcc.txt
++++ b/packaging/hip_hcc.txt
+@@ -47,4 +47,5 @@ else()
+ endif()
+ set(CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST_ADDITION "/opt")
+ set(CPACK_SOURCE_GENERATOR "TGZ")
++set(CPACK_RPM_DEFAULT_DIR_PERMISSIONS @PROJECT_DEFAULT_DIR_PERMISSIONS@)
+ include(CPack)
+diff --git a/packaging/hip_nvcc.txt b/packaging/hip_nvcc.txt
+index 254b7a95..94e26321 100644
+--- a/packaging/hip_nvcc.txt
++++ b/packaging/hip_nvcc.txt
+@@ -27,4 +27,5 @@ set(CPACK_RPM_PACKAGE_AUTOREQPROV " no")
+ set(CPACK_RPM_PACKAGE_REQUIRES "hip_base = ${CPACK_PACKAGE_VERSION}, cuda >= 7.5")
+ set(CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST_ADDITION "/opt")
+ set(CPACK_SOURCE_GENERATOR "TGZ")
++set(CPACK_RPM_DEFAULT_DIR_PERMISSIONS @PROJECT_DEFAULT_DIR_PERMISSIONS@)
+ include(CPack)
+diff --git a/packaging/hip_samples.txt b/packaging/hip_samples.txt
+index c1707e42..0ba29394 100644
+--- a/packaging/hip_samples.txt
++++ b/packaging/hip_samples.txt
+@@ -26,4 +26,5 @@ set(CPACK_RPM_PACKAGE_AUTOREQPROV " no")
+ set(CPACK_RPM_PACKAGE_REQUIRES "hip_base = ${CPACK_PACKAGE_VERSION}")
+ set(CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST_ADDITION "/opt")
+ set(CPACK_SOURCE_GENERATOR "TGZ")
++set(CPACK_RPM_DEFAULT_DIR_PERMISSIONS @PROJECT_DEFAULT_DIR_PERMISSIONS@)
+ include(CPack)

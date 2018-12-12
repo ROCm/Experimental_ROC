@@ -1,0 +1,34 @@
+# Patch to allow the build to work with CMake versions newer than 3.5.
+# Previously, we sym-linked a directory:
+# /opt/rocm/include/hsa->/opt/rocm/hsa/include/hsa
+# However, new versions of cmake *really* don't like sym-linking
+# directories when they are building a .deb file. They will follow the
+# symlink and attempt to add the files multiple times. To prevent his,
+# we instead go through and manually symlink all of the *files* in the
+# target directory
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -179,12 +179,25 @@ endif ()
+ ## Create symlinks for packaging and install
+ add_custom_target ( hsa-link ALL WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMAND ${CMAKE_COMMAND} -E create_symlink ../hsa/include/hsa hsa-link )
+ add_custom_target ( ${CORE_RUNTIME_TARGET}.so-link ALL WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMAND ${CMAKE_COMMAND} -E create_symlink ../hsa/lib/${CORE_RUNTIME_LIBRARY}.so ${CORE_RUNTIME_LIBRARY}.so-link )
++set(SYMLINK_CMD "execute_process(COMMAND ln -sf \${SRC_REL} \${DEST})")
+
+ ## Set install information
+ install ( TARGETS ${CORE_RUNTIME_TARGET} LIBRARY DESTINATION hsa/lib )
+ install ( DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/inc/ DESTINATION hsa/include/hsa )
+-install ( FILES ${CMAKE_CURRENT_BINARY_DIR}/hsa-link DESTINATION include PERMISSIONS OWNER_WRITE OWNER_READ RENAME hsa )
+ install ( FILES ${CMAKE_CURRENT_BINARY_DIR}/${CORE_RUNTIME_LIBRARY}.so-link DESTINATION lib PERMISSIONS OWNER_WRITE OWNER_READ RENAME ${CORE_RUNTIME_LIBRARY}.so )
++install( CODE "
++set(SUBDIR \$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/hsa/include/hsa)
++file(GLOB_RECURSE FILES RELATIVE \${SUBDIR} \${SUBDIR}/*)
++foreach(FILE \${FILES})
++    set(SRC \${SUBDIR}/\${FILE})
++    set(DEST \$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/include/hsa/\${FILE})
++    get_filename_component(DEST_DIR \${DEST} DIRECTORY)
++    file(MAKE_DIRECTORY \${DEST_DIR})
++    file(RELATIVE_PATH SRC_REL \${DEST_DIR} \${SRC})
++    message(STATUS \"symlink: \${SRC_REL} -> \${DEST}\")
++    ${SYMLINK_CMD}
++endforeach()
++")

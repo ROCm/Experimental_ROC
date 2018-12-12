@@ -40,23 +40,24 @@ if [ `lsb_release -rs` != "18.10" ]; then
     # KFD version is available in the upstream kernel to allow our user-land
     # tools to work. This misses some features, but ROCm 1.9.2 kernel module
     # fails to build on Ubuntu 18.10, so this is our only option.
-    ${BASE_DIR}/component_scripts/00_rock-dkms.sh "$@"
+    ${BASE_DIR}/component_scripts/01_00_rock-dkms.sh "$@"
 fi
-${BASE_DIR}/component_scripts/01_roct.sh "$@"
-${BASE_DIR}/component_scripts/02_rocr.sh "$@"
-${BASE_DIR}/component_scripts/03_rocm_smi.sh "$@"
-${BASE_DIR}/component_scripts/04_rocm_cmake.sh "$@"
-${BASE_DIR}/component_scripts/05_rocminfo.sh "$@"
-${BASE_DIR}/component_scripts/06_opencl.sh "$@"
-${BASE_DIR}/component_scripts/07_clang-ocl.sh "$@"
-${BASE_DIR}/component_scripts/08_hcc.sh "$@"
-${BASE_DIR}/component_scripts/09_hip.sh "$@"
-${BASE_DIR}/component_scripts/10_rocm_device_libs.sh "$@"
-${BASE_DIR}/component_scripts/11_atmi.sh "$@"
-${BASE_DIR}/component_scripts/12_comgr.sh "$@"
-${BASE_DIR}/component_scripts/13_rocr_debug_agent.sh "$@"
-${BASE_DIR}/component_scripts/14_rocprofiler.sh "$@"
-${BASE_DIR}/component_scripts/15_rocm_bandwidth_test.sh "$@"
+${BASE_DIR}/component_scripts/01_01_roct.sh "$@"
+${BASE_DIR}/component_scripts/01_02_rocr.sh "$@"
+${BASE_DIR}/component_scripts/01_03_rocm_smi.sh "$@"
+${BASE_DIR}/component_scripts/01_04_rocm_cmake.sh "$@"
+${BASE_DIR}/component_scripts/01_05_rocminfo.sh "$@"
+${BASE_DIR}/component_scripts/01_06_rocprofiler.sh "$@"
+${BASE_DIR}/component_scripts/01_07_opencl.sh "$@"
+${BASE_DIR}/component_scripts/01_08_clang-ocl.sh "$@"
+${BASE_DIR}/component_scripts/01_09_hcc.sh "$@"
+${BASE_DIR}/component_scripts/01_10_hip.sh "$@"
+${BASE_DIR}/component_scripts/01_11_rocm_device_libs.sh "$@"
+${BASE_DIR}/component_scripts/01_12_atmi.sh "$@"
+${BASE_DIR}/component_scripts/01_13_comgr.sh "$@"
+${BASE_DIR}/component_scripts/01_14_rocr_debug_agent.sh "$@"
+${BASE_DIR}/component_scripts/01_15_rocm_bandwidth_test.sh "$@"
+${BASE_DIR}/component_scripts/01_16_rocm_meta_packages.sh "$@"
 
 if [ ${ROCM_LOCAL_INSTALL} = false ]; then
     ${ROCM_SUDO_COMMAND} usermod -a -G video `logname`

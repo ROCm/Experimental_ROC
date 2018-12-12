@@ -54,7 +54,7 @@ elif [ ${OS_VERSION_MINOR} -eq 6 ]; then
     # backported changes, so we must skip the driver.
     sudo yum install -y rocm-dev rocm-cmake atmi rocm_bandwidth_test
     sudo mkdir -p /opt/rocm/.info/
-    echo '1.9.307' | sudo tee /opt/rocm/.info/version
+    echo ${ROCM_VERSION_LONG} | sudo tee /opt/rocm/.info/version
     echo 'SUBSYSTEM=="kfd", KERNEL=="kfd", TAG+="uaccess", GROUP="video"' | sudo tee /etc/udev/rules.d/70-kfd.rules
 else
     echo "Attempting to run on an unsupported OS version: ${OS_VERSION_NUM}"

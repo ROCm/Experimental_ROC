@@ -342,7 +342,7 @@ For example, most of the ROCm source code is downloaded with the `git` utility, 
 In this example, we want to make a small modification to the ROCr runtime.
 To install its dependencies, first run:
 ```bash
-./component_scripts/02_rocr.sh -r
+./component_scripts/01_02_rocr.sh -r
 ```
 
 The `-r` flag (which can alternately be passed as `--required`) will install any required software for this package.
@@ -353,7 +353,7 @@ Again, we are making a small modification to the ROCr runtime.
 To download this software into the `~/rocm_source/` directory, use the following command:
 
 ```bash
-./component_scripts/02_rocr.sh -g -s ~/rocm_source/
+./component_scripts/01_02_rocr.sh -g -s ~/rocm_source/
 ```
 
 The `-g` flag (which can alternately be passed as `--get_code`) will cause this script to download ROCr without attempting to build it.
@@ -384,7 +384,7 @@ With the modification complete, we must next build the software.
 In this example, we will build our customized ROCr and put the resulting binaries into the directory `~/custom_rocm/`
 
 ```bash
-./component_scripts/02_rocr.sh -l -s ~/rocm_source/ -i /opt/rocm/ -o ~/custom_rocm/
+./component_scripts/01_02_rocr.sh -l -s ~/rocm_source/ -i /opt/rocm/ -o ~/custom_rocm/
 ```
 
 The `-s` flag (which can also be passed as `--source_dir`) points the script towards the location of our modification source code.
