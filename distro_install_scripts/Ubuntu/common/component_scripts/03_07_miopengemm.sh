@@ -53,7 +53,7 @@ cd ${SOURCE_DIR}
 if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/MIOpenGEMM ]; then
     git clone https://github.com/ROCmSoftwarePlatform/MIOpenGEMM.git
     cd MIOpenGEMM
-    git checkout 9547fb9
+    git checkout ${ROCM_MIOPENGEMM_SHA}
 else
     echo "Skipping download of MIOpenGEMM, since ${SOURCE_DIR}/MIOpenGEMM already exists."
 fi

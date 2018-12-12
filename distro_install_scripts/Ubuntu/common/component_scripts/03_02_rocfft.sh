@@ -53,7 +53,7 @@ cd ${SOURCE_DIR}
 if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/rocFFT ]; then
     git clone https://github.com/ROCmSoftwarePlatform/rocFFT.git
     cd rocFFT
-    git checkout 50fea912
+    git checkout ${ROCM_ROCFFT_SHA}
 else
     echo "Skipping download of rocFFT, since ${SOURCE_DIR}/rocFFT already exists."
 fi

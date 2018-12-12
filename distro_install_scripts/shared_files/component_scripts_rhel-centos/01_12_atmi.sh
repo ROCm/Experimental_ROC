@@ -58,7 +58,7 @@ if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/atmi ]; then
     get_cmake "${SOURCE_DIR}"
     git clone https://github.com/RadeonOpenCompute/atmi.git
     cd ${SOURCE_DIR}/atmi
-    git checkout 4dd14ad
+    git checkout ${ROCM_ATMI_SHA}
 else
     echo "Skipping download of ATMI, since ${SOURCE_DIR}/atmi already exists."
 fi
