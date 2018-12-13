@@ -1,0 +1,19 @@
+#/bin/bash
+
+set -e
+
+do_kfd_udev() {
+    echo "KERNEL==\"kfd\", MODE=\"0666\"" | tee /etc/udev/rules.d/kfd.rules
+}
+
+case "$1" in
+   configure)
+       do_kfd_udev
+   ;;
+   abort-upgrade|abort-remove|abort-deconfigure)
+       echo "$1"
+   ;;
+   *)
+       exit 0
+   ;;
+esac

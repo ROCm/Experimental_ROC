@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -e
+
+rm_kfd_udev() {
+    rm -f /etc/udev/rules.d/kfd.rules
+}
+
+case "$1" in
+   remove)
+       rm_kfd_udev
+   ;;
+   purge)
+   ;;
+   *)
+       exit 0
+   ;;
+esac
