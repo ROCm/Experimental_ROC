@@ -61,7 +61,6 @@ if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/MIOpen ]; then
     git clone https://github.com/ROCmSoftwarePlatform/MIOpen.git
     cd MIOpen
     git checkout tags/${ROCM_MIOPEN_TAG}
-    patch -p1 < ${BASE_DIR}/patches/03_08_miopen.patch
 else
     echo "Skipping download of MIOpen, since ${SOURCE_DIR}/MIOpen already exists."
 fi
