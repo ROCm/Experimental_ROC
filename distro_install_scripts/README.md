@@ -4,7 +4,7 @@ This directory contains directions and scripts for installing ROCm 1.9.2 on vari
 This includes tools for automatically setting up a new system to install ROCm from binaries such as .rpm and .deb files (or AMD's binary repos).
 This project also contains scripts to allow users to download, optionally modify, and build each piece of the ROCm platform from source code.
 
-These tools to install ROCm from AMD's binary distribution may be useful for users who want an easy way to set up their system to use ROCm without needing to manually stepping through written directions.
+These tools to install ROCm from AMD's binary distribution may be useful for users who want an easy way to set up their system to use ROCm without needing to manually step through written directions.
 In addition, they can be used (and modified) to automate installations and to potentially install ROCm on distributions that are not officially supported by AMD.
 
 The tools to build ROCm from source may be useful for users who want to avoid installing binary distributions on their platform or who wish to package ROCm themselves.
@@ -27,5 +27,5 @@ Each major distribution is held in its own directory, and each version of that d
 Within those version-specific directories are separate folders for the scripts to install ROCm from binaries and to build ROCm and its components from source.
 
 ### Community Feedback and New Distros
-We are always looking for community input! If you would like to add tools and directions for installing ROCm on a distribution not listed above, feel free to submit a pull reuqest with the patches.
-Please try to follow a similar directory a file structure as is used for the distributions that already exist.
+We are always looking for community input! If you would like to add tools and directions for installing ROCm on a distribution not listed above, feel free to submit a pull request with the patches.
+Please try to follow a similar directory and file structure as is used for the distributions that already exist.
