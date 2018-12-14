@@ -33,6 +33,9 @@ if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
     echo "Installing software required to for ROCm."
     echo "You will need to have root privileges to do this."
     sudo apt -y install libnuma-dev
+    if [ ${ROCM_INSTALL_PREREQS} = true ]; then
+        exit 0
+    fi
 fi
 
 if [ ${ROCM_LOCAL_INSTALL} = false ]; then
