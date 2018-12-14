@@ -271,7 +271,7 @@ To skip this interactive query, pass "-y" or "-n" on the command line.
 
 #### Configuring Your Account and Environment
 Running ROCm software requires some environment variables to be set so that binaries and libraries can be found when you try to run GPU-using software.
-This script will added these proper environment variables into your local account (your `~/.bash_profile`) to ease the use of ROCm software.
+This script will add these proper environment variables into your local account (your `~/.bash_profile`) to ease the use of ROCm software.
 
 Note that this script will **not** add your account into the `video` group.
 This is required to use ROCm, and these local installation scripts do not do this.
@@ -505,7 +505,7 @@ To download this software into the `~/rocm_source/` directory, use the following
 ./component_scripts/02_rocr.sh -g -s ~/rocm_source/
 ```
 
-The `-g` flag (which can alternately be passed as `--get_code`) will cause this script to download ROCr without attempting to build it.
+The `-g` flag (which can alternately be passed as `--get_code_only`) will cause this script to download ROCr without attempting to build it.
 The destination directory, into which ROCr will be downloaded, is controlled by the `-s` flag (which can also be passed as `--source_dir`).
 
 #### Modifying the Software Package
