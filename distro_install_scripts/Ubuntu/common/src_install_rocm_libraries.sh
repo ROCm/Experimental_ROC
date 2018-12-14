@@ -39,3 +39,6 @@ ${BASE_DIR}/component_scripts/03_08_miopen.sh "$@"
 # By default, this installs miopen-hip, because PyTorch and Tensorflow use it
 # If you want to use OpenVX you may need to install miopen-opencl instead of miopen-hip
 ${BASE_DIR}/component_scripts/03_09_library_meta_packages.sh "$@"
+${BASE_DIR}/component_scripts/03_10_hip-thrust.sh "$@"
+${BASE_DIR}/component_scripts/03_11_rocm_smi64.sh "$@"
+${BASE_DIR}/component_scripts/03_12_rccl.sh "$@"

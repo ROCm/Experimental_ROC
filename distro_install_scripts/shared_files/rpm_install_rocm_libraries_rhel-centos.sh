@@ -27,6 +27,6 @@ trap 'errno=$?; print_cmd=$lastcmd; if [ $errno -ne 0 ]; then echo "\"${print_cm
 source "$BASE_DIR/common/common_options.sh"
 parse_args "$@"
 
-sudo yum -y install miopen-hip miopengemm rocm-libs
+sudo yum -y install miopen-hip miopengemm rocm-libs rocsparse hipsparse Thrust rocm_smi64 rccl
 # By default, this installs miopen-hip, because PyTorch and Tensorflow use it
 # If you want to use OpenVX you may need to install miopen-opencl instead of miopen-hip

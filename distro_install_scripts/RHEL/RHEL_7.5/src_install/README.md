@@ -139,6 +139,9 @@ This script will install the following libraries:
  - MIOpenGEMM
  - MIOpen
     - This will install the HIP version of MIOpen by default.
+ - HIP Thrust
+ - ROCm SMI Lib
+ - RCCL
 
 This script can take a number of optional arguments that may be useful when making a system-wide ROCm installation:
  - Options to control the script:
@@ -295,8 +298,10 @@ This script will install the following libraries:
  - MIOpenGEMM
  - MIOpen
     - This will install the HIP version of MIOpen by default.
+ - HIP Thrust
+ - ROCm SMI Lib
+ - RCCL
 
-This script can take a number of optional arguments:
 This script can take a number of optional arguments that may be useful when making a system-wide ROCm installation:
  - Options to control the script:
     - `b / --build_only`

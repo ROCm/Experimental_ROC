@@ -74,9 +74,14 @@ The following script will download and install the following ROCm libraries:
  - hipBLAS
  - rocFFT
  - rocRAND
+ - rocSPARSE
+ - hipSPARSE
  - MIOpenGEMM
  - MIOpen
     - This will install the HIP version of MIOpen by default.
+ - HIP Thrust
+ - ROCm SMI Lib
+ - RCCL
 
 This script will ask you for your password, since it attempts to run a number of commands with `sudo` to install software to your system.
 ```bash

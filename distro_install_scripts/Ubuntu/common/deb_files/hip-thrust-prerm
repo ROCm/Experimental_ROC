@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -e
+
+rm -f ROCM_INSTALL_DIR/include/thrust/system/cuda/detail/cub
