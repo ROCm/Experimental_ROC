@@ -45,7 +45,8 @@ This script will install the following software into `/opt/rocm/`:
 - clang-ocl tool to offline compile OpenCL kernels for ROCm
 - ROCm code object manager tool
 
-Note that this will not install the ROCK kernel drivers. Instead, Fedora 28 uses the drivers included in the upstream Linux kernel.
+Note that this will not install the ROCK kernel drivers.
+Instead, Fedora 28 uses the drivers included in the upstream Linux kernel.
 
 Note also that the HCC and HIP installations will be rebuilt from source rather than using the .rpm files from AMD's repository.
 The RHEL/CentOS versions of these programs shipped in AMD's repository are not compatible with Fedora.

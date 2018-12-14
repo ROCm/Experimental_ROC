@@ -5,7 +5,8 @@ The ROCK kernel module installation will fail, and ROCm will fail to work.
 
 ## Scripts for Installing ROCm on CentOS 7.6
 
-This directory contains directions and scripts for installing ROCm on CentOS 7.6. There are two options for installing and building ROCm available in this toolkit.
+This directory contains directions and scripts for installing ROCm on CentOS 7.6.
+There are two options for installing and building ROCm available in this toolkit.
 
 - [./rpm_install](rpm_install) will install ROCm from the AMD binary packages downloaded from AMD's `yum` repository
 - [./src_install](src_install) will download, build, and install ROCm from source code downloaded from AMD's ROCm GitHub repositories

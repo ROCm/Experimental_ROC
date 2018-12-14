@@ -8,4 +8,4 @@ At this time, these tools have been tested on:
 - [Fedora 28](Fedora_28)
 - [Fedora 29](Fedora_29)
 
-The folder `common` contains scripts that are common between multiple Fedora versions, and can be safely ignored if you want to directly run the installation or build scripts.
+The folder `common` contains scripts that are common between multiple Fedora versions and can be safely ignored if you want to directly run the installation or build scripts.

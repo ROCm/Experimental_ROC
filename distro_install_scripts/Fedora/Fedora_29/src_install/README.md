@@ -99,7 +99,8 @@ This script can take a number of optional arguments that may be useful when maki
 The script will automatically query the user to ask if it should try to run the next script after it finishes.
 To skip this interactive query, pass "-y" or "-n" on the command line.
 
-Note that this will not install the ROCK kernel drivers. Instead, Fedora 29 uses the drivers included in the upstream Linux kernel.
+Note that this will not install the ROCK kernel drivers.
+Instead, Fedora 29 uses the drivers included in the upstream Linux kernel.
 
 #### Configuring Users to have GPU Access
 If you want to allow all users on the system to use ROCm GPUs, you may want to run the following script that enables GPU access for all users that will be added from this point on.
@@ -267,7 +268,8 @@ This script can take a number of optional arguments that may be useful when maki
     - `-n`
         - Answer **N**o to any questions the script will ask, without requiring user interaction.
 
-The script will automatically query the user to ask if it should try to run the next script after it finishes. To skip this interactive query, pass "-y" or "-n" on the command line.
+The script will automatically query the user to ask if it should try to run the next script after it finishes.
+To skip this interactive query, pass "-y" or "-n" on the command line.
 
 #### Configuring Your Account and Environment
 Running ROCm software requires some environment variables to be set so that binaries and libraries can be found when you try to run GPU-using software.

@@ -45,7 +45,8 @@ This script will install the following software into `/opt/rocm/`:
 - clang-ocl tool to offline compile OpenCL kernels for ROCm
 - ROCm code object manager tool
 
-Note that this will not install the ROCK kernel drivers. Instead, Ubuntu 18.10 uses the drivers included in the upstream Linux kernel.
+Note that this will not install the ROCK kernel drivers.
+Instead, Ubuntu 18.10 uses the drivers included in the upstream Linux kernel.
 
 #### Configuring Users to have GPU Access
 If you want to allow all users on the system to use ROCm GPUs, you may want to run the following script that enables GPU access for all users that will be added from this point on.

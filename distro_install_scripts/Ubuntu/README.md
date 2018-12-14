@@ -9,4 +9,4 @@ At this time, these tools have been tested on:
 - [Ubuntu 18.04.1 LTS](Ubuntu_18.04)
 - [Ubuntu 18.10](Ubuntu_18.10)
 
-The folder `common` contains scripts that are common between multiple Ubuntu versions, and can be safely ignored if you want to directly run the installation or build scripts.
+The folder `common` contains scripts that are common between multiple Ubuntu versions and can be safely ignored if you want to directly run the installation or build scripts.
