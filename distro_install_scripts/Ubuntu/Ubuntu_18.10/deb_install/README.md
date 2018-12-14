@@ -5,7 +5,7 @@ These scripts assume a fresh system install, so they will attempt to add package
 
 ### Directions for Installing ROCm 1.9.2
 The following directions will set up a fresh installation of Ubuntu with ROCm using the .deb packages distributed by AMD.
-The goal of these scripts is to create a ROCm software installatino using similar directions to those contained at <https://github.com/RadeonOpenCompute/ROCm>.
+The goal of these scripts is to create a ROCm software installation using similar directions to those contained at <https://github.com/RadeonOpenCompute/ROCm>.
 
 #### Updating the Kernel
 The following script will prepare the system for ROCm 1.9.2 by updating the kernel on your system to its newest version.

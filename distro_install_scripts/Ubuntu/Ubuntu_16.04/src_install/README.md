@@ -13,6 +13,9 @@ These scripts assume a fresh system install, so, by default, they will attempt t
   * [Installing or Building ROCm and ROCm Utilities Locally](#installing-or-building-rocm-and-rocm-utilities-locally)
   * [Configuring Your Account and Environment](#configuring-your-account-and-environment)
   * [Installing ROCm Libraries Locally](#installing-rocm-libraries-locally)
+- [Directions for Building ROCm Packages](#directions-for-building-rocm-packages)
+  * [Packaging ROCm and ROCm Utilities](#packaging-rocm-and-rocm-utilities)
+  * [Packaging ROCm Libraries](#packaging-rocm-libraries)
 - [Rebuilding or Customizing a Single Piece of Software](#rebuilding-or-customizing-a-single-piece-of-software)
   * [Installing Dependencies](#installing-dependencies)
   * [Downloading the Software Package](#downloading-the-software-package)
@@ -41,7 +44,11 @@ To skip this interactive query, pass "-y" or "-n" on the command line.
 #### Installing ROCm and ROCm Utilities Globally
 The following script will install ROCm and the user-land tools and utilities used in ROCm.
 
-While this script runs, it may sometimes pause to ask you for your password, since it attempts to run a number of commands with `sudo`. It does this in order to install software globally on your system. If you want to avoid the need to enter your password at various throughout the script, you can run the script itself with `sudo`, though this will cause all of the software buiilds to run with root access (which is not necessarily secure).
+While this script runs, it may sometimes pause to ask you for your password, since it attempts to run a number of commands with `sudo`.
+It does this in order to install software globally on your system.
+If you want to avoid the need to enter your password at various points throughout the script, you could run the script itself with `sudo`.
+This will cause all of the software builds to run with root access, which is not necessarily secure.
+You could instead change time amount of time between password requests by modifying the `timestamp_timeout` value in your [sudoers file](https://www.sudo.ws/man/sudoers.man.html).
 
 ```bash
 ./01_install_rocm_ubuntu_16.04.sh
@@ -71,7 +78,7 @@ This script can take a number of optional arguments that may be useful when maki
     - `b / --build_only`
        - This will force the script to only **B**uild the software, but not to install or package it. This can be useful when trying to make code modifications or debug builds. This flag cannot be set with `-g / --get_code_only`.
     - `-g / --get_code_only`
-       - This tells the script to only **G**et the code for this component, but not to do any of the build or install steps. The data will be stored into the directory specified by the `-s / --source_dir` argument. If `-s` is not set when `-g` iss set, the script will fail since there is nowhere to store the code. Cannot be passed in with `-b / --build_only`.
+       - This tells the script to only **G**et the code for this component, but not to do any of the build or install steps. The data will be stored into the directory specified by the `-s / --source_dir` argument. If `-s` is not set when `-g` is set, the script will fail since there is nowhere to store the code. Cannot be passed in with `-b / --build_only`.
  - Options for configuring the build and installation:
     - `-d / --debug {#}`
         - This sets the **D**ebug level to build the ROCm software with. The default is "0", which is release mode with symbols stripped. "1" includes debug symbols and compiler optimizations. "2" is no compiler optimizations and with debug symbols.
@@ -121,7 +128,11 @@ To skip this interactive query, pass "-y" or "-n" on the command line.
 #### Installing ROCm Libraries Globally
 The following script will download, build, and install the ROCm libraries.
 
-While this script runs, it may sometimes pause to ask you for your password, since it attempts to run a number of commands with `sudo`. It does this in order to install software globally on your system. If you want to avoid the need to enter your password at various throughout the script, you can run the script itself with `sudo`, though this will cause all of the software buiilds to run with root access (which is not necessarily secure).
+While this script runs, it may sometimes pause to ask you for your password, since it attempts to run a number of commands with `sudo`.
+It does this in order to install software globally on your system.
+If you want to avoid the need to enter your password at various points throughout the script, you could run the script itself with `sudo`.
+This will cause all of the software builds to run with root access, which is not necessarily secure.
+You could instead change time amount of time between password requests by modifying the `timestamp_timeout` value in your [sudoers file](https://www.sudo.ws/man/sudoers.man.html).
 
 ```bash
 ./03_install_rocm_libraries_ubuntu_16.04.sh
@@ -148,7 +159,7 @@ This script can take a number of optional arguments that may be useful when maki
     - `b / --build_only`
        - This will force the script to only **B**uild the software, but not to install or package it. This can be useful when trying to make code modifications or debug builds. This flag cannot be set with `-g / --get_code_only`.
     - `-g / --get_code_only`
-       - This tells the script to only **G**et the code for this component, but not to do any of the build or install steps. The data will be stored into the directory specified by the `-s / --source_dir` argument. If `-s` is not set when `-g` iss set, the script will fail since there is nowhere to store the code. Cannot be passed in with `-b / --build_only`.
+       - This tells the script to only **G**et the code for this component, but not to do any of the build or install steps. The data will be stored into the directory specified by the `-s / --source_dir` argument. If `-s` is not set when `-g` is set, the script will fail since there is nowhere to store the code. Cannot be passed in with `-b / --build_only`.
  - Options for configuring the build and installation:
     - `-d / --debug {#}`
         - This sets the **D**ebug level to build the ROCm software with. The default is "0", which is release mode with symbols stripped. "1" includes debug symbols and compiler optimizations. "2" is no compiler optimizations and with debug symbols.
@@ -190,7 +201,7 @@ If you do not want to install any system-wide dependencies, you can skip this st
 ```
 
 The `-r / --required` flag asks this script to install any required dependencies that would normally be needed if you ran this script to perform a system-wide software installation.
-It will not, however, update the kernel as would normally be done for a system-wide software installation.
+It will not, however, update the kernel or other system-wide software as would normally be done for a system-wide software installation.
 
 #### Installing or Building ROCm and ROCm Utilities Locally
 The following scripts will build ROCm and the user-land tools and utilities used in ROCm.
@@ -208,7 +219,7 @@ These dependencies can be installed by running:
 After installing all of the system-wide dependencies, you can download, build, and install ROCm and its utilities to a local destination with the following command:
 
 ```bash
-./01_install_rocm_ubuntu_16.04.sh -l  -i {rocm_installation_directory} -o {rocm_installation_directory}
+./01_install_rocm_ubuntu_16.04.sh -l -i {rocm_installation_directory} -o {rocm_installation_directory}
 ```
 
 This script will install the following software:
@@ -235,7 +246,7 @@ This script can take a number of optional arguments that may be useful when maki
     - `b / --build_only`
        - This will force the script to only **B**uild the software, but not to install or package it. This can be useful when trying to make code modifications or debug builds. This flag cannot be set with `-g / --get_code_only`.
     - `-g / --get_code_only`
-       - This tells the script to only **G**et the code for this component, but not to do any of the build or install steps. The data will be stored into the directory specified by the `-s / --source_dir` argument. If `-s` is not set when `-g` iss set, the script will fail since there is nowhere to store the code. Cannot be passed in with `-b / --build_only`.
+       - This tells the script to only **G**et the code for this component, but not to do any of the build or install steps. The data will be stored into the directory specified by the `-s / --source_dir` argument. If `-s` is not set when `-g` is set, the script will fail since there is nowhere to store the code. Cannot be passed in with `-b / --build_only`.
     - `r / --required`
         - This will force the system-wide installation of any **R**equired software or packages needed for the software to that will be built. This can be used at the same time as `-g / --get_code_only`
  - Options for configuring the build and installation:
@@ -307,7 +318,7 @@ This script can take a number of optional arguments that may be useful when maki
     - `b / --build_only`
        - This will force the script to only **B**uild the software, but not to install or package it. This can be useful when trying to make code modifications or debug builds. This flag cannot be set with `-g / --get_code_only`.
     - `-g / --get_code_only`
-       - This tells the script to only **G**et the code for this component, but not to do any of the build or install steps. The data will be stored into the directory specified by the `-s / --source_dir` argument. If `-s` is not set when `-g` iss set, the script will fail since there is nowhere to store the code. Cannot be passed in with `-b / --build_only`.
+       - This tells the script to only **G**et the code for this component, but not to do any of the build or install steps. The data will be stored into the directory specified by the `-s / --source_dir` argument. If `-s` is not set when `-g` is set, the script will fail since there is nowhere to store the code. Cannot be passed in with `-b / --build_only`.
     - `r / --required`
         - This will force the system-wide installation of any **R**equired software or packages needed for the software to that will be built. This can be used at the same time as `-g / --get_code_only`
  - Options for configuring the build and installation:
@@ -328,9 +339,141 @@ This script can take a number of optional arguments that may be useful when maki
     - `-n`
         - Answer **N**o to any questions the script will ask, without requiring user interaction.
 
+### Directions for Building ROCm Packages
+Besides building and immediately installing ROCm, these scripts can also be used to make ROCm binary packages (e.g., .deb and .rpm files).
+This can be useful if you want to build and deploy custom versions of ROCm without needing to rebuild on each machine, or if you want to make sure any packages with dependencies on ROCm software are correctly handled by your package manager.
+Building and installing from packages can also allow users to mix custom-build versions of ROCm tools with other tools installed from AMD's binary repositories without causing package manger dependency problems.
+
+Some ROCm software builds require other ROCm software to be installed.
+For example, the user-level libraries like rocBLAS are compiled using HIP and HCC.
+As such, it is recommended that you either install ROCm from these packages as you build them (by not passing in the `-l / --local` option) or that you first install ROCm and then build these packages.
+
+#### Packaging ROCm and ROCm Utilities
+The following scripts will build and package ROCm and the user-land tools and utilities used in ROCm.
+These packages will be configured to install into a user-desired location with the `-o / --output_dir` option).
+The packages themselves will be saved into a separate user-defined location through the argument to the `-p / --package` option.
+In addition, these packages will be automatically installed on the local system after they are built if the `-l / --local` option is not passed.
+If you do not wish to install these packages on your system, pass the `-l / --local` option when building the packages.
+
+To begin with, you may need to install system-wide software dependencies needed to build ROCm software.
+These dependencies can be installed by running:
+
+```bash
+./01_install_rocm_ubuntu_16.04.sh -r
+```
+
+After installing all of the system-wide dependencies, you can download, build, and package ROCm and its utilities to a local destination with the following command:
+
+```bash
+./01_install_rocm_ubuntu_16.04.sh -p {directory_to_store_packages} -o {rocm_installation_directory}
+```
+
+This script will build and package the following software:
+
+- ROCK kernel drivers (amdgpu and amdkfd)
+- ROCt Thunk (kernel/driver interface)
+- ROCr user-land runtime
+- ROCm OpenCL runtime and compiler
+- HCC runtime and compiler
+- HIP compiler
+- ROCm device-optimized low-level libraries
+- ATMI (Asynchronous Task and Memory Interface) runtime
+- ROCr debug agent tool
+- ROC Profiler tool
+- rocm-smi system management tool
+- rocminfo system reporting tool
+- ROCm bandwidth test tool
+- ROCm cmake scripts
+- clang-ocl tool to offline compile OpenCL kernels for ROCm
+- ROCm code object manager tool
+
+This script can take a number of optional arguments that may be useful when making a system-wide ROCm installation:
+ - Options to control the script:
+    - `b / --build_only`
+       - This will force the script to only **B**uild the software, but not to install or package it. This can be useful when trying to make code modifications or debug builds. This flag cannot be set with `-g / --get_code_only`.
+    - `-g / --get_code_only`
+       - This tells the script to only **G**et the code for this component, but not to do any of the build or install steps. The data will be stored into the directory specified by the `-s / --source_dir` argument. If `-s` is not set when `-g` is set, the script will fail since there is nowhere to store the code. Cannot be passed in with `-b / --build_only`.
+    - `-l / --local`
+       - Setting this flag will cause the scripts to attempt to build the package, but the script will not try to install the package afterwards.
+       - If you do not set the flag, each package that is built will then subsequently be installed on your system.
+ - Options for configuring the build and packaging:
+    - `-d / --debug {#}`
+        - This sets the **D**ebug level to build the ROCm software with. The default is "0", which is release mode with symbols stripped. "1" includes debug symbols and compiler optimizations. "2" is no compiler optimizations and with debug symbols.
+    - `-i / --input_dir {PATH}`
+        - This sets the **I**nput path where any ROCm software required to build these packages can be found. For instance, if you only want to build a subset of the ROCm packages because you have already installed ROCm into "/opt/rocm/", then this should be set to /opt/rocm/ (which may differ from your output path). By default, this points to /opt/rocm/, but if you are trying to build ROCm entirely into a different directory, you may want to set this to be the same as the output directory above.
+    - `-o / --output_dir {PATH}`
+       - This sets the **O**utput path for the ROCm software to be installed into. The binary package that is built will install into this location. By default, the software will be targeted at "/opt/rocm/". Note that not all ROCm software has been tested outside of this directory structure.
+    - `-s / --source_dir {PATH}`
+       - This tells the scripts to keep the ROCm **S**ource code in the target location after it is built so that it can be modified and rebuilt later. By default, the scripts will download the source code into temporary directories and delete the source after installing the compiled ROCm software.
+ - Options for interacting with the script:
+    - `-y`
+        - Answer **Y**es to any questions the script will ask, without requiring user interaction.
+    - `-n`
+        - Answer **N**o to any questions the script will ask, without requiring user interaction.
+
+#### Packaging ROCm Libraries
+The following script will build and package the ROCm libraries.
+These packages will be configured to install into a user-desired location with the `-o / --output_dir` option).
+The packages themselves will be saved into a separate user-defined location through the argument to the `-p / --package` option.
+In addition, these packages will be automatically installed on the local system after they are built if the `-l / --local` option is not passed.
+If you do not wish to install these packages on your system, pass the `-l / --local` option when building the packages.
+
+To begin with, you may need to install system-wide software dependencies needed to build ROCm software.
+These dependencies can be installed by running:
+
+```bash
+./03_install_rocm_libraries_ubuntu_16.04.sh -r
+```
+
+After installing all of the system-wide dependencies, you can download, build, and package the ROCm libraries to a local destination with the following command:
+
+```bash
+./03_install_rocm_libraries_ubuntu_16.04.sh -p {directory_to_store_packages} -o {rocm_installation_directory}
+```
+
+This script will install the following libraries:
+
+ - rocBLAS
+ - hipBLAS
+ - rocFFT
+ - rocRAND
+ - rocSPARSE
+ - hipSPARSE
+ - rocALUTION
+ - MIOpenGEMM
+ - MIOpen
+    - This will install the HIP version of MIOpen by default.
+ - HIP Thrust
+ - ROCm SMI Lib
+ - RCCL
+
+This script can take a number of optional arguments that may be useful when making a system-wide ROCm installation:
+ - Options to control the script:
+    - `b / --build_only`
+       - This will force the script to only **B**uild the software, but not to install or package it. This can be useful when trying to make code modifications or debug builds. This flag cannot be set with `-g / --get_code_only`.
+    - `-g / --get_code_only`
+       - This tells the script to only **G**et the code for this component, but not to do any of the build or install steps. The data will be stored into the directory specified by the `-s / --source_dir` argument. If `-s` is not set when `-g` is set, the script will fail since there is nowhere to store the code. Cannot be passed in with `-b / --build_only`.
+    - `-l / --local`
+       - Setting this flag will cause the scripts to attempt to build the package, but the script will not try to install the package afterwards.
+       - If you do not set the flag, each package that is built will then subsequently be installed on your system.
+ - Options for configuring the build and packaging:
+    - `-d / --debug {#}`
+        - This sets the **D**ebug level to build the ROCm software with. The default is "0", which is release mode with symbols stripped. "1" includes debug symbols and compiler optimizations. "2" is no compiler optimizations and with debug symbols.
+    - `-i / --input_dir {PATH}`
+        - This sets the **I**nput path where any ROCm software required to build these packages can be found. For instance, if you only want to build a subset of the ROCm packages because you have already installed ROCm into "/opt/rocm/", then this should be set to /opt/rocm/ (which may differ from your output path). By default, this points to /opt/rocm/, but if you are trying to build ROCm entirely into a different directory, you may want to set this to be the same as the output directory above.
+    - `-o / --output_dir {PATH}`
+       - This sets the **O**utput path for the ROCm software to be installed into. The binary package that is built will install into this location. By default, the software will be targeted at "/opt/rocm/". Note that not all ROCm software has been tested outside of this directory structure.
+    - `-s / --source_dir {PATH}`
+       - This tells the scripts to keep the ROCm **S**ource code in the target location after it is built so that it can be modified and rebuilt later. By default, the scripts will download the source code into temporary directories and delete the source after installing the compiled ROCm software.
+ - Options for interacting with the script:
+    - `-y`
+        - Answer **Y**es to any questions the script will ask, without requiring user interaction.
+    - `-n`
+        - Answer **N**o to any questions the script will ask, without requiring user interaction.
+
 ### Rebuilding or Customizing a Single Piece of Software
 One of the benefits of building ROCm software from source is that you can make modifications to software in order to fix bugs, test new ideas, experiment, add new features, or build with debug symbols.
-This section will demonstrate how to use these scripts to build a make small custom modifications to a piece of software in the ROCm stack and then build it for your own use.
+This section will demonstrate how to use these scripts to make small custom modifications to a piece of software in the ROCm stack and then build it for your own use.
 
 This section assumes that you have a ROCm 1.9.2 installation in the default `/opt/rocm/` location, though the directions would also work if you have ROCm installed into some other custom location.
 
@@ -393,7 +536,7 @@ In this example, we will build our customized ROCr and put the resulting binarie
 ```
 
 The `-s` flag (which can also be passed as `--source_dir`) points the script towards the location of our modification source code.
-It will then build that modified source code and output it into the directory pointed to be the `-o` flag (which can alternately be passed as `--output_dir`.
+It will then build that modified source code and output it into the directory pointed to be the `-o` flag (which can alternately be passed as `--output_dir`).
 
 The `-i` flag (which can be passed as `--input_dir`) should point to your normal ROCm installation directory.
 This is used to handle the dependencies on other ROCm software.
@@ -413,7 +556,7 @@ The former will build with compiler optimizations and debug symbols (RelWithDebI
 
 #### Testing the Modified Software
 After the above script has finished, your software should now be installed into `~/custom_rocm/`.
-The ROCr runtime installs a number of heads into the directory `~/custom_rocm/include/` directory, and its main library into `~/custom_rocm/hsa/lib/`.
+The ROCr runtime installs a number of headers into the directory `~/custom_rocm/include/` directory, and its main library into `~/custom_rocm/hsa/lib/`.
 
 To test the modified ROCr runtime, we need to point new applications towards it.
 ROCr is a shared library, and the environment variable `LD_LIBRARY_PATH` can be used to point applications towards new shared libraries instead of the ones normally found in system-defined paths.
