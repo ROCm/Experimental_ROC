@@ -33,7 +33,7 @@ if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
     echo "Installing software required to build the rocFFT."
     echo "You will need to have root privileges to do this."
     # Need fftw3-devel somewhere
-    sudo yum -y install cmake pkgconfig git boost-program-options fftw-devel
+    sudo yum -y install cmake pkgconfig git wget boost-program-options fftw-devel rpm-build
     if [ ${ROCM_INSTALL_PREREQS} = true ] && [ ${ROCM_FORCE_GET_CODE} = false ]; then
         exit 0
     fi
