@@ -55,7 +55,19 @@ ${BASE_DIR}/component_scripts/01_15_rocm_bandwidth_test.sh "$@"
 ${BASE_DIR}/component_scripts/01_16_rocm_meta_packages.sh "$@"
 
 if [ ${ROCM_LOCAL_INSTALL} = false ]; then
-    ${ROCM_SUDO_COMMAND} usermod -a -G video `logname`
+    # Detect if you are actually logged into the system or not.
+    # Containers, for instance, may not have you as a user with
+    # a meaningful value for logname
+    num_users=`who am i | wc -l`
+    if [ ${num_users} -gt 0 ]; then
+        ${ROCM_SUDO_COMMAND} usermod -a -G video `logname`
+    else
+        echo ""
+        echo "Was going to attempt to add your user to the 'video' group."
+        echo "However, it appears that we cannot determine your username."
+        echo "Perhaps you are running inside a container?"
+        echo ""
+    fi
 fi
 
 if [ ${ROCM_FORCE_YES} = true ]; then

@@ -45,7 +45,20 @@ if [ `lsb_release -rs` = "18.10" ]; then
 else
     sudo apt -y install rocm-dkms rocm-cmake atmi rocm_bandwidth_test
 fi
-sudo usermod -a -G video `logname`
+
+# Detect if you are actually logged into the system or not.
+# Containers, for instance, may not have you as a user with
+# a meaningful value for logname
+num_users=`who am i | wc -l`
+if [ ${num_users} -gt 0 ]; then
+    sudo usermod -a -G video `logname`
+else
+    echo ""
+    echo "Was going to attempt to add your user to the 'video' group."
+    echo "However, it appears that we cannot determine your username."
+    echo "Perhaps you are running inside a container?"
+    echo ""
+fi
 
 if [ ${ROCM_FORCE_YES} = true ]; then
     ROCM_RUN_NEXT_SCRIPT=true

@@ -85,7 +85,19 @@ fi
 echo ${ROCM_VERSION_LONG} | sudo tee /opt/rocm/.info/version
 echo 'SUBSYSTEM=="kfd", KERNEL=="kfd", TAG+="uaccess", GROUP="video"' | sudo tee /etc/udev/rules.d/70-kfd.rules
 
-sudo usermod -a -G video `logname`
+# Detect if you are actually logged into the system or not.
+# Containers, for instance, may not have you as a user with
+# a meaningful value for logname
+num_users=`who am i | wc -l`
+if [ ${num_users} -gt 0 ]; then
+    sudo usermod -a -G video `logname`
+else
+    echo ""
+    echo "Was going to attempt to add your user to the 'video' group."
+    echo "However, it appears that we cannot determine your username."
+    echo "Perhaps you are running inside a container?"
+    echo ""
+fi
 
 # Remove other OpenCL installations for stuff that isn't ROCm, or our OpenCL
 # programs may crash with a lot of noise.
