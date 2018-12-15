@@ -32,7 +32,7 @@ parse_args "$@"
 if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
     echo "Installing software required to build ROCK kernel driver."
     echo "You will need to have root privileges to do this."
-    sudo apt -y install build-essential dkms git
+    sudo apt -y install build-essential dkms git xz-utils
     if [ ${ROCM_INSTALL_PREREQS} = true ] && [ ${ROCM_FORCE_GET_CODE} = false ]; then
         exit 0
     fi
@@ -71,7 +71,9 @@ if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/install_files/usr/ 
     git checkout tags/${ROCM_VERSION_TAG}
 
     cd ${SOURCE_DIR}/install_files/
-    cp -R ${BASE_DIR}/rock_files/* ${SOURCE_DIR}/install_files/
+    pushd ${BASE_DIR}/rock_files/
+    cp -RL ./* ${SOURCE_DIR}/install_files/
+    popd
 
     cd ${SOURCE_DIR}/install_files/usr/src/amdgpu-1.9-307/
     cp -R ${SOURCE_DIR}/ROCK-Kernel-Driver/drivers/gpu/drm/amd ${SOURCE_DIR}/install_files/usr/src/amdgpu-1.9-307/
