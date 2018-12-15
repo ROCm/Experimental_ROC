@@ -3,6 +3,7 @@
 set -e
 
 do_kfd_udev() {
+    mkdir -p /etc/udev/rules.d/
     echo "KERNEL==\"kfd\", MODE=\"0666\"" | tee /etc/udev/rules.d/kfd.rules
 }
 

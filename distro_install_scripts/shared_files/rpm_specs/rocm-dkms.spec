@@ -76,6 +76,7 @@ rm -r -f "$RPM_BUILD_ROOT"
 %pre -p /bin/sh
 %post -p /bin/sh
 
+mkdir -p /etc/udev/rules.d/
 echo KERNEL=="kfd", MODE="0666" > /etc/udev/rules.d/kfd.rules
 %preun -p /bin/sh
 %postun -p /bin/sh

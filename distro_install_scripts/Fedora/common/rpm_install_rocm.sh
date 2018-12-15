@@ -82,7 +82,9 @@ if [ ${ROCM_BUILD_HCC_FROM_SOURCE} = true ]; then
 else
     sudo dnf --setopt=install_weak_deps=False install -y rocm-device-libs atmi comgr rocr_debug_agent rocm_bandwidth_test rocm-utils
 fi
+mkdir -p /opt/rocm/.info/
 echo ${ROCM_VERSION_LONG} | sudo tee /opt/rocm/.info/version
+sudo mkdir -p /etc/udev/rules.d/
 echo 'SUBSYSTEM=="kfd", KERNEL=="kfd", TAG+="uaccess", GROUP="video"' | sudo tee /etc/udev/rules.d/70-kfd.rules
 
 # Detect if you are actually logged into the system or not.

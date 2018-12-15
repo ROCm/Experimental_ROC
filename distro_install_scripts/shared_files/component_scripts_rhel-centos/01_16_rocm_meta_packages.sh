@@ -113,6 +113,13 @@ if [ ${ROCM_FORCE_PACKAGE} = true ]; then
             sudo rpm -i ${pkg_name}-*.rpm
         fi
     done
+else
+    # Normally, installing rocm-dkms handles this udev rule.
+    # Since we are skipping the package, "install" this rule here.
+    if [ ${ROCM_LOCAL_INSTALL} = false ]; then
+        sudo mkdir -p /etc/udev/rules.d/
+        echo 'SUBSYSTEM=="kfd", KERNEL=="kfd", TAG+="uaccess", GROUP="video"' | sudo tee /etc/udev/rules.d/70-kfd.rules
+    fi
 fi
 
 if [ $ROCM_SAVE_SOURCE = false ]; then
