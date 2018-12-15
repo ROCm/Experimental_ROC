@@ -163,7 +163,9 @@ if [ ${ROCM_FORCE_PACKAGE} = true ]; then
     mkdir -p ${OPENCL_BUILD_DIR}/rocm-opencl-deb/DEBIAN/
     cp ${OPENCL_BUILD_DIR}/temp_md5sums ${OPENCL_BUILD_DIR}/rocm-opencl-deb/DEBIAN/md5sums
     for file in control postinst prerm; do
-        cp ${BASE_DIR}/../common/deb_files/opencl-${file} ${OPENCL_BUILD_DIR}/rocm-opencl-deb/DEBIAN/${file}
+        pushd ${BASE_DIR}/../common/deb_files/
+        cp ./opencl-${file} ${OPENCL_BUILD_DIR}/rocm-opencl-deb/DEBIAN/${file}
+        popd
     done
     sed -i 's/ROCM_OPENCL_PKG_VER/'${OPENCL_PKG_VERSION}'/g' ${OPENCL_BUILD_DIR}/rocm-opencl-deb/DEBIAN/control
     cp -R ${OPENCL_BUILD_DIR}/rocm-opencl-deb ${OPENCL_BUILD_DIR}/rocm-opencl-1.2.0-${OPENCL_PKG_VERSION}_amd64
@@ -206,7 +208,9 @@ if [ ${ROCM_FORCE_PACKAGE} = true ]; then
     find . -type f -printf '%P ' | xargs md5sum > ${OPENCL_BUILD_DIR}/temp_md5sums
     mkdir -p ${OPENCL_BUILD_DIR}/rocm-opencl-dev-deb/DEBIAN/
     cp ${OPENCL_BUILD_DIR}/temp_md5sums ${OPENCL_BUILD_DIR}/rocm-opencl-dev-deb/DEBIAN/md5sums
-    cp ${BASE_DIR}/../common/deb_files/opencl-dev-control ${OPENCL_BUILD_DIR}/rocm-opencl-dev-deb/DEBIAN/control
+    pushd ${BASE_DIR}/../common/deb_files/
+    cp ./opencl-dev-control ${OPENCL_BUILD_DIR}/rocm-opencl-dev-deb/DEBIAN/control
+    popd
     sed -i 's/ROCM_OPENCL_PKG_VER/'${OPENCL_PKG_VERSION}'/g' ${OPENCL_BUILD_DIR}/rocm-opencl-dev-deb/DEBIAN/control
     cp -R ${OPENCL_BUILD_DIR}/rocm-opencl-dev-deb ${OPENCL_BUILD_DIR}/rocm-opencl-dev-1.2.0-${OPENCL_PKG_VERSION}_amd64
     # Create the .deb file

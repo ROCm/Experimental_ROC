@@ -118,7 +118,9 @@ if [ ${ROCM_FORCE_PACKAGE} = true ]; then
     mkdir -p ${SOURCE_DIR}/install_files/DEBIAN/
     cp ${SOURCE_DIR}/temp_md5sums ${SOURCE_DIR}/install_files/DEBIAN/md5sums
     for file in conffiles control postinst prerm; do
-        cp ${BASE_DIR}/../common/deb_files/rock-${file} ${SOURCE_DIR}/install_files/DEBIAN/${file}
+        pushd ${BASE_DIR}/../common/deb_files/
+        cp ./rock-${file} ${SOURCE_DIR}/install_files/DEBIAN/${file}
+        popd
     done
     cd ${SOURCE_DIR}
     cp -R ./install_files ./rock-dkms_1.9-307_all

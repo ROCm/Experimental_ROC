@@ -72,10 +72,12 @@ sudo dnf --setopt=install_weak_deps=False install -y hsakmt-roct hsakmt-roct-dev
 if [ ${ROCM_BUILD_HCC_FROM_SOURCE} = true ]; then
     echo "Installing HCC and HIP requires us to rebuild them from source."
     echo "This may take a while..."
+    pushd ${BASE_DIR}/../src_install/component_scripts/
     HCC_TEMP_DIR=`mktemp -d`
-    ${BASE_DIR}/../src_install/component_scripts/01_09_hcc.sh -s ${HCC_TEMP_DIR}/src/ -p ${HCC_TEMP_DIR}/pkg
+    ./01_09_hcc.sh -s ${HCC_TEMP_DIR}/src/ -p ${HCC_TEMP_DIR}/pkg
     HIP_TEMP_DIR=`mktemp -d`
-    ${BASE_DIR}/../src_install/component_scripts/01_10_hip.sh -s ${HIP_TEMP_DIR}/src/ -p ${HIP_TEMP_DIR}/pkg
+    ./01_10_hip.sh -s ${HIP_TEMP_DIR}/src/ -p ${HIP_TEMP_DIR}/pkg
+    popd
     sudo dnf --setopt=install_weak_deps=False install -y rocm-device-libs atmi comgr rocr_debug_agent rocm_bandwidth_test rocm-dev rocm-utils
 else
     sudo dnf --setopt=install_weak_deps=False install -y rocm-device-libs atmi comgr rocr_debug_agent rocm_bandwidth_test rocm-utils

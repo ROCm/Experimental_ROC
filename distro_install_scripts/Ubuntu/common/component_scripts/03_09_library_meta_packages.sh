@@ -71,7 +71,9 @@ if [ ${ROCM_FORCE_PACKAGE} = true ]; then
     for pkg_name in rocm-libs; do
         mkdir -p ${SOURCE_DIR}/meta_packages/${pkg_name}/DEBIAN/
         cd ${SOURCE_DIR}/meta_packages/${pkg_name}
-    cp ${BASE_DIR}/../common/deb_files/${pkg_name}-control ${SOURCE_DIR}/meta_packages/${pkg_name}/DEBIAN/control
+        pushd ${BASE_DIR}/../common/deb_files
+        cp ./${pkg_name}-control ${SOURCE_DIR}/meta_packages/${pkg_name}/DEBIAN/control
+        popd
         sed -i 's/ROCM_PKG_VERSION/'${ROCM_VERSION_LONG}'/g' ${SOURCE_DIR}/meta_packages/${pkg_name}/DEBIAN/control
         mkdir -p $(pwd)/${ROCM_OUTPUT_DIR}/.info/
         if [ ${pkg_name} = "rocm-libs" ]; then

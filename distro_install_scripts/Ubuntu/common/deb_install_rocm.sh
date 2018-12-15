@@ -27,6 +27,8 @@ trap 'errno=$?; print_cmd=$lastcmd; if [ $errno -ne 0 ]; then echo "\"${print_cm
 source "$BASE_DIR/common/common_options.sh"
 parse_args "$@"
 
+sudo apt -y install wget
+
 wget -qO - http://repo.radeon.com/rocm/apt/debian/rocm.gpg.key | sudo apt-key add -
 echo 'deb [arch=amd64] http://repo.radeon.com/rocm/apt/debian/ xenial main' | sudo tee /etc/apt/sources.list.d/rocm.list
 sudo apt update
@@ -43,7 +45,6 @@ if [ `lsb_release -rs` = "18.10" ]; then
 else
     sudo apt -y install rocm-dkms rocm-cmake atmi rocm_bandwidth_test
 fi
-sudo usermod -a -G video `logname`
 
 if [ ${ROCM_FORCE_YES} = true ]; then
     ROCM_RUN_NEXT_SCRIPT=true

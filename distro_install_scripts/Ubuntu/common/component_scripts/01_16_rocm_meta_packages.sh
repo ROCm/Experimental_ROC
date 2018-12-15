@@ -80,15 +80,17 @@ if [ ${ROCM_FORCE_PACKAGE} = true ]; then
     for pkg_name in rocm-utils rocm-dev rocm-dkms; do
         mkdir -p ${SOURCE_DIR}/meta_packages/${pkg_name}/DEBIAN/
         cd ${SOURCE_DIR}/meta_packages/${pkg_name}
-        cp ${BASE_DIR}/../common/deb_files/${pkg_name}-control ${SOURCE_DIR}/meta_packages/${pkg_name}/DEBIAN/control
+        pushd ${BASE_DIR}/../common/deb_files/
+        cp ./${pkg_name}-control ${SOURCE_DIR}/meta_packages/${pkg_name}/DEBIAN/control
         if [ ${pkg_name} = "rocm-dkms" ]; then
-            cp ${BASE_DIR}/../common/deb_files/${pkg_name}-postinst ${SOURCE_DIR}/meta_packages/${pkg_name}/DEBIAN/postinst
-            cp ${BASE_DIR}/../common/deb_files/${pkg_name}-prerm ${SOURCE_DIR}/meta_packages/${pkg_name}/DEBIAN/prerm
+            cp ./${pkg_name}-postinst ${SOURCE_DIR}/meta_packages/${pkg_name}/DEBIAN/postinst
+            cp ./${pkg_name}-prerm ${SOURCE_DIR}/meta_packages/${pkg_name}/DEBIAN/prerm
             # We don't have a rock-dkms package on this version, so don't depend on it.
             if [ `lsb_release -rs` != "18.10" ]; then
                 sed -i 's/, rock-dkms//' ${SOURCE_DIR}/meta_packages/${pkg_name}/DEBIAN/control
             fi
         fi
+        popd
         sed -i 's/ROCM_PKG_VERSION/'${ROCM_VERSION_LONG}'/g' ${SOURCE_DIR}/meta_packages/${pkg_name}/DEBIAN/control
         mkdir -p $(pwd)/${ROCM_OUTPUT_DIR}/.info/
         if [ ${pkg_name} = "rocm-utils" ]; then

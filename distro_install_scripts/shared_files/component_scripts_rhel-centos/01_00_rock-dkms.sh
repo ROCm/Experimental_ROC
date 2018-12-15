@@ -89,7 +89,9 @@ if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/install_files/usr/ 
     ${SOURCE_DIR}/git/bin/git checkout tags/${ROCM_VERSION_TAG}
 
     cd ${SOURCE_DIR}/install_files/
-    cp -R ${BASE_DIR}/rock_files/* ${SOURCE_DIR}/install_files/
+    pushd ${BASE_DIR}/rock_files/
+    cp -R ./* ${SOURCE_DIR}/install_files/
+    popd
 
     cd ${SOURCE_DIR}/install_files/usr/src/amdgpu-1.9-307.el7/
     cp -R ${SOURCE_DIR}/ROCK-Kernel-Driver/drivers/gpu/drm/amd ${SOURCE_DIR}/install_files/usr/src/amdgpu-1.9-307.el7/

@@ -65,8 +65,10 @@ if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/Thrust ]; then
     # up all the files in the symlink, and the install breaks. As such, we
     # need to delete this symlink and add a postinst/prerm pair to handle it
     # during package installation
-    cp ${BASE_DIR}/../common/deb_files/hip-thrust-postinst ${SOURCE_DIR}/Thrust/postinst.orig
-    cp ${BASE_DIR}/../common/deb_files/hip-thrust-prerm ${SOURCE_DIR}/Thrust/prerm.orig
+    pushd ${BASE_DIR}/../common/deb_files/
+    cp ./hip-thrust-postinst ${SOURCE_DIR}/Thrust/postinst.orig
+    cp ./hip-thrust-prerm ${SOURCE_DIR}/Thrust/prerm.orig
+    popd
 else
     echo "Skipping download of HIP Thrust, since ${SOURCE_DIR}/Thrust already exists."
 fi
