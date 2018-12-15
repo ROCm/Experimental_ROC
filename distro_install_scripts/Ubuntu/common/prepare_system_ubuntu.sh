@@ -68,5 +68,10 @@ if [ ${ROCM_REBOOT_SYSTEM} = true ]; then
     echo ""
     echo "Attempting to reboot the system."
     echo "You will need to have root privileges to do this."
-    sudo /sbin/reboot
+    echo `sudo /sbin/reboot/`
+    echo ""
+    echo ""
+    echo "It appears that rebooting failed."
+    echo "Are you doing something like running inside of a container?"
+    echo "If so, you can likely proceed to the next script."
 fi
