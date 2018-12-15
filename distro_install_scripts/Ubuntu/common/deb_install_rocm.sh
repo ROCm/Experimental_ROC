@@ -45,6 +45,7 @@ if [ `lsb_release -rs` = "18.10" ]; then
 else
     sudo apt -y install rocm-dkms rocm-cmake atmi rocm_bandwidth_test
 fi
+sudo usermod -a -G video `logname`
 
 if [ ${ROCM_FORCE_YES} = true ]; then
     ROCM_RUN_NEXT_SCRIPT=true
