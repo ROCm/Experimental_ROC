@@ -34,6 +34,17 @@ if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
     echo "Installing software required to for ROCm."
     echo "You will need to have root privileges to do this."
     echo ""
+    # Maybe we can sneak this install in before updating all the repo stuff below
+    if [ "`which sudo`" = "" ]; then
+        if [ "`whoami`" = "root" ]; then
+            yum -y install sudo
+        else
+            echo "ERROR. Installing software on this system will require either"
+            echo "running as root, or access to the 'sudo' application."
+            echo "sudo is not installed, and you are not root. Failing."
+            exit 1
+        fi
+    fi
     sudo subscription-manager repos --enable rhel-server-rhscl-7-rpms
     sudo subscription-manager repos --enable rhel-7-server-optional-rpms
     sudo subscription-manager repos --enable rhel-7-server-extras-rpms
