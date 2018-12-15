@@ -27,6 +27,9 @@ trap 'errno=$?; print_cmd=$lastcmd; if [ $errno -ne 0 ]; then echo "\"${print_cm
 source "$BASE_DIR/common/common_options.sh"
 parse_args "$@"
 
+sudo apt -y update
+sudo apt -y install wget lsb-core
+
 # 1.9.1 is an old release, so the deb packages have moved over to an archive
 # tarball. Let's set up a local repo to allow us to do the install here.
 # Store the repo in the source directory or a temp directory.
