@@ -77,6 +77,7 @@ elif [ ${OS_VERSION_MINOR} -eq 6 ]; then
     sudo yum install -y rocm-dev rocm-cmake atmi rocm_bandwidth_test
     sudo mkdir -p /opt/rocm/.info/
     echo '1.9.307' | sudo tee /opt/rocm/.info/version
+    sudo mkdir -p /etc/udev/rules.d/
     echo 'SUBSYSTEM=="kfd", KERNEL=="kfd", TAG+="uaccess", GROUP="video"' | sudo tee /etc/udev/rules.d/70-kfd.rules
 else
     echo "Attempting to run on an unsupported OS version: ${OS_VERSION_NUM}"
