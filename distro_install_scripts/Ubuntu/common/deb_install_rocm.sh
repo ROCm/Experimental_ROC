@@ -40,7 +40,7 @@ if [ `lsb_release -rs` = "18.10" ]; then
     # fails to build on Ubuntu 18.10, so this is our only option.
     sudo apt -y install rocm-dev rocm-cmake atmi rocm_bandwidth_test
     sudo mkdir -p /opt/rocm/.info/
-    echo '1.9.307' | sudo tee /opt/rocm/.info/version
+    echo ${ROCM_VERSION_LONG} | sudo tee /opt/rocm/.info/version
     mkdir -p /etc/udev/rules.d/
     echo 'SUBSYSTEM=="kfd", KERNEL=="kfd", TAG+="uaccess", GROUP="video"' | sudo tee /etc/udev/rules.d/70-kfd.rules
 else
