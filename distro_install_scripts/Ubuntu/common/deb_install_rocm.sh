@@ -27,7 +27,7 @@ trap 'errno=$?; print_cmd=$lastcmd; if [ $errno -ne 0 ]; then echo "\"${print_cm
 source "$BASE_DIR/common/common_options.sh"
 parse_args "$@"
 
-sudo apt -y install wget
+sudo apt -y install wget lsb-core
 
 wget -qO - http://repo.radeon.com/rocm/apt/debian/rocm.gpg.key | sudo apt-key add -
 echo 'deb [arch=amd64] http://repo.radeon.com/rocm/apt/debian/ xenial main' | sudo tee /etc/apt/sources.list.d/rocm.list

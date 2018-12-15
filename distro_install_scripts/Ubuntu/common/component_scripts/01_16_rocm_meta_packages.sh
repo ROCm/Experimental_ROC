@@ -37,7 +37,7 @@ fi
 if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
     echo "Installing software required to build meta-packages"
     echo "You will need to have root privileges to do this."
-    sudo apt -y install dpkg
+    sudo apt -y install dpkg lsb-core
     if [ ${ROCM_INSTALL_PREREQS} = true ] && [ ${ROCM_FORCE_GET_CODE} = false ]; then
         exit 0
     fi

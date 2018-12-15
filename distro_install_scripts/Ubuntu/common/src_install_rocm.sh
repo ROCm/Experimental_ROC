@@ -32,7 +32,7 @@ ROCM_RUN_NEXT_SCRIPT=false
 if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
     echo "Installing software required to build ROCm."
     echo "You will need to have root privileges to do this."
-    sudo apt -y install git cmake build-essential pkg-config libpci-dev
+    sudo apt -y install git cmake build-essential pkg-config libpci-dev lsb-core
 fi
 
 if [ `lsb_release -rs` != "18.10" ]; then
