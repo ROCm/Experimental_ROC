@@ -35,6 +35,18 @@ if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
     echo "You will need to have root privileges to do this."
     echo ""
 
+    # Maybe we can sneak this install in before updating all the repo stuff below
+    if [ "`which sudo`" = "" ]; then
+        if [ "`whoami`" = "root" ]; then
+            yum -y install sudo
+        else
+            echo "ERROR. Installing software on this system will require either"
+            echo "running as root, or access to the 'sudo' application."
+            echo "sudo is not installed, and you are not root. Failing."
+            exit 1
+        fi
+    fi
+
     OS_VERSION_NUM=`cat /etc/redhat-release | sed -rn 's/[^0-9]*([0-9]+\.*[0-9]*\.*[0-9]*).*/\1/p'`
     OS_VERSION_MAJOR=`echo ${OS_VERSION_NUM} | awk -F"." '{print $1}'`
     OS_VERSION_MINOR=`echo ${OS_VERSION_NUM} | awk -F"." '{print $2}'`

@@ -32,6 +32,17 @@ ROCM_REBOOT_SYSTEM=false
 if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
     echo "Installing software required to for ROCm."
     echo "You will need to have root privileges to do this."
+    if [ "`which sudo`" = "" ]; then
+        if [ "`whoami`" = "root" ]; then
+            apt -y update
+            apt -y install sudo
+        else
+            echo "ERROR. Installing software on this system will require either"
+            echo "running as root, or access to the 'sudo' application."
+            echo "sudo is not installed, and you are not root. Failing."
+            exit 1
+        fi
+    fi
     sudo apt -y install libnuma-dev
     if [ ${ROCM_INSTALL_PREREQS} = true ]; then
         exit 0

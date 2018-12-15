@@ -34,6 +34,16 @@ if [ ${ROCM_INSTALL_PREREQS} = true ]; then
 else
     echo "Preparing to update Fedora to allow for ROCm installation."
     echo "You will need to have root privileges to do this."
+    if [ "`which sudo`" = "" ]; then
+        if [ "`whoami`" = "root" ]; then
+            dnf -y install sudo
+        else
+            echo "ERROR. Installing software on this system will require either"
+            echo "running as root, or access to the 'sudo' application."
+            echo "sudo is not installed, and you are not root. Failing."
+            exit 1
+        fi
+    fi
     sudo dnf -y update
 
     if [ ${ROCM_FORCE_YES} = true ]; then
