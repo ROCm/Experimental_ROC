@@ -95,6 +95,24 @@ fi
 make -j ${NUM_BUILD_THREADS}
 ${ROCM_SUDO_COMMAND} make install
 
+${ROCM_SUDO_COMMAND} mkdir -p ${ROCM_OUTPUT_DIR}/hiprand/include/../../include/
+${ROCM_SUDO_COMMAND} mkdir -p ${ROCM_OUTPUT_DIR}/hiprand/lib/../../lib/cmake/hiprand
+if [ ${ROCM_LOCAL_INSTALL} = false ]; then
+    echo ${ROCM_OUTPUT_DIR}/hiprand/lib | ${ROCM_SUDO_COMMAND} tee -a /etc/ld.so.conf.d/hiprand.conf
+fi
+${ROCM_SUDO_COMMAND} ln -sfr ${ROCM_OUTPUT_DIR}/hiprand/include ${ROCM_OUTPUT_DIR}/hiprand/include/../../include/hiprand
+${ROCM_SUDO_COMMAND} ln -sfr ${ROCM_OUTPUT_DIR}/hiprand/lib/libhiprand.so ${ROCM_OUTPUT_DIR}/hiprand/lib/../../lib/libhiprand.so
+${ROCM_SUDO_COMMAND} ln -sfr ${ROCM_OUTPUT_DIR}/hiprand/lib/cmake/hiprand ${ROCM_OUTPUT_DIR}/hiprand/lib/../../lib/cmake/hiprand
+
+${ROCM_SUDO_COMMAND} mkdir -p ${ROCM_OUTPUT_DIR}/rocrand/include/../../include/
+${ROCM_SUDO_COMMAND} mkdir -p ${ROCM_OUTPUT_DIR}/rocrand/lib/../../lib/cmake/rocrand
+if [ ${ROCM_LOCAL_INSTALL} = false ]; then
+    echo ${ROCM_OUTPUT_DIR}/rocrand/lib | ${ROCM_SUDO_COMMAND} tee -a /etc/ld.so.conf.d/rocrand.conf
+fi
+${ROCM_SUDO_COMMAND} ln -sfr ${ROCM_OUTPUT_DIR}/rocrand/include ${ROCM_OUTPUT_DIR}/rocrand/include/../../include/rocrand
+${ROCM_SUDO_COMMAND} ln -sfr ${ROCM_OUTPUT_DIR}/rocrand/lib/librocrand.so ${ROCM_OUTPUT_DIR}/rocrand/lib/../../lib/librocrand.so
+${ROCM_SUDO_COMMAND} ln -sfr ${ROCM_OUTPUT_DIR}/rocrand/lib/cmake/rocrand ${ROCM_OUTPUT_DIR}/rocrand/lib/../../lib/cmake/rocrand
+
 if [ $ROCM_SAVE_SOURCE = false ]; then
     rm -rf ${SOURCE_DIR}
 fi

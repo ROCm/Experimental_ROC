@@ -116,6 +116,16 @@ fi
 make -j ${NUM_BUILD_THREADS}
 ${ROCM_SUDO_COMMAND} make install
 
+if [ ${MIOPEN_FORCE_OPENCL} = false ]; then
+    if [ ${ROCM_LOCAL_INSTALL} = false ]; then
+        echo ${ROCM_OUTPUT_DIR}/lib | ${ROCM_SUDO_COMMAND} tee -a /etc/ld.so.conf.d/MIOpen-HIP.conf
+    fi
+else
+    if [ ${ROCM_LOCAL_INSTALL} = false ]; then
+        echo ${ROCM_OUTPUT_DIR}/lib | ${ROCM_SUDO_COMMAND} tee -a /etc/ld.so.conf.d/MIOpen-OpenCL.conf
+    fi
+fi
+
 if [ $ROCM_SAVE_SOURCE = false ]; then
     rm -rf ${SOURCE_DIR}
 fi
