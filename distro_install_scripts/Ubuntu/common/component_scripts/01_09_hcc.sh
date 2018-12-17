@@ -108,6 +108,12 @@ if [ ${NUM_BUILD_THREADS} -lt 1 ]; then
 fi
 
 make -j ${NUM_BUILD_THREADS}
+# Workaround for Experimental ROC Issue #4
+if [ ${ROCM_CMAKE_BUILD_TYPE} = "Debug" ]; then
+    sed -i 's/DEBUG/RELEASE/g' ./lib/CMakeFiles/Export/lib/cmake/hcc/hcc-targets-release.cmake
+elif [ ${ROCM_CMAKE_BUILD_TYPE} = "RelWithDebInfo" ]; then
+    sed -i 's/RELWITHDEBINFO/RELEASE/g' ./lib/CMakeFiles/Export/lib/cmake/hcc/hcc-targets-release.cmake
+fi
 
 if [ ${ROCM_FORCE_BUILD_ONLY} = true ]; then
     echo "Finished building hcc. Exiting."
