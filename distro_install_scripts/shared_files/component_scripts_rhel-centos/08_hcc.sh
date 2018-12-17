@@ -107,6 +107,12 @@ if [ ${NUM_BUILD_THREADS} -lt 1 ]; then
 fi
 
 make -j ${NUM_BUILD_THREADS}
+# Workaround for Experimental ROC Issue #4
+if [ ${ROCM_CMAKE_BUILD_TYPE} = "Debug" ]; then
+    sed -i 's/DEBUG/RELEASE/g' ./lib/CMakeFiles/Export/lib/cmake/hcc/hcc-targets-release.cmake
+elif [ ${ROCM_CMAKE_BUILD_TYPE} = "RelWithDebInfo" ]; then
+    sed -i 's/RELWITHDEBINFO/RELEASE/g' ./lib/CMakeFiles/Export/lib/cmake/hcc/hcc-targets-release.cmake
+fi
 ${ROCM_SUDO_COMMAND} make install
 ${ROCM_SUDO_COMMAND} mkdir -p ${ROCM_OUTPUT_DIR}/bin/
 ${ROCM_SUDO_COMMAND} bash -c 'for i in lld clamp-config extractkernel hcc hcc-config; do ln -sf '"${ROCM_OUTPUT_DIR}"'/hcc/bin/${i} '"${ROCM_OUTPUT_DIR}"'/bin/${i}; done'
