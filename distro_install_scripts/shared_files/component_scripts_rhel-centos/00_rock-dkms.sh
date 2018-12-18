@@ -34,7 +34,7 @@ if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
     echo "Installing software required to build ROCK kernel driver."
     echo "You will need to have root privileges to do this."
     sudo yum install -y epel-release
-    sudo yum -y install dkms kernel-headers-`uname -r` kernel-devel-`uname -r` wget
+    sudo yum -y install dkms kernel-headers kernel-devel kernel-headers-`uname -r` kernel-devel-`uname -r` wget xz
     # Dependencies for building a custom version of git.
     sudo yum -y install gettext-devel perl-CPAN perl-devel zlib-devel autoconf libcurl-devel git
     if [ ${ROCM_INSTALL_PREREQS} = true ] && [ ${ROCM_FORCE_GET_CODE} = false ]; then

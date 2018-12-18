@@ -32,7 +32,7 @@ parse_args "--miopen_option" "$@"
 if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
     echo "Installing software required to build the MIOpen."
     echo "You will need to have root privileges to do this."
-    sudo yum -y install cmake pkgconfig git openssl-devel unzip wget bzip2
+    sudo yum -y install cmake pkgconfig git openssl openssl-devel unzip wget bzip2
     if [ ${ROCM_INSTALL_PREREQS} = true ] && [ ${ROCM_FORCE_GET_CODE} = false ]; then
         exit 0
     fi
