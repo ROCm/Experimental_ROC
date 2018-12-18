@@ -111,6 +111,41 @@ if [ ${ROCM_FORCE_BUILD_ONLY} = true ]; then
     exit 0
 fi
 
+ROCM_SKIP_INSTALLING=false
+if [ ${ROCM_LOCAL_INSTALL} = false ]; then
+    # Check to see if the kernel-devel package exists for this kernel.
+    # If it does not, we likely will not be able to build the ROCK
+    # driver when it tries to install the DKMS package. As such, we
+    # should ask the user if they want to go ahead and try.
+    ROCM_SKIP_INSTALLING=false
+    KERNEL_DEVEL_PKGS=$(apt search linux-headers-`uname -r` 2> /dev/null | grep linux-headers-`uname -r` | wc -l)
+    if [ ${KERNEL_DEVEL_PKGS} -lt 1 ]; then
+        if [ ${ROCM_FORCE_YES} = true ]; then
+            ROCM_SKIP_INSTALLING=true
+        elif [ ${ROCM_FORCE_NO} = true ]; then
+            ROCM_SKIP_INSTALLING=false
+        else
+            echo ""
+            echo "Cannot find kernel development packages for kernel `uname -r`."
+            echo "It is likely that the installation of the ROCK driver will not"
+            echo "complete successfully because it cannot build against your kernel."
+            echo ""
+            echo "This can happen if you are running in a container or you are running"
+            echo "a custom kernel."
+            read -p "Do you want to skip installing the ROCK driver? (y/n)? " answer
+            case ${answer:0:1} in
+                y|Y )
+                    ROCM_SKIP_INSTALLING=true
+                    echo 'User chose "yes". Skipping the installation of ROCK driver.'
+                ;;
+                * )
+                    echo 'User chose "no". Attempting to install the ROCK driver.'
+                ;;
+            esac
+        fi
+    fi
+fi
+
 if [ ${ROCM_FORCE_PACKAGE} = true ]; then
     cd ${SOURCE_DIR}/install_files/
     rm -rf ${SOURCE_DIR}/install_files/DEBIAN/
@@ -130,7 +165,7 @@ if [ ${ROCM_FORCE_PACKAGE} = true ]; then
     echo "Copying `ls -1 rock-dkms_*.deb` to ${ROCM_PACKAGE_DIR}"
     mkdir -p ${ROCM_PACKAGE_DIR}
     cp rock-dkms_*.deb ${ROCM_PACKAGE_DIR}
-    if [ ${ROCM_LOCAL_INSTALL} = false ]; then
+    if [ ${ROCM_LOCAL_INSTALL} = false ] && [ ${ROCM_SKIP_INSTALLING} = false ]; then
         ROCM_PKG_IS_INSTALLED=`dpkg -l rock-dkms | grep '^.i' | wc -l`
         if [ ${ROCM_PKG_IS_INSTALLED} -gt 0 ]; then
             PKG_NAME=`dpkg -l rock-dkms | grep '^.i' | awk '{print $2}'`
@@ -139,7 +174,7 @@ if [ ${ROCM_FORCE_PACKAGE} = true ]; then
         sudo dpkg -i rock-dkms_*.deb
     fi
 else
-    if [ ${ROCM_LOCAL_INSTALL} = false ]; then
+    if [ ${ROCM_LOCAL_INSTALL} = false ] && [ ${ROCM_SKIP_INSTALLING} = false ]; then
         ${ROCM_SUDO_COMMAND} cp -R ${SOURCE_DIR}/install_files/etc/* /etc/
         ${ROCM_SUDO_COMMAND} cp -R ${SOURCE_DIR}/install_files/usr/* /usr/
         CHECK_INSTALLED=`dkms status amdgpu/1.9-307 | grep installed | wc -l`
