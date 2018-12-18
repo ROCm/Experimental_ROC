@@ -70,9 +70,9 @@ fi
 if [ ${ROCM_FORCE_PACKAGE} = true ]; then
     for pkg_name in rocm-libs; do
         mkdir -p ${SOURCE_DIR}/meta_packages/${pkg_name}
-        cd ${SOURCE_DIR}/meta_packages/${pkg_name}
+        cd ${SOURCE_DIR}/meta_packages/${pkg_name}/
         pushd ${BASE_DIR}/../common/
-        cp ./${pkg_name}.spec .
+        cp ./${pkg_name}.spec ${SOURCE_DIR}/meta_packages/${pkg_name}/
         popd
         sed -i 's/ROCM_PKG_VERSION/'${ROCM_VERSION_LONG}'/g' ./${pkg_name}.spec
         sed -i 's#ROCM_OUTPUT_DIR#'${ROCM_OUTPUT_DIR%/}'#g' ./${pkg_name}.spec

@@ -161,7 +161,7 @@ if [ ${ROCM_FORCE_PACKAGE} = true ]; then
     cp ${OPENCL_BUILD_DIR}/lib/libamdocl64.so .
     cd ${OPENCL_BUILD_DIR}/rocm-opencl-rpm/
     pushd ${BASE_DIR}/../common/
-    cp ./rocm-opencl.spec .
+    cp ./rocm-opencl.spec ${OPENCL_BUILD_DIR}/rocm-opencl-rpm/
     popd
     sed -i 's/ROCM_OPENCL_PKG_VER/'${OPENCL_PKG_VERSION}'/g' ./rocm-opencl.spec
     sed -i 's#ROCM_OUTPUT_DIR#'${ROCM_OUTPUT_DIR}'#g' ./rocm-opencl.spec
@@ -198,9 +198,9 @@ if [ ${ROCM_FORCE_PACKAGE} = true ]; then
     done
     cd ./${ROCM_OUTPUT_DIR}/opencl/lib/x86_64/
     ln -sf ./libOpenCL.so.1 ./libOpenCL.so
-    cd ${OPENCL_BUILD_DIR}/rocm-opencl-devel-rpm
+    cd ${OPENCL_BUILD_DIR}/rocm-opencl-devel-rpm/
     pushd ${BASE_DIR}/../common/
-    cp ./rocm-opencl-devel.spec .
+    cp ./rocm-opencl-devel.spec ${OPENCL_BUILD_DIR}/rocm-opencl-devel-rpm/
     popd
     sed -i 's/ROCM_OPENCL_PKG_VER/'${OPENCL_PKG_VERSION}'/g' ./rocm-opencl-devel.spec
     sed -i 's#ROCM_OUTPUT_DIR#'${ROCM_OUTPUT_DIR}'#g' ./rocm-opencl-devel.spec
