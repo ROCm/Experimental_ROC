@@ -104,7 +104,42 @@ if [ ${ROCM_FORCE_GET_CODE} = true ]; then
     exit 0
 fi
 
+ROCM_SKIP_INSTALLING=false
 if [ ${ROCM_LOCAL_INSTALL} = false ]; then
+    # Check to see if the kernel-devel package exists for this kernel.
+    # If it does not, we likely will not be able to build the ROCK
+    # driver when it tries to install the DKMS package. As such, we
+    # should ask the user if they want to go ahead and try.
+    ROCM_SKIP_INSTALLING=false
+    KERNEL_DEVEL_PKGS=$(apt search linux-headers-`uname -r` 2> /dev/null | grep linux-headers-`uname -r` | wc -l)
+    if [ ${KERNEL_DEVEL_PKGS} -lt 1 ]; then
+        if [ ${ROCM_FORCE_YES} = true ]; then
+            ROCM_SKIP_INSTALLING=true
+        elif [ ${ROCM_FORCE_NO} = true ]; then
+            ROCM_SKIP_INSTALLING=false
+        else
+            echo ""
+            echo "Cannot find kernel development packages for kernel `uname -r`."
+            echo "It is likely that the installation of the ROCK driver will not"
+            echo "complete successfully because it cannot build against your kernel."
+            echo ""
+            echo "This can happen if you are running in a container or you are running"
+            echo "a custom kernel."
+            read -p "Do you want to skip installing the ROCK driver? (y/n)? " answer
+            case ${answer:0:1} in
+                y|Y )
+                    ROCM_SKIP_INSTALLING=true
+                    echo 'User chose "yes". Skipping the installation of ROCK driver.'
+                ;;
+                * )
+                    echo 'User chose "no". Attempting to install the ROCK driver.'
+                ;;
+            esac
+        fi
+    fi
+fi
+
+if [ ${ROCM_LOCAL_INSTALL} = false ] && [ ${ROCM_SKIP_INSTALLING} = false ]; then
     ${ROCM_SUDO_COMMAND} cp -R ${SOURCE_DIR}/install_files/etc/* /etc/
     ${ROCM_SUDO_COMMAND} cp -R ${SOURCE_DIR}/install_files/usr/* /usr/
     CHECK_INSTALLED=`dkms status amdgpu/1.9-224 | grep installed | wc -l`
@@ -112,7 +147,6 @@ if [ ${ROCM_LOCAL_INSTALL} = false ]; then
     CHECK_ADDED=`dkms status amdgpu/1.9-224 | grep added | wc -l`
     if [ ${CHECK_INSTALLED} -gt 0 ] || [ ${CHECK_BUILT} -gt 0 ] || [ ${CHECK_ADDED} -gt 0 ]; then
         ${ROCM_SUDO_COMMAND} dkms remove amdgpu/1.9-224 --all
-    fi
     ${ROCM_SUDO_COMMAND} dkms add amdgpu/1.9-224
     ${ROCM_SUDO_COMMAND} dkms build amdgpu/1.9-224
     ${ROCM_SUDO_COMMAND} dkms install amdgpu/1.9-224

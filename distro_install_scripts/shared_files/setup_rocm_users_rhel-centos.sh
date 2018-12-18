@@ -82,7 +82,7 @@ if [ ${ROCM_REBOOT_SYSTEM} = true ]; then
     echo ""
     echo "Attempting to reboot the system."
     echo "You will need to have root privileges to do this."
-    echo `sudo /sbin/reboot/`
+    echo `sudo /usr/sbin/reboot`
     echo ""
     echo ""
     echo "It appears that rebooting failed."
