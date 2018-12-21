@@ -43,7 +43,7 @@ IS_MIOPEN_CALL=false
 ROCM_SUDO_COMMAND=sudo
 
 display_help() {
-    echo "Usage: $0 [-h] [-y/-n]"
+    echo "Usage: $0 [-h] [-y/-n] [-s {directory}"
     echo ""
     echo "    Script to install ROCm software from .deb packages."
     echo "    This script may require you to enter your sudoers password in "
@@ -57,11 +57,16 @@ display_help() {
     echo "    -n.  This tells the script to automatically answer 'no' to any "
     echo "      questions that it will ask the user, without requiring user "
     echo "      interaction. Cannot be simultaneously passed with -y."
+    echo "    -s / --save_dir {directory}. Old versions of ROCm require a "
+    echo "      local yum repository to hold the ROCm rpm files. This can "
+    echo "      either be a temporary directory (in /tmp/) by default, or a "
+    echo "      directory that is saved across scripts if passed in with this "
+    echo "      parameter."
     echo ""
 }
 
 parse_args() {
-    OPTS=`getopt -o ynh --long help -n 'parse-options' -- "$@"`
+    OPTS=`getopt -o yns:h --long save_dir:,help -n 'parse-options' -- "$@"`
     if [ $? != 0 ]; then
         echo "Failed to parse command-line options with `getopt`" >&2
         exit 1
@@ -73,6 +78,7 @@ parse_args() {
         case "$1" in
             -y ) ROCM_FORCE_YES=true; shift ;;
             -n ) ROCM_FORCE_NO=true; shift ;;
+            -s | --source_dir ) ROCM_SAVE_SOURCE=true; ROCM_SOURCE_DIR="$2"; shift 2 ;;
             -h | --help ) PRINT_HELP=true; shift ;;
             * ) break ;;
           esac
