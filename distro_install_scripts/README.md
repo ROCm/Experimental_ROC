@@ -15,12 +15,14 @@ These tools have been built and tested on the following distributions:
 - [CentOS](CentOS)
     - [CentOS 7.4](CentOS/CentOS_7.4)
     - [CentOS 7.5](CentOS/CentOS_7.5)
+    - [CentOS 7.6](CentOS/CentOS_7.6)
 - [Fedora](Fedora)
     - [Fedora 28](Fedora/Fedora_28)&dagger;
     - [Fedora 29](Fedora/Fedora_29)&dagger;
 - [Red Hat Enterprise Linux (RHEL)](RHEL)
     - [RHEL 7.4](RHEL/RHEL_7.4)
     - [RHEL 7.5](RHEL/RHEL_7.5)
+    - [RHEL 7.6](RHEL/RHEL_7.6)
 - [Ubuntu](Ubuntu)
     - [Ubuntu 16.04.5 LTS](Ubuntu/Ubuntu_16.04)
     - [Ubuntu 18.04.1 LTS](Ubuntu/Ubuntu_18.04)
