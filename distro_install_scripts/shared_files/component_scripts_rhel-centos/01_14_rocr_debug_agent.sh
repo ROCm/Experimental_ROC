@@ -60,7 +60,7 @@ if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/rocr_debug_agent ];
     cd ${SOURCE_DIR}/rocr_debug_agent/
     git checkout tags/${ROCM_VERSION_TAG}
 
-    # The debug agent in ROCm 1.9.2 does not build with GCC 8.
+    # The debug agent in ROCm 2.0.0 does not build with GCC 8.
     # If we have that, patch the problem out.
     GCC_VERSION=`gcc --version | head -n 1 | awk '{print $NF}' | awk -F "." '{print $1}'`
     if [ ${GCC_VERSION} -ge 8 ]; then

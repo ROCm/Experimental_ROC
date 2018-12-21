@@ -85,13 +85,9 @@ if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/OCL ]; then
     mkdir -p ${SOURCE_DIR}/OCL/
     cd ${SOURCE_DIR}/OCL/
     ${SOURCE_DIR}/bin/repo init -u https://github.com/RadeonOpenCompute/ROCm-OpenCL-Runtime.git -b ${ROCM_VERSION_BRANCH} -m opencl.xml
-    # Make changes to $(pwd)/.repo/manifests/opencl.xml to add revision numbers
-    sed -i 's#ROCm-OpenCL-Runtime"#ROCm-OpenCL-Runtime" revision="refs/tags/'${ROCM_VERSION_TAG}'"#' $(pwd)/.repo/manifests/opencl.xml
-    sed -i 's#ROCm-OpenCL-Driver"#ROCm-OpenCL-Driver" revision="refs/tags/'${ROCM_VERSION_TAG}'"#' $(pwd)/.repo/manifests/opencl.xml
-    sed -i 's#name="llvm"#name="llvm" revision="refs/tags/'${ROCM_VERSION_TAG}'"#' $(pwd)/.repo/manifests/opencl.xml
-    sed -i 's#name="clang"#name="clang" revision="refs/tags/'${ROCM_VERSION_TAG}'"#' $(pwd)/.repo/manifests/opencl.xml
-    sed -i 's#name="lld"#name="lld" revision="refs/tags/'${ROCM_VERSION_TAG}'"#' $(pwd)/.repo/manifests/opencl.xml
-    sed -i 's#name="ROCm-Device-Libs"#name="ROCm-Device-Libs" revision="refs/tags/'${ROCM_VERSION_TAG}'"#' $(pwd)/.repo/manifests/opencl.xml
+    # Update the revision number to this precise ROCm version, even if its an
+    # earlier one from this branch.
+    sed -i 's#refs/tags/roc-[0-9]\.[0-9]\.[0-9]#refs/tags/'${ROCM_VERSION_TAG}'#' $(pwd)/.repo/manifests/opencl.xml
     ${SOURCE_DIR}/bin/repo sync
 
     rm -f ~/.gitconfig
@@ -110,7 +106,7 @@ fi
 # Build ROCm OpenCL runtime
 cd ${SOURCE_DIR}/OCL/opencl/
 mkdir -p build && cd build
-cmake -DCMAKE_BUILD_TYPE=${ROCM_CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/opencl/ -DLLVM_USE_LINKER=gold -DCMAKE_LIBRARY_PATH=${ROCM_INPUT_DIR}/lib -DCMAKE_INCLUDE_PATH=${ROCM_INPUT_DIR}/include -DCPACK_PACKAGING_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/ -DCPACK_GENERATOR=DEB ..
+cmake -DCMAKE_BUILD_TYPE=${ROCM_CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/opencl/ -DLLVM_USE_LINKER=gold -DCMAKE_LIBRARY_PATH=${ROCM_INPUT_DIR}/lib -DCMAKE_INCLUDE_PATH=${ROCM_INPUT_DIR}/include -DCMAKE_PREFIX_PATH=${ROCM_INPUT_DIR}/ -DCLANG_ANALYZER_ENABLE_Z3_SOLVER=OFF -DCPACK_PACKAGING_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/ -DCPACK_GENERATOR=DEB ..
 
 # Build the OpenCL runtime can take a large amount of memory, and it will
 # fail if you do not have enough memory available per thread. As such, this
@@ -148,7 +144,7 @@ if [ ${ROCM_FORCE_PACKAGE} = true ]; then
     mkdir -p ./${ROCM_OUTPUT_DIR}/opencl/bin/x86_64/
     cd ${OPENCL_BUILD_DIR}/rocm-opencl-deb/${ROCM_OUTPUT_DIR}/opencl/bin/x86_64/
     cp ${OPENCL_BUILD_DIR}/bin/clinfo .
-    cp ${OPENCL_BUILD_DIR}/compiler/llvm/bin/clang-7 ./clang
+    cp ${OPENCL_BUILD_DIR}/compiler/llvm/bin/clang-[0-9] ./clang
     cp ${OPENCL_BUILD_DIR}/compiler/llvm/bin/ld.lld ./ld.lld
     cp ${OPENCL_BUILD_DIR}/compiler/llvm/bin/llvm-link .
     cd ${OPENCL_BUILD_DIR}/rocm-opencl-deb/
@@ -245,7 +241,6 @@ else
     ${ROCM_SUDO_COMMAND} cp ${ROCM_OUTPUT_DIR}/opencl/lib/libOpenCL.so.1.2 ${ROCM_OUTPUT_DIR}/opencl/lib/x86_64/
     ${ROCM_SUDO_COMMAND} ln -sf ${ROCM_OUTPUT_DIR}/opencl/lib/x86_64/libOpenCL.so.1.2 ${ROCM_OUTPUT_DIR}/opencl/lib/x86_64/libOpenCL.so.1
     ${ROCM_SUDO_COMMAND} ln -sf ${ROCM_OUTPUT_DIR}/opencl/lib/x86_64/libOpenCL.so.1 ${ROCM_OUTPUT_DIR}/opencl/lib/x86_64/libOpenCL.so
-    ${ROCM_SUDO_COMMAND} cp ${ROCM_OUTPUT_DIR}/opencl/lib/libamdocl64.so ${ROCM_OUTPUT_DIR}/opencl/lib/x86_64/
     ${ROCM_SUDO_COMMAND} rm -f ${ROCM_OUTPUT_DIR}/opencl/lib/lib*
     ${ROCM_SUDO_COMMAND} rm -rf ${ROCM_OUTPUT_DIR}/opencl/lib/clang/
 
@@ -260,13 +255,13 @@ else
     ${ROCM_SUDO_COMMAND} mkdir -p ${ROCM_OUTPUT_DIR}/opencl/bin/x86_64/
     # missing llc, llvm-link, llvm-objdump opt, but these are not
     # needed for libOpenCL.so operation
-    for i in clang clang-[0-9] clinfo ld.lld lld; do ${ROCM_SUDO_COMMAND} cp ${ROCM_OUTPUT_DIR}/opencl/bin/$i ${ROCM_OUTPUT_DIR}/opencl/bin/x86_64/; done
-    ${ROCM_SUDO_COMMAND} rm -f ${ROCM_OUTPUT_DIR}/opencl/bin/clang*
+    for i in clang clang-[0-9] clinfo ld.lld lld; do ${ROCM_SUDO_COMMAND} mv ${ROCM_OUTPUT_DIR}/opencl/bin/$i ${ROCM_OUTPUT_DIR}/opencl/bin/x86_64/; done
     ${ROCM_SUDO_COMMAND} rm -f ${ROCM_OUTPUT_DIR}/opencl/bin/git-clang-format
     ${ROCM_SUDO_COMMAND} rm -f ${ROCM_OUTPUT_DIR}/opencl/bin/ld64.lld
     ${ROCM_SUDO_COMMAND} rm -f ${ROCM_OUTPUT_DIR}/opencl/bin/lld-link
     ${ROCM_SUDO_COMMAND} rm -f ${ROCM_OUTPUT_DIR}/opencl/bin/roc-cl
     ${ROCM_SUDO_COMMAND} rm -f ${ROCM_OUTPUT_DIR}/opencl/bin/wasm-ld
+    ${ROCM_SUDO_COMMAND} rm -f ${ROCM_OUTPUT_DIR}/opencl/bin/hmaptool
 
     # $ ls /opt/rocm/opencl/include/
     # CL  opencl-c.h

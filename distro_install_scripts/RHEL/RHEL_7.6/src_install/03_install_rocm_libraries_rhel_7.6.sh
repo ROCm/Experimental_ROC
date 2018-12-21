@@ -1,0 +1,1 @@
+../../common/src_install_rocm_libraries.sh

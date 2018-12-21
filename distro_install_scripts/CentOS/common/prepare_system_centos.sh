@@ -86,11 +86,6 @@ if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
             sudo sed -i 's/mirror.centos.org/vault.centos.org/' /etc/yum.repos.d/CentOS-Base.repo
             sudo sed -i 's#centos/$releasever#centos/'${OS_VERSION_NUM}'#' /etc/yum.repos.d/CentOS-Base.repo
         fi
-    elif [ ${OS_VERSION_MINOR} -ne 6 ]; then
-        # On 7.6, don't worry about it, as we are up to date.
-        # However, ROCm does not support other versions of CentOS
-        echo "Attempting to run on an unsupported OS version: ${OS_VERSION_NUM}"
-        exit 1
     fi
     sudo yum clean all
 

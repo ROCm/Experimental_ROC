@@ -96,7 +96,7 @@ if [ ${ROCM_FORCE_PACKAGE} = false ] || [ ! -f ${ROCM_TEMP_LLVM_DIR}/bin/clang ]
     cd ${SOURCE_DIR}/llvm_amd-common
     mkdir -p build
     cd build
-    cmake -DCMAKE_BUILD_TYPE=${ROCM_CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${ROCM_TEMP_LLVM_DIR} -DLLVM_TARGETS_TO_BUILD="AMDGPU;X86" -DLLVM_USE_LINKER=gold -DLLVM_ENABLE_ASSERTIONS=No ..
+    cmake -DCMAKE_BUILD_TYPE=${ROCM_CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${ROCM_TEMP_LLVM_DIR} -DLLVM_TARGETS_TO_BUILD="AMDGPU;X86" -DLLVM_USE_LINKER=gold -DCLANG_ANALYZER_ENABLE_Z3_SOLVER=OFF -DLLVM_ENABLE_ASSERTIONS=No ..
 
     # Building LLVM can take a large amount of memory, and it will fail if you do
     # not have enough memory available per thread. As such, this # logic limits

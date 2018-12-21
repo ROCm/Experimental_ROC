@@ -83,11 +83,6 @@ if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
             echo "Running `sudo subscription-manager release --set=${OS_VERSION_MAJOR}.${OS_VERSION_MINOR}`"
             sudo subscription-manager release --set=${OS_VERSION_MAJOR}.${OS_VERSION_MINOR}
         fi
-    elif [ ${OS_VERSION_MINOR} -ne 6 ]; then
-        # On 7.6, don't worry about it, as we are up to date.
-        # However, ROCm does not support other versions of RHEL
-        echo "Attempting to run on an unsupported OS version: ${OS_VERSION_NUM}"
-        exit 1
     fi
     sudo yum clean all
 

@@ -75,17 +75,9 @@ cd ${SOURCE_DIR}/hcc
 mkdir -p build
 cd build
 
-# HCC in ROCm 1.9.2 does not work properly when doing a debug build. It hits
-# a number of assertions. So to allow you to build this even with trying to
-# pass in Debug builds, we downgrade to RelWithDebInfo.
-
-if [ ${ROCM_CMAKE_BUILD_TYPE} = "Debug" ]; then
-    ROCM_CMAKE_BUILD_TYPE=RelWithDebInfo
-fi
-
 cd ${SOURCE_DIR}/hcc/build/
 
-cmake .. -DCMAKE_BUILD_TYPE=${ROCM_CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/hcc/ -DLLVM_USE_LINKER=gold -DCMAKE_LIBRARY_PATH=${ROCM_INPUT_DIR}/lib -DCMAKE_INCLUDE_PATH=${ROCM_INPUT_DIR}/include  -DLLVM_ENABLE_ASSERTIONS=OFF -DCPACK_PACKAGING_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/ -DCPACK_GENERATOR=DEB -DHCC_OPEN_SOURCE_BUILD=ON
+cmake .. -DCMAKE_BUILD_TYPE=${ROCM_CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/hcc/ -DLLVM_USE_LINKER=gold -DCLANG_ANALYZER_ENABLE_Z3_SOLVER=OFF -DLLVM_ENABLE_ASSERTIONS=OFF -DCMAKE_LIBRARY_PATH=${ROCM_INPUT_DIR}/lib -DCMAKE_INCLUDE_PATH=${ROCM_INPUT_DIR}/include -DCPACK_PACKAGING_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/ -DCPACK_GENERATOR=DEB -DHCC_OPEN_SOURCE_BUILD=ON
 # Building HCC can take a large amount of memory, and it will fail if you do
 # not have enough memory available per thread. As such, this # logic limits
 # the number of build threads in response to the amount of available memory

@@ -37,7 +37,6 @@ if [ ${ROCM_LOCAL_INSTALL} = false ]; then
     echo 'ADD_EXTRA_GROUPS=1' | sudo tee -a /etc/adduser.conf
     echo 'EXTRA_GROUPS=video' | sudo tee -a /etc/adduser.conf
     echo 'export PATH=$PATH:'"${ROCM_OUTPUT_DIR}"'/bin:'"${ROCM_OUTPUT_DIR}"'/opencl/bin/x86_64' | sudo tee -a /etc/profile.d/rocm.sh
-    echo 'export PATH=$PATH:/opt/rocm/bin:/opt/rocm/opencl/bin/x86_64' | sudo tee -a /etc/profile.d/rocm.sh
     # Force everyone using bash to run under software collections
     # if you want to do this for just one user, do this for ~user/.bashrc
     echo '#!/bin/bash' | sudo tee -a /etc/profile.d/enable_scl_bash.sh

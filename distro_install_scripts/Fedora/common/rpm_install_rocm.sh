@@ -37,7 +37,7 @@ sudo sh -c "echo gpgcheck=0 >> /etc/yum.repos.d/rocm.repo"
 
 # On Fedora, we can skip the kernel module because the proper KFD
 # version was backported so our user-land tools can work cleanly.
-# In addition, the ROCm 1.9.2 DKMS module fails to build against this
+# In addition, the ROCm 2.0.0 DKMS module fails to build against this
 # kernel, so we must skip the driver.
 
 # ROCm requirements

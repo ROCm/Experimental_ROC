@@ -32,7 +32,7 @@ parse_args "$@"
 if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
     echo "Installing software required to build the ROCr debug agent."
     echo "You will need to have root privileges to do this."
-    sudo apt -y install build-essential cmake pkg-config git patch
+    sudo apt -y install build-essential cmake pkg-config git patch libelf-dev
     if [ ${ROCM_INSTALL_PREREQS} = true ] && [ ${ROCM_FORCE_GET_CODE} = false ]; then
         exit 0
     fi
@@ -56,7 +56,7 @@ if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/rocr_debug_agent ];
     cd ${SOURCE_DIR}/rocr_debug_agent/
     git checkout tags/${ROCM_VERSION_TAG}
 
-    # The debug agent in ROCm 1.9.2 does not build with GCC 8.
+    # The debug agent in ROCm 2.0.0 does not build with GCC 8.
     # If we have that, patch the problem out.
     GCC_VERSION=`gcc --version | head -n 1 | awk '{print $NF}' | awk -F "." '{print $1}'`
     if [ ${GCC_VERSION} -ge 8 ]; then
@@ -94,7 +94,7 @@ rm -f ${TEMP_INCLUDE_DIR}/amd_hsa_*.h
 # Since the temporary include directory can change each time this script is
 # called, delete any old build stuff sitting around.
 rm -rf ${SOURCE_DIR}/rocr_debug_agent/src/build/*
-cmake -DCMAKE_BUILD_TYPE=${ROCM_CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/ -DCMAKE_INCLUDE_PATH="${TEMP_INCLUDE_DIR};${ROCM_INPUT_DIR}/opencl/bin/x86_64/;${ROCM_INPUT_DIR}/include/hsa/" -DCPACK_PACKAGING_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/ -DCPACK_GENERATOR=DEB ..
+cmake -DCMAKE_BUILD_TYPE=${ROCM_CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/ -DCMAKE_PREFIX_PATH="${ROCM_INPUT_DIR}/opencl/bin/x86_64/" -DCMAKE_INCLUDE_PATH="${TEMP_INCLUDE_DIR};${ROCM_INPUT_DIR}/include/hsa/" -DCPACK_PACKAGING_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/ -DCPACK_GENERATOR=DEB ..
 make -j `nproc`
 
 if [ ${ROCM_FORCE_BUILD_ONLY} = true ]; then

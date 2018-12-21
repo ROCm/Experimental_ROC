@@ -38,7 +38,7 @@ fi
 if [ `lsb_release -rs` != "18.10" ]; then
     # On Ubuntu 18.10, we can skip the kernel module because the proper
     # KFD version is available in the upstream kernel to allow our user-land
-    # tools to work. This misses some features, but ROCm 1.9.2 kernel module
+    # tools to work. This misses some features, but ROCm 2.0.0 kernel module
     # fails to build on Ubuntu 18.10, so this is our only option.
     ${BASE_DIR}/component_scripts/01_00_rock-dkms.sh "$@"
 fi

@@ -1,4 +1,4 @@
-# ROCm 1.9.2 ROCr debug agent won't build on GCC 8.x
+# ROCm 2.0.0 ROCr debug agent won't build on GCC 8.x
 # These fix for GCC 8
 diff --git a/src/AgentUtils.cpp b/src/AgentUtils.cpp
 index 98d6749..0c09a1f 100644

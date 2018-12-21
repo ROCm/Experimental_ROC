@@ -1,5 +1,5 @@
-## Tools to Install ROCm 1.9.2 on Ubuntu 18.04 From Source
-The scripts in this directory will download, build, and install ROCm 1.9.2 from source on Ubuntu 18.04.1 LTS.
+## Tools to Install ROCm 2.0.0 on Ubuntu 18.04 From Source
+The scripts in this directory will download, build, and install ROCm 2.0.0 from source on Ubuntu 18.04.1 LTS.
 These scripts will download the source code for the ROCm software from AMD's public repositories, build the software locally, and install it onto your system in a desired location.
 These scripts assume a fresh system install, so, by default, they will attempt to add system-wide packages that are required for building the various ROCm projects.
 
@@ -476,7 +476,7 @@ This script can take a number of optional arguments that may be useful when maki
 One of the benefits of building ROCm software from source is that you can make modifications to software in order to fix bugs, test new ideas, experiment, add new features, or build with debug symbols.
 This section will demonstrate how to use these scripts to make small custom modifications to a piece of software in the ROCm stack and then build it for your own use.
 
-This section assumes that you have a ROCm 1.9.2 installation in the default `/opt/rocm/` location, though the directions would also work if you have ROCm installed into some other custom location.
+This section assumes that you have a ROCm 2.0.0 installation in the default `/opt/rocm/` location, though the directions would also work if you have ROCm installed into some other custom location.
 
 The running example will show you how to make a custom version of the ROCr runtime which sits at the base of all ROCm software.
 We will modify ROCr so that it prints a debug message to the screen whenever it is initialized.

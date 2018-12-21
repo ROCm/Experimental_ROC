@@ -43,20 +43,10 @@ if [ ${OS_VERSION_MAJOR} -ne 7 ]; then
     echo "Attempting to run on an unsupported OS version: ${OS_VERSION_MAJOR}"
     exit 1
 fi
-if [ ${OS_VERSION_MINOR} -eq 4 ] || [ ${OS_VERSION_MINOR} -eq 5 ]; then
+if [ ${OS_VERSION_MINOR} -eq 4 ] || [ ${OS_VERSION_MINOR} -eq 5 ] || [ ${OS_VERSION_MINOR} -eq 6 ]; then
     # On older versions of CentOS/RHEL 7, we should install the DKMS kernel module
     # as well as all of the user-level utilities
     sudo yum install -y rocm-dkms rocm-cmake atmi rocm_bandwidth_test
-elif [ ${OS_VERSION_MINOR} -eq 6 ]; then
-    # On CentOS/RHEL 7.6, we can skip the kernel module because the proper KFD
-    # version was backported so our user-land tools can work cleanly.
-    # In addition, the ROCm 1.9.2 DKMS module fails to build against the
-    # backported changes, so we must skip the driver.
-    sudo yum install -y rocm-dev rocm-cmake atmi rocm_bandwidth_test
-    sudo mkdir -p /opt/rocm/.info/
-    echo ${ROCM_VERSION_LONG} | sudo tee /opt/rocm/.info/version
-    sudo mkdir -p /etc/udev/rules.d/
-    echo 'SUBSYSTEM=="kfd", KERNEL=="kfd", TAG+="uaccess", GROUP="video"' | sudo tee /etc/udev/rules.d/70-kfd.rules
 else
     echo "Attempting to run on an unsupported OS version: ${OS_VERSION_NUM}"
     exit 1

@@ -63,8 +63,8 @@ if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/install_files/usr/ 
     # driver package actually includes the source code, since DKMS modules are
     # rebuilt every time the kernel is updated.
     #cd ${SOURCE_DIR}/install_files/
-    #wget http://repo.radeon.com/rocm/yum/rpm/rock-dkms-1.9-307.el7.noarch.rpm
-    #rpm2cpio rock-dkms-1.9-307.el7.noarch.rpm | cpio -idm
+    #wget http://repo.radeon.com/rocm/yum/rpm/rock-dkms-2.0-89.el7.noarch.rpm
+    #rpm2cpio rock-dkms-2.0-89.el7.noarch.rpm | cpio -idm
     # However, this work below gets our source from github and "recreates" the
     # package. These build scripts carry some of the DKMS files with them
     # so you don't need to download the entire thing from repo.radeon.com
@@ -93,28 +93,28 @@ if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/install_files/usr/ 
     cp -RL ./* ${SOURCE_DIR}/install_files/
     popd
 
-    cd ${SOURCE_DIR}/install_files/usr/src/amdgpu-1.9-307.el7/
-    cp -R ${SOURCE_DIR}/ROCK-Kernel-Driver/drivers/gpu/drm/amd ${SOURCE_DIR}/install_files/usr/src/amdgpu-1.9-307.el7/
-    cp -R ${SOURCE_DIR}/ROCK-Kernel-Driver/drivers/gpu/drm/amd/dkms/docs ${SOURCE_DIR}/install_files/usr/src/amdgpu-1.9-307.el7/
-    cd ${SOURCE_DIR}/install_files/usr/src/amdgpu-1.9-307.el7/
-    tar -xJf ${SOURCE_DIR}/install_files/usr/src/amdgpu-1.9-307.el7/firmware.tar.xz
+    cd ${SOURCE_DIR}/install_files/usr/src/amdgpu-2.0-89.el7/
+    cp -R ${SOURCE_DIR}/ROCK-Kernel-Driver/drivers/gpu/drm/amd ${SOURCE_DIR}/install_files/usr/src/amdgpu-2.0-89.el7/
+    cd ${SOURCE_DIR}/install_files/usr/src/amdgpu-2.0-89.el7/
+    tar -xJf ${SOURCE_DIR}/install_files/usr/src/amdgpu-2.0-89.el7/firmware.tar.xz
     cd ${SOURCE_DIR}/install_files/
-    mkdir -p ${SOURCE_DIR}/install_files/usr/src/amdgpu-1.9-307.el7/include/drm/ttm
-    for file in amd_rdma.h gpu_scheduler.h gpu_scheduler_trace.h spsc_queue.h; do
-        cp ${SOURCE_DIR}/ROCK-Kernel-Driver/include/drm/${file} ${SOURCE_DIR}/install_files/usr/src/amdgpu-1.9-307.el7/include/drm/
+    mkdir -p ${SOURCE_DIR}/install_files/usr/src/amdgpu-2.0-89.el7/include/drm/ttm
+    for file in amd_rdma.h gpu_scheduler.h spsc_queue.h; do
+        cp ${SOURCE_DIR}/ROCK-Kernel-Driver/include/drm/${file} ${SOURCE_DIR}/install_files/usr/src/amdgpu-2.0-89.el7/include/drm/
     done
-    cp ${SOURCE_DIR}/ROCK-Kernel-Driver/include/drm/ttm/* ${SOURCE_DIR}/install_files/usr/src/amdgpu-1.9-307.el7/include/drm/ttm/
-    mkdir -p ${SOURCE_DIR}/install_files/usr/src/amdgpu-1.9-307.el7/include/kcl
-    cp ${SOURCE_DIR}/ROCK-Kernel-Driver/include/kcl/* ${SOURCE_DIR}/install_files/usr/src/amdgpu-1.9-307.el7/include/kcl/
-    mkdir -p ${SOURCE_DIR}/install_files/usr/src/amdgpu-1.9-307.el7/include/uapi/drm
-    cp ${SOURCE_DIR}/ROCK-Kernel-Driver/include/uapi/drm/amdgpu_drm.h ${SOURCE_DIR}/install_files/usr/src/amdgpu-1.9-307.el7/include/uapi/drm/
-    mkdir -p ${SOURCE_DIR}/install_files/usr/src/amdgpu-1.9-307.el7/include/uapi/linux
-    cp ${SOURCE_DIR}/ROCK-Kernel-Driver/include/uapi/linux/kfd_ioctl.h ${SOURCE_DIR}/install_files/usr/src/amdgpu-1.9-307.el7/include/uapi/linux/
-    mkdir -p ${SOURCE_DIR}/install_files/usr/src/amdgpu-1.9-307.el7/radeon/
-    cp ${SOURCE_DIR}/ROCK-Kernel-Driver/drivers/gpu/drm/radeon/cik_reg.h ${SOURCE_DIR}/install_files/usr/src/amdgpu-1.9-307.el7/radeon/
-    cp -R ${SOURCE_DIR}/ROCK-Kernel-Driver/drivers/gpu/drm/scheduler ${SOURCE_DIR}/install_files/usr/src/amdgpu-1.9-307.el7/
-    cp ${SOURCE_DIR}/install_files/usr/src/amdgpu-1.9-307.el7/amd/dkms/sources ${SOURCE_DIR}/install_files/usr/src/amdgpu-1.9-307.el7/
-    cp -R ${SOURCE_DIR}/ROCK-Kernel-Driver/drivers/gpu/drm/ttm ${SOURCE_DIR}/install_files/usr/src/amdgpu-1.9-307.el7/
+    cp ${SOURCE_DIR}/ROCK-Kernel-Driver/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h ${SOURCE_DIR}/install_files/usr/src/amdgpu-2.0-89.el7/include/drm/
+    cp ${SOURCE_DIR}/ROCK-Kernel-Driver/include/drm/ttm/* ${SOURCE_DIR}/install_files/usr/src/amdgpu-2.0-89.el7/include/drm/ttm/
+    mkdir -p ${SOURCE_DIR}/install_files/usr/src/amdgpu-2.0-89.el7/include/kcl
+    cp ${SOURCE_DIR}/ROCK-Kernel-Driver/include/kcl/* ${SOURCE_DIR}/install_files/usr/src/amdgpu-2.0-89.el7/include/kcl/
+    mkdir -p ${SOURCE_DIR}/install_files/usr/src/amdgpu-2.0-89.el7/include/uapi/drm
+    cp ${SOURCE_DIR}/ROCK-Kernel-Driver/include/uapi/drm/amdgpu_drm.h ${SOURCE_DIR}/install_files/usr/src/amdgpu-2.0-89.el7/include/uapi/drm/
+    mkdir -p ${SOURCE_DIR}/install_files/usr/src/amdgpu-2.0-89.el7/include/uapi/linux
+    cp ${SOURCE_DIR}/ROCK-Kernel-Driver/include/uapi/linux/kfd_ioctl.h ${SOURCE_DIR}/install_files/usr/src/amdgpu-2.0-89.el7/include/uapi/linux/
+    mkdir -p ${SOURCE_DIR}/install_files/usr/src/amdgpu-2.0-89.el7/radeon/
+    cp ${SOURCE_DIR}/ROCK-Kernel-Driver/drivers/gpu/drm/radeon/cik_reg.h ${SOURCE_DIR}/install_files/usr/src/amdgpu-2.0-89.el7/radeon/
+    cp -R ${SOURCE_DIR}/ROCK-Kernel-Driver/drivers/gpu/drm/scheduler ${SOURCE_DIR}/install_files/usr/src/amdgpu-2.0-89.el7/
+    cp ${SOURCE_DIR}/install_files/usr/src/amdgpu-2.0-89.el7/amd/dkms/sources ${SOURCE_DIR}/install_files/usr/src/amdgpu-2.0-89.el7/
+    cp -R ${SOURCE_DIR}/ROCK-Kernel-Driver/drivers/gpu/drm/ttm ${SOURCE_DIR}/install_files/usr/src/amdgpu-2.0-89.el7/
 else
     echo "Skipping download of ROCK kernel drivers, since ${SOURCE_DIR}/install_files/usr/ already exists."
 fi
@@ -188,15 +188,15 @@ else
     if [ ${ROCM_LOCAL_INSTALL} = false ] && [ ${ROCM_SKIP_INSTALLING} = false ]; then
         ${ROCM_SUDO_COMMAND} cp -R ${SOURCE_DIR}/install_files/etc/* /etc/
         ${ROCM_SUDO_COMMAND} cp -R ${SOURCE_DIR}/install_files/usr/* /usr/
-        CHECK_INSTALLED=`dkms status amdgpu/1.9-307.el7 | grep installed | wc -l`
-        CHECK_BUILT=`dkms status amdgpu/1.9-307.el7 | grep built | wc -l`
-        CHECK_ADDED=`dkms status amdgpu/1.9-307.el7 | grep added | wc -l`
+        CHECK_INSTALLED=`dkms status amdgpu/2.0-89.el7 | grep installed | wc -l`
+        CHECK_BUILT=`dkms status amdgpu/2.0-89.el7 | grep built | wc -l`
+        CHECK_ADDED=`dkms status amdgpu/2.0-89.el7 | grep added | wc -l`
         if [ ${CHECK_INSTALLED} -gt 0 ] || [ ${CHECK_BUILT} -gt 0 ] || [ ${CHECK_ADDED} -gt 0 ]; then
-            ${ROCM_SUDO_COMMAND} dkms remove amdgpu/1.9-307.el7 --all
+            ${ROCM_SUDO_COMMAND} dkms remove amdgpu/2.0-89.el7 --all
         fi
-        ${ROCM_SUDO_COMMAND} dkms add amdgpu/1.9-307.el7
-        ${ROCM_SUDO_COMMAND} dkms build amdgpu/1.9-307.el7
-        ${ROCM_SUDO_COMMAND} dkms install amdgpu/1.9-307.el7
+        ${ROCM_SUDO_COMMAND} dkms add amdgpu/2.0-89.el7
+        ${ROCM_SUDO_COMMAND} dkms build amdgpu/2.0-89.el7
+        ${ROCM_SUDO_COMMAND} dkms install amdgpu/2.0-89.el7
     else
         echo "Skipping build and installation of ROCK drivers."
     fi

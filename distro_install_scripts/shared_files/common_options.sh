@@ -23,32 +23,32 @@
 
 # ROCm software tags across all of the build scripts.
 # These should be updated whenever new versions of ROCm are released.
-ROCM_VERSION_BRANCH=roc-1.9.x # Most ROCm repos have a major release branch
-ROCM_VERSION_MAJOR=1
-ROCM_VERSION_MINOR=9
-ROCM_VERSION_PATCH=2
+ROCM_VERSION_BRANCH=roc-2.0.x # Most ROCm repos have a major release branch
+ROCM_VERSION_MAJOR=2
+ROCM_VERSION_MINOR=0
+ROCM_VERSION_PATCH=0
 # Most ROCm repos have the ROCm release tagged
 ROCM_VERSION_TAG=roc-${ROCM_VERSION_MAJOR}.${ROCM_VERSION_MINOR}.${ROCM_VERSION_PATCH}
-ROCM_VERSION_LONG=1.9.307 # The meta-packages have a ROCM version number
+ROCM_VERSION_LONG=2.0.89 # The meta-packages have a ROCM version number
 # The following projects do not yet tag their releases cleanly, so we need
 # to pull their versions based on the GitHub SHA-1.
-ROCM_CMAKE_SHA=11181f6
+ROCM_CMAKE_SHA=ac45c6e
 ROCMINFO_SHA=1bb0ccc
-ROCM_CLANG_OCL_SHA=7997136
+ROCM_CLANG_OCL_SHA=688fe5d
 ROCM_ATMI_SHA=4dd14ad
-ROCM_ROCFFT_SHA=50fea912
 ROCM_ROCRAND_SHA=7278524
 ROCM_MIOPENGEMM_SHA=9547fb9
 ROCM_HIPTHRUST_SHA=e0b8fe2
 # The following projects have different version number schemes that ROCm,
 # so they need custom tag names.
-ROCM_ROCBLAS_TAG=v14.3.0
+ROCM_ROCBLAS_TAG=v2.0.0
 ROCM_HIPBLAS_TAG=v0.12.1.0
-ROCM_ROCSPARSE_TAG=v1.0.0
-ROCM_HIPSPARSE_TAG=v1.0.1
-ROCM_ROCALUTION_TAG=v1.3.6
-ROCM_MIOPEN_TAG=1.6.0
-ROCM_RCCL_TAG=0.7.2
+ROCM_ROCFFT_TAG=v0.8.8
+ROCM_ROCSPARSE_TAG=v1.0.1
+ROCM_HIPSPARSE_TAG=v1.0.2
+ROCM_ROCALUTION_TAG=v1.3.7
+ROCM_MIOPEN_TAG=1.7.0
+ROCM_RCCL_TAG=0.7.1
 
 PRINT_HELP=false # -h option
 ROCM_FORCE_BUILD_ONLY=false # -b option

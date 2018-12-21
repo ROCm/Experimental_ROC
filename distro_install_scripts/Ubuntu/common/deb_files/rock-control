@@ -1,8 +1,8 @@
 Package: rock-dkms
-Version: 1.9-307
+Version: 2.0-89
 Architecture: all
 Maintainer: Advanced Micro Devices (AMD) <gpudriverdevsupport@amd.com>
-Installed-Size: 134991
+Installed-Size: 135558
 Depends: dkms (>= 1.95)
 Section: misc
 Priority: optional

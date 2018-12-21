@@ -1,6 +1,6 @@
-## Scripts for Building and Installing ROCm 1.9.2 for Various Linux Distributions
+## Scripts for Building and Installing ROCm 2.0.0 for Various Linux Distributions
 
-This directory contains directions and scripts for installing ROCm 1.9.2 on various Linux distributions.
+This directory contains directions and scripts for installing ROCm 2.0.0 on various Linux distributions.
 This includes tools for automatically setting up a new system to install ROCm from binaries such as .rpm and .deb files (from AMD's binary repository).
 This project also contains scripts to allow users to download, optionally modify, and build each piece of the ROCm platform from source code.
 

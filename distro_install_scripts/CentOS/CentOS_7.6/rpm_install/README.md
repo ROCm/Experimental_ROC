@@ -1,18 +1,18 @@
-## Install ROCm 1.9.2 on CentOS 7.5 Using Yum
-The scripts in this directory will install ROCm 1.9.2 on CentOS 7.5.
+## Install ROCm 2.0.0 on CentOS 7.6 Using Yum
+The scripts in this directory will install ROCm 2.0.0 on CentOS 7.6.
 These scripts will download the files from the AMD ROCm `yum` repository and install them onto your system.
 These scripts assume a fresh system install, so they will attempt to add packages that are required for ROCm.
 
-### Directions for Installing ROCm 1.9.2
+### Directions for Installing ROCm 2.0.0
 The following directions will set up a fresh installation of CentOS with ROCm using the .rpm packages distributed by AMD.
 The goal of these scripts is to create a ROCm software installation using similar directions to those contained at <https://github.com/RadeonOpenCompute/ROCm>.
 
 #### Updating the Kernel
-The following script will prepare the system for ROCm 1.9.2 by updating the kernel on your system to its newest version and installing the Developer Toolset 7 software collection.
+The following script will prepare the system for ROCm 2.0.0 by updating the kernel on your system to its newest version and installing the Developer Toolset 7 software collection.
 This script will ask you for your password, since it attempts to run a number of commands with `sudo` to install software to your system.
 
 ```bash
-./00_prepare_system_centos_7.5.sh
+./00_prepare_system_centos_7.6.sh
 ```
 
 It is recommended that you reboot after running this script.
@@ -24,7 +24,7 @@ The following script will install ROCm and the user-land tools and utilities use
 This script will ask you for your password, since it attempts to run a number of commands with `sudo` to install software to your system.
 
 ```bash
-./01_install_rocm_centos_7.5.sh
+./01_install_rocm_centos_7.6.sh
 ```
 
 This script will install the following software into `/opt/rocm/`:
@@ -87,5 +87,5 @@ The following script will download and install the following ROCm libraries:
 
 This script will ask you for your password, since it attempts to run a number of commands with `sudo` to install software to your system.
 ```bash
-./03_install_rocm_libraries_centos_7.5.sh
+./03_install_rocm_libraries_centos_7.6.sh
 ```

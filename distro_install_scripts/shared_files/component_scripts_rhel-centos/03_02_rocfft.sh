@@ -58,7 +58,7 @@ if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/rocFFT ]; then
     get_cmake "${SOURCE_DIR}"
     git clone https://github.com/ROCmSoftwarePlatform/rocFFT.git
     cd rocFFT
-    git checkout ${ROCM_ROCFFT_SHA}
+    git checkout ${ROCM_ROCFFT_TAG}
 else
     echo "Skipping download of rocFFT, since ${SOURCE_DIR}/rocFFT already exists."
 fi

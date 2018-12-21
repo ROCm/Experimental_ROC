@@ -1,8 +1,3 @@
-# CENTOS 7.6 NOT YET SUPPORTED IN ROCm 1.9.x!
-
-This directory exists as a work-in-progress and should not currently be used to attempt to install ROCm 1.9.x on CentOS 7.6.
-The ROCK kernel module installation will fail, and ROCm will fail to work.
-
 ## Scripts for Installing ROCm on CentOS 7.6
 
 This directory contains directions and scripts for installing ROCm on CentOS 7.6.

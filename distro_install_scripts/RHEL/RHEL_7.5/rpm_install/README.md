@@ -1,14 +1,14 @@
-## Install ROCm 1.9.2 on RHEL 7.5 Using Yum
-The scripts in this directory will install ROCm 1.9.2 on RHEL 7.5.
+## Install ROCm 2.0.0 on RHEL 7.5 Using Yum
+The scripts in this directory will install ROCm 2.0.0 on RHEL 7.5.
 These scripts will download the files from the AMD ROCm `yum` repository and install them onto your system.
 These scripts assume a fresh system install, so they will attempt to add packages that are required for ROCm.
 
-### Directions for Installing ROCm 1.9.2
+### Directions for Installing ROCm 2.0.0
 The following directions will set up a fresh installation of RHEL with ROCm using the .rpm packages distributed by AMD.
 The goal of these scripts is to create a ROCm software installation using similar directions to those contained at <https://github.com/RadeonOpenCompute/ROCm>.
 
 #### Updating the Kernel
-The following script will prepare the system for ROCm 1.9.2 by updating the kernel on your system to its newest version and installing the Developer Toolset 7 software collection.
+The following script will prepare the system for ROCm 2.0.0 by updating the kernel on your system to its newest version and installing the Developer Toolset 7 software collection.
 This script will ask you for your password, since it attempts to run a number of commands with `sudo` to install software to your system.
 
 ```bash

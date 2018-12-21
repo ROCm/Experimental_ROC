@@ -7,5 +7,6 @@ At this time, these tools have been tested on:
 
 - [RHEL 7.4](RHEL_7.4)
 - [RHEL 7.5](RHEL_7.5)
+- [RHEL 7.6](RHEL_7.6)
 
 The folder `common` contains scripts that are common between multiple RHEL versions and can be safely ignored if you want to directly run the installation or build scripts.
