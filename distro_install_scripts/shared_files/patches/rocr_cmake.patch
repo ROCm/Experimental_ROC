@@ -1,0 +1,80 @@
+# Patch to allow the build to work with CMake versions newer than 3.5.
+# Previously, we sym-linked a directory:
+# /opt/rocm/include/hsa->/opt/rocm/hsa/include/hsa
+# However, new versions of cmake *really* don't like sym-linking
+# directories when they are building a .deb file. They will follow the
+# symlink and attempt to add the files multiple times. To prevent his,
+# we instead go through and manually symlink all of the *files* in the
+# target directory
+#
+# In addition, this patch sets API versioning to match what is shipped
+# in AMD's binary packages rather than being based on AMD's GitHub
+# tags. The GitHub description is appended to the end of the package
+# name so that we know what went into the software, but the library
+# API does not change.
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 37a9b09..1e8904f 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -73,7 +73,7 @@ if ( HAVE_MEMFD_CREATE )
+ endif()
+
+ ## Get the package version. The defaults to 1.0.0.
+-get_version ( "1.0.0" )
++get_version ( "1.10.0" )
+
+ set ( BUILD_VERSION_MAJOR ${VERSION_MAJOR} )
+ set ( BUILD_VERSION_MINOR ${VERSION_MINOR} )
+@@ -179,12 +179,25 @@ endif ()
+ ## Create symlinks for packaging and install
+ add_custom_target ( hsa-link ALL WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMAND ${CMAKE_COMMAND} -E create_symlink ../hsa/include/hsa hsa-link )
+ add_custom_target ( ${CORE_RUNTIME_TARGET}.so-link ALL WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMAND ${CMAKE_COMMAND} -E create_symlink ../hsa/lib/${CORE_RUNTIME_LIBRARY}.so ${CORE_RUNTIME_LIBRARY}.so-link )
++set(SYMLINK_CMD "execute_process(COMMAND ln -sf \${SRC_REL} \${DEST})")
+
+ ## Set install information
+ install ( TARGETS ${CORE_RUNTIME_TARGET} LIBRARY DESTINATION hsa/lib )
+ install ( DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/inc/ DESTINATION hsa/include/hsa )
+-install ( FILES ${CMAKE_CURRENT_BINARY_DIR}/hsa-link DESTINATION include PERMISSIONS OWNER_WRITE OWNER_READ RENAME hsa )
+ install ( FILES ${CMAKE_CURRENT_BINARY_DIR}/${CORE_RUNTIME_LIBRARY}.so-link DESTINATION lib PERMISSIONS OWNER_WRITE OWNER_READ RENAME ${CORE_RUNTIME_LIBRARY}.so )
++install( CODE "
++set(SUBDIR \$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/hsa/include/hsa)
++file(GLOB_RECURSE FILES RELATIVE \${SUBDIR} \${SUBDIR}/*)
++foreach(FILE \${FILES})
++    set(SRC \${SUBDIR}/\${FILE})
++    set(DEST \$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/include/hsa/\${FILE})
++    get_filename_component(DEST_DIR \${DEST} DIRECTORY)
++    file(MAKE_DIRECTORY \${DEST_DIR})
++    file(RELATIVE_PATH SRC_REL \${DEST_DIR} \${SRC})
++    message(STATUS \"symlink: \${SRC_REL} -> \${DEST}\")
++    ${SYMLINK_CMD}
++endforeach()
++")
+
+ ## Packaging directives
+ set ( CPACK_PACKAGE_NAME "hsa-rocr-dev" )
+diff --git a/src/cmake_modules/utils.cmake b/src/cmake_modules/utils.cmake
+index 096b3de..4594c75 100644
+--- a/src/cmake_modules/utils.cmake
++++ b/src/cmake_modules/utils.cmake
+@@ -88,6 +88,11 @@ endfunction ()
+ function ( get_version DEFAULT_VERSION_STRING )
+
+     parse_version ( ${DEFAULT_VERSION_STRING} )
++    set( VERSION_STRING "${VERSION_STRING}" PARENT_SCOPE )
++    set( VERSION_MAJOR  "${VERSION_MAJOR}" PARENT_SCOPE )
++    set( VERSION_MINOR  "${VERSION_MINOR}" PARENT_SCOPE )
++    set( VERSION_PATCH  "${VERSION_PATCH}" PARENT_SCOPE )
++    set( VERSION_BUILD  "${VERSION_BUILD}" PARENT_SCOPE )
+
+     find_program ( GIT NAMES git )
+
+@@ -107,10 +112,6 @@ function ( get_version DEFAULT_VERSION_STRING )
+
+     endif ()
+
+-    set( VERSION_STRING "${VERSION_STRING}" PARENT_SCOPE )
+-    set( VERSION_MAJOR  "${VERSION_MAJOR}" PARENT_SCOPE )
+-    set( VERSION_MINOR  "${VERSION_MINOR}" PARENT_SCOPE )
+-    set( VERSION_PATCH  "${VERSION_PATCH}" PARENT_SCOPE )
+-    set( VERSION_BUILD  "${VERSION_BUILD}" PARENT_SCOPE )
++    set( VERSION_BUILD  "${GIT_TAG_STRING}" PARENT_SCOPE )
