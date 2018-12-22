@@ -64,11 +64,86 @@ if [ ${ROCM_FORCE_GET_CODE} = true ]; then
     exit 0
 fi
 
+# ATMI requires AMD's LLVM, which is not installed from packages by default.
+# As such, we need to check if the LLVM directory exists in the ROCM_INPUT_DIR.
+# If it does not, we fall back to checking the ROCM_OUTPUT_DIR, since maybe
+# the user just build LLVM before calling this script. IF they have not,
+# we ask them if they would like to build LLVM first. If they do not, then
+# this script will not work and we fail.
+ROCM_LLVM_DIR=${ROCM_INPUT_DIR}/llvm/
+if [ ! -d ${ROCM_INPUT_DIR}/llvm ]; then
+    if [ -d ${ROCM_OUTPUT_DIR}/llvm ]; then
+        ROCM_LLVM_DIR=${ROCM_OUTPUT_DIR}/llvm/
+    elif [ -d ${SOURCE_DIR}/llvm ]; then
+        ROCM_LLVM_DIR=${SOURCE_DIR}/llvm/
+    elif [ -d ${SOURCE_DIR}/llvm_temp_install ]; then
+        ROCM_LLVM_DIR=${SOURCE_DIR}/llvm_temp_install/
+    else
+        ROCM_REBUILD_LLVM=false
+        echo ""
+        echo "Unable to find ROCm LLVM in ${ROCM_INPUT_DIR}/llvm/, ${ROCM_OUTPUT_DIR}/llvm/,"
+        echo "${SOURCE_DIR}/llvm/, or ${SOURCE_DIR}/llvm_temp_install/."
+        echo "This is required in order to build ATMI."
+        if [ ${ROCM_FORCE_BUILD_ONLY} = true ]; then
+            echo "However, you have chosen to do builds only, so we cannot install ROCm LLVM."
+            echo "Unable to continue."
+            exit 1
+        fi
+        if [ ${ROCM_FORCE_YES} = true ]; then
+            echo "Forcing a build of the ROCm LLVM because of the '-y' flag."
+            ROCM_REBUILD_LLVM=true
+        elif [ ${ROCM_FORCE_NO} = true ]; then
+            echo "Skipping a build of the ROCm LLVM because of the '-n' flag."
+        else
+            echo ""
+            read -p "Do you want to try to build ROCm LLVM to fulfill this prerequisite (y/n)? " answer
+            case ${answer:0:1} in
+                y|Y )
+                    ROCM_REBUILD_LLVM=true
+                    echo 'User chose "yes". Forcing a build of ROCm LLVM.'
+                ;;
+                * )
+                    echo 'User chose "no". Skipping a build of ROCm LLVM.'
+                ;;
+            esac
+        fi
+
+        if [ ${ROCM_REBUILD_LLVM} = true ]; then
+            ${BASE_DIR}/01_11_rocm_device_libs.sh "$@"
+            ROCM_LLVM_DIR=${ROCM_OUTPUT_DIR}/llvm/
+        else
+            echo "Unable to continue the build of comgr."
+            exit 1
+        fi
+    fi
+fi
+
 cd ${SOURCE_DIR}/atmi
 mkdir -p src/build
 cd src/build
 export GFXLIST="gfx701 gfx801 gfx802 gfx803 gfx900 gfx906"
-cmake -DCMAKE_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/atmi -DCMAKE_BUILD_TYPE=${ROCM_CMAKE_BUILD_TYPE} -DLLVM_DIR=${ROCM_INPUT_DIR}/llvm/ -DDEVICE_LIB_DIR=${ROCM_INPUT_DIR}/lib/ -DHSA_DIR=${ROCM_INPUT_DIR}/ -DATMI_HSA_INTEROP=ON -DATMI_DEVICE_RUNTIME=ON -DATMI_C_EXTENSION=ON -DCPACK_PACKAGING_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/ -DCPACK_GENERATOR=RPM ${ROCM_CPACK_RPM_PERMISSIONS} ..
+
+# In ROCm 2.0, ROCm-Device-Libs builds irif.amdgcn.bc but doesn't install it.
+# ATMI needs this file. As such, we need to create a DEVICE_LIB_DIR that
+# contains it. We can't just have a custom ROCm-Device-Libs install it system-
+# wide, though, because what if someone tries to build ATMI on a system that
+# installed ROCm-Device-Libs from package? So let's try to find (or make) a
+# new temporary copy of irif.amdgcn.bc here.
+if [ ! -d ${SOURCE_DIR}/atmi/src/build/temp_device_libs/ ] || [ ! -f ${SOURCE_DIR}/atmi/src/build/temp_device_libs/irif.amdgcn.bc ]; then
+    mkdir -p ${SOURCE_DIR}/atmi/src/build/temp_device_libs
+    cp -f ${ROCM_INPUT_DIR}/lib/*.bc ${SOURCE_DIR}/atmi/src/build/temp_device_libs/
+    if [ ! -f ${SOURCE_DIR}/atmi/src/build/temp_device_libs/irif.amdgcn.bc ]; then
+        if [ ! -d ${SOURCE_DIR}/ROCm-Device-Libs/ ] || [ $(find ${SOURCE_DIR}/ROCm-Device-Libs/ -name irif.amdgcn.bc | wc -l) -eq 0 ]; then
+            ${BASE_DIR}/01_11_rocm_device_libs.sh "$@" --build_only
+        fi
+        cp -f $(find ${SOURCE_DIR}/ROCm-Device-Libs/ -name irif.amdgcn.bc) ${SOURCE_DIR}/atmi/src/build/temp_device_libs/
+    fi
+    # This internal cmake file hard-codes its expected place for the device libs
+    # based on where it finds the HSA library, not based on DEVICE_LIB_DIR
+    # We have to change it.
+    sed -i 's#${ROCM_DEVICE_PATH}/lib/#'${SOURCE_DIR}/atmi/src/build/temp_device_libs/'#' ${SOURCE_DIR}/atmi/src/device_runtime/bc.cmake
+fi
+cmake -DCMAKE_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/atmi -DCMAKE_BUILD_TYPE=${ROCM_CMAKE_BUILD_TYPE} -DLLVM_DIR=${ROCM_LLVM_DIR} -DDEVICE_LIB_DIR=${SOURCE_DIR}/atmi/src/build/temp_device_libs/ -DHSA_DIR=${ROCM_INPUT_DIR}/ -DATMI_HSA_INTEROP=ON -DATMI_DEVICE_RUNTIME=ON -DATMI_C_EXTENSION=OFF -DCPACK_PACKAGING_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/ -DCPACK_GENERATOR=RPM ${ROCM_CPACK_RPM_PERMISSIONS} ..
 
 make -j `nproc`
 

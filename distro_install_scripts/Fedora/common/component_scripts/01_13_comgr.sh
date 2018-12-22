@@ -95,7 +95,7 @@ if [ ! -d ${ROCM_INPUT_DIR}/llvm ]; then
         fi
 
         if [ ${ROCM_REBUILD_LLVM} = true ]; then
-            ${BASE_DIR}/10_rocm_device_libs.sh "$@"
+            ${BASE_DIR}/01_11_rocm_device_libs.sh "$@"
             ROCM_LLVM_DIR=${ROCM_OUTPUT_DIR}/llvm/
         else
             echo "Unable to continue the build of comgr."
