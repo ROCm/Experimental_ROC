@@ -28,7 +28,7 @@ source "$BASE_DIR/common/common_options.sh"
 parse_args "$@"
 
 echo "Preparing to set up ROCm requirements. You must be root/sudo for this."
-sudo dnf install -y dkms kernel-headers-`uname -r` kernel-devel-`uname -r`
+sudo dnf install -y kernel-headers-`uname -r` kernel-devel-`uname -r`
 sudo sh -c "echo [ROCm] > /etc/yum.repos.d/rocm.repo"
 sudo sh -c "echo name=ROCm >> /etc/yum.repos.d/rocm.repo"
 sudo sh -c "echo baseurl=http://repo.radeon.com/rocm/yum/rpm >> /etc/yum.repos.d/rocm.repo"
