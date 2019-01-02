@@ -32,7 +32,7 @@ ROCM_VERSION_TAG=roc-${ROCM_VERSION_MAJOR}.${ROCM_VERSION_MINOR}.${ROCM_VERSION_
 ROCM_VERSION_LONG=2.0.89 # The meta-packages have a ROCM version number
 # The following projects do not yet tag their releases cleanly, so we need
 # to pull their versions based on the GitHub SHA-1.
-ROCM_CMAKE_SHA=ac45c6e
+ROCM_CMAKE_SHA=6240bb3
 ROCMINFO_SHA=1bb0ccc
 ROCM_CLANG_OCL_SHA=688fe5d
 ROCM_ATMI_SHA=4dd14ad
