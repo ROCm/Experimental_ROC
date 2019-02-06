@@ -54,7 +54,7 @@ cd ${SOURCE_DIR}
 if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/rocm-cmake ]; then
     git clone https://github.com/RadeonOpenCompute/rocm-cmake.git
     cd ${SOURCE_DIR}/rocm-cmake
-    git checkout ${ROCM_CMAKE_SHA}
+    git checkout ${ROCM_CMAKE_CHECKOUT}
 else
     echo "Skipping download of ROCm cmake, since ${SOURCE_DIR}/rocm-cmake already exists."
 fi

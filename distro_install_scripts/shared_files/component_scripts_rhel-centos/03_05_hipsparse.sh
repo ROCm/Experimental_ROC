@@ -57,7 +57,7 @@ if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/hipSPARSE ]; then
     get_cmake "${SOURCE_DIR}"
     git clone https://github.com/ROCmSoftwarePlatform/hipSPARSE.git
     cd hipSPARSE
-    git checkout tags/${ROCM_HIPSPARSE_TAG}
+    git checkout ${ROCM_HIPSPARSE_CHECKOUT}
 else
     echo "Skipping download of hipSPARSE, since ${SOURCE_DIR}/hipSPARSE already exists."
 fi

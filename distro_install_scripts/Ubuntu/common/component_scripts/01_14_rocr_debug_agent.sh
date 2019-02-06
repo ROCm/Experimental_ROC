@@ -54,7 +54,7 @@ cd ${SOURCE_DIR}
 if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/rocr_debug_agent ]; then
     git clone -b ${ROCM_VERSION_BRANCH} https://github.com/ROCm-Developer-Tools/rocr_debug_agent.git
     cd ${SOURCE_DIR}/rocr_debug_agent/
-    git checkout tags/${ROCM_VERSION_TAG}
+    git checkout ${ROCR_DEBUG_AGENT_CHECKOUT}
 
     # The debug agent in ROCm 2.0.0 does not build with GCC 8.
     # If we have that, patch the problem out.

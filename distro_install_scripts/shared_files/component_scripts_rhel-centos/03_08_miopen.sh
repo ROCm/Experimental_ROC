@@ -74,7 +74,7 @@ if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/MIOpen ]; then
     cd ${SOURCE_DIR}
     git clone https://github.com/ROCmSoftwarePlatform/MIOpen.git
     cd MIOpen
-    git checkout tags/${ROCM_MIOPEN_TAG}
+    git checkout ${ROCM_MIOPEN_CHECKOUT}
 else
     echo "Skipping download of MIOpen, since ${SOURCE_DIR}/MIOpen already exists."
 fi

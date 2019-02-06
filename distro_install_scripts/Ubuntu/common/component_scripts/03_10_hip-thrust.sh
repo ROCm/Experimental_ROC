@@ -53,7 +53,7 @@ cd ${SOURCE_DIR}
 if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/Thrust ]; then
     git clone --recursive https://github.com/ROCmSoftwarePlatform/Thrust.git
     cd Thrust
-    git checkout ${ROCM_HIPTHRUST_SHA}
+    git checkout ${ROCM_HIPTHRUST_CHECKOUT}
     git submodule update
     sed -i 's/"Thrust"/"hip-thrust"/' ./CMakeLists.txt
     sed -i 's/set(CPACK_DEBIAN_PACKAGE_DEPENDS "cub-hip")//' ./CMakeLists.txt

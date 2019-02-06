@@ -98,7 +98,7 @@ if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/OCL ]; then
     ${SOURCE_DIR}/bin/repo init -u https://github.com/RadeonOpenCompute/ROCm-OpenCL-Runtime.git -b ${ROCM_VERSION_BRANCH} -m opencl.xml
     # Update the revision number to this precise ROCm version, even if its an
     # earlier one from this branch.
-    sed -i 's#refs/tags/roc-[0-9]\.[0-9]\.[0-9]#refs/tags/'${ROCM_VERSION_TAG}'#' $(pwd)/.repo/manifests/opencl.xml
+    sed -i 's#refs/tags/roc-[0-9]\.[0-9]\.[0-9]#refs/'${ROCM_OPENCL_CHECKOUT}'#' $(pwd)/.repo/manifests/opencl.xml
     ${SOURCE_DIR}/bin/repo sync
 
     rm -f ~/.gitconfig

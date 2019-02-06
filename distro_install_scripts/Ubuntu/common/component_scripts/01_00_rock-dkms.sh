@@ -67,8 +67,8 @@ if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/install_files/usr/ 
     cd ${SOURCE_DIR}/
     git clone --branch ${ROCM_VERSION_BRANCH} --single-branch --depth 1 https://github.com/RadeonOpenCompute/ROCK-Kernel-Driver.git
     cd ${SOURCE_DIR}/ROCK-Kernel-Driver
-    git fetch --depth=1 origin "+refs/tags/${ROCM_VERSION_TAG}:refs/tags/${ROCM_VERSION_TAG}"
-    git checkout tags/${ROCM_VERSION_TAG}
+    git fetch --depth=1 origin "+refs/${ROCM_ROCK_CHECKOUT}:refs/${ROCM_ROCK_CHECKOUT}"
+    git checkout ${ROCM_ROCK_CHECKOUT}
 
     cd ${SOURCE_DIR}/install_files/
     pushd ${BASE_DIR}/rock_files/

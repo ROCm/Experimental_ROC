@@ -58,7 +58,7 @@ if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/rocminfo ]; then
     get_cmake "${SOURCE_DIR}"
     git clone https://github.com/RadeonOpenCompute/rocminfo.git
     cd rocminfo
-    git checkout ${ROCMINFO_SHA}
+    git checkout ${ROCM_ROCMINFO_CHECKOUT}
 else
     echo "Skipping download of rocminfo, since ${SOURCE_DIR}/rocminfo already exists."
 fi

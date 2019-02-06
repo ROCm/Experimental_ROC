@@ -60,7 +60,7 @@ if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/rocRAND ]; then
     get_cmake "${SOURCE_DIR}"
     git clone https://github.com/ROCmSoftwarePlatform/rocRAND.git
     cd rocRAND
-    git checkout ${ROCM_ROCRAND_SHA}
+    git checkout ${ROCM_ROCRAND_CHECKOUT}
 else
     echo "Skipping download of rocRAND, since ${SOURCE_DIR}/rocRAND already exists."
 fi

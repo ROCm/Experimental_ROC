@@ -55,7 +55,7 @@ cd ${SOURCE_DIR}
 if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/rocprofiler ]; then
     git clone -b ${ROCM_VERSION_BRANCH} https://github.com/ROCmSoftwarePlatform/rocprofiler.git
     cd ${SOURCE_DIR}/rocprofiler/
-    git checkout tags/${ROCM_VERSION_TAG}
+    git checkout ${ROCM_ROCPROFILER_CHECKOUT}
 else
     echo "Skipping download of ROC profiler, since ${SOURCE_DIR}/rocprofiler already exists."
 fi

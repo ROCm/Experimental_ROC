@@ -57,7 +57,7 @@ if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/hipBLAS ]; then
     get_cmake "${SOURCE_DIR}"
     git clone https://github.com/ROCmSoftwarePlatform/hipBLAS.git
     cd hipBLAS
-    git checkout tags/${ROCM_HIPBLAS_TAG}
+    git checkout ${ROCM_HIPBLAS_CHECKOUT}
 else
     echo "Skipping download of hipBLAS, since ${SOURCE_DIR}/hipBLAS already exists."
 fi

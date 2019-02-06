@@ -58,7 +58,7 @@ if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/clang-ocl ]; then
     get_cmake "${SOURCE_DIR}"
     git clone https://github.com/RadeonOpenCompute/clang-ocl.git
     cd clang-ocl
-    git checkout ${ROCM_CLANG_OCL_SHA}
+    git checkout ${ROCM_CLANG_OCL_CHECKOUT}
 else
     echo "Skipping download of clang-ocl, since ${SOURCE_DIR}/clang-ocl already exists."
 fi

@@ -53,7 +53,7 @@ cd ${SOURCE_DIR}
 if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/rocALUTION ]; then
     git clone https://github.com/ROCmSoftwarePlatform/rocALUTION.git
     cd rocALUTION
-    git checkout tags/${ROCM_ROCALUTION_TAG}
+    git checkout ${ROCM_ROCALUTION_CHECKOUT}
 else
     echo "Skipping download of rocALUTION, since ${SOURCE_DIR}/rocALUTION already exists."
 fi

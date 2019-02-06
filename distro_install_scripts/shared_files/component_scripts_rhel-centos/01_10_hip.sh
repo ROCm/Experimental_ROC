@@ -64,7 +64,7 @@ if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/HIP ]; then
     get_cmake "${SOURCE_DIR}"
     git clone -b ${ROCM_VERSION_BRANCH} https://github.com/ROCm-Developer-Tools/HIP.git
     cd HIP
-    git checkout tags/${ROCM_VERSION_TAG}
+    git checkout ${ROCM_HIP_CHECKOUT}
     patch -p1 < ${BASE_DIR}/patches/01_10_hip.patch
 else
     echo "Skipping download of HIP, since ${SOURCE_DIR}/HIP already exists."

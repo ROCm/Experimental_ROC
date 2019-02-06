@@ -54,7 +54,7 @@ cd ${SOURCE_DIR}
 if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/rocm_bandwidth_test ]; then
     git clone https://github.com/RadeonOpenCompute/rocm_bandwidth_test.git
     cd rocm_bandwidth_test
-    git checkout tags/${ROCM_VERSION_TAG}
+    git checkout ${ROCM_BANDWIDTH_TEST_CHECKOUT}
 else
     echo "Skipping download of ROCm Bandwidth Test, since ${SOURCE_DIR}/rocm_bandwidth_test already exists."
 fi

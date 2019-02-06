@@ -57,7 +57,7 @@ if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/rccl ]; then
     get_cmake "${SOURCE_DIR}"
     git clone https://github.com/ROCmSoftwarePlatform/rccl.git
     cd rccl
-    git checkout tags/${ROCM_RCCL_TAG}
+    git checkout ${ROCM_RCCL_CHECKOUT}
 else
     echo "Skipping download of RCCL, since ${SOURCE_DIR}/rccl already exists."
 fi

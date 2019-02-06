@@ -54,7 +54,7 @@ cd ${SOURCE_DIR}
 if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/ROC-smi ]; then
     git clone -b ${ROCM_VERSION_BRANCH} https://github.com/RadeonOpenCompute/ROC-smi.git
     cd ${SOURCE_DIR}/ROC-smi
-    git checkout tags/${ROCM_VERSION_TAG}
+    git checkout ${ROCM_SMI_CHECKOUT}
     patch -p1 < ${BASE_DIR}/patches/01_03_rocm_smi.patch
 else
     echo "Skipping download of rocm-smi, since ${SOURCE_DIR}/ROC-smi already exists."

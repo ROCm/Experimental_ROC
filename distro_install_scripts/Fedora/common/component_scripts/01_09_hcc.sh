@@ -59,10 +59,10 @@ cd ${SOURCE_DIR}
 if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/hcc ]; then
     git clone --recursive -b ${ROCM_VERSION_BRANCH} https://github.com/RadeonOpenCompute/hcc.git
     cd ${SOURCE_DIR}/hcc
-    git checkout tags/${ROCM_VERSION_TAG}
+    git checkout ${ROCM_HCC_CHECKOUT}
     git submodule update
     # Update the cmake file to allow for open-source build of ROCm.
-    patch -p 1 < ${BASE_DIR}/patches/08_hcc.patch
+    patch -p 1 < ${BASE_DIR}/patches/01_09_hcc.patch
 else
     echo "Skipping download of hcc, since ${SOURCE_DIR}/hcc already exists."
 fi

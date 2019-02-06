@@ -57,7 +57,7 @@ if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/rocm_smi_lib ]; the
     get_cmake "${SOURCE_DIR}"
     git clone https://github.com/RadeonOpenCompute/rocm_smi_lib.git
     cd rocm_smi_lib
-    git checkout tags/${ROCM_VERSION_TAG}
+    git checkout ${ROCM_SMILIB_CHECKOUT}
 else
     echo "Skipping download of ROCm SMI Lib, since ${SOURCE_DIR}/rocm_smi_lib already exists."
 fi

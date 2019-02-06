@@ -53,7 +53,7 @@ cd ${SOURCE_DIR}
 if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/Thrust ]; then
     git clone --recursive https://github.com/ROCmSoftwarePlatform/Thrust.git
     cd Thrust
-    git checkout ${ROCM_HIPTHRUST_SHA}
+    git checkout ${ROCM_HIPTHRUST_CHECKOUT}
     git submodule update
     sed -i 's/set(CPACK_RPM_PACKAGE_DEPENDS "cub-hip")//' ./CMakeLists.txt
     # Someone committed a bunch of hidden .swp files to cub-hip. These can

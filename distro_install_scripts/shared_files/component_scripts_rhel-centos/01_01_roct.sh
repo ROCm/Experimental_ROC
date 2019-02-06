@@ -59,7 +59,7 @@ if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/ROCT-Thunk-Interfac
     get_cmake "${SOURCE_DIR}"
     git clone -b ${ROCM_VERSION_BRANCH} https://github.com/RadeonOpenCompute/ROCT-Thunk-Interface.git
     cd ${SOURCE_DIR}/ROCT-Thunk-Interface/
-    git checkout tags/${ROCM_VERSION_TAG}
+    git checkout ${ROCM_ROCT_CHECKOUT}
 
     # Fix up the packaging cmake command for the hsakmt-roct-dev
     sed -i 's/${CMAKE_COMMAND}/${CMAKE_COMMAND} "-DCPACK_RPM_DEFAULT_DIR_PERMISSIONS=\\"${CPACK_RPM_DEFAULT_DIR_PERMISSIONS}\\""/' ./CMakeLists.txt

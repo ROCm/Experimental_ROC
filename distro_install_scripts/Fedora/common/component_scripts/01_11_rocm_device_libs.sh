@@ -58,15 +58,15 @@ if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/llvm_amd-common ]; 
     cd ${SOURCE_DIR}
     git clone -b ${ROCM_VERSION_BRANCH} https://github.com/RadeonOpenCompute/llvm.git llvm_amd-common
     cd ${SOURCE_DIR}/llvm_amd-common
-    git checkout tags/${ROCM_VERSION_TAG}
+    git checkout ${ROCM_DEVICE_LIBS_CHECKOUT}
     cd ${SOURCE_DIR}/llvm_amd-common/tools
     git clone -b ${ROCM_VERSION_BRANCH} https://github.com/RadeonOpenCompute/lld.git lld
     cd ${SOURCE_DIR}/llvm_amd-common/tools/lld
-    git checkout tags/${ROCM_VERSION_TAG}
+    git checkout ${ROCM_DEVICE_LIBS_CHECKOUT}
     cd ${SOURCE_DIR}/llvm_amd-common/tools
     git clone -b ${ROCM_VERSION_BRANCH} https://github.com/RadeonOpenCompute/clang.git clang
     cd ${SOURCE_DIR}/llvm_amd-common/tools/clang
-    git checkout tags/${ROCM_VERSION_TAG}
+    git checkout ${ROCM_DEVICE_LIBS_CHECKOUT}
 else
     echo "Skipping download of ROCm LLVM for device libs, since ${SOURCE_DIR}/llvm_amd-common already exists."
 fi
@@ -75,7 +75,7 @@ if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/ROCm-Device-Libs ];
     cd ${SOURCE_DIR}
     git clone -b ${ROCM_VERSION_BRANCH} https://github.com/RadeonOpenCompute/ROCm-Device-Libs.git
     cd ${SOURCE_DIR}/ROCm-Device-Libs/
-    git checkout tags/${ROCM_VERSION_TAG}
+    git checkout ${ROCM_DEVICE_LIBS_CHECKOUT}
 else
     echo "Skipping download of ROCm Device Libs, since ${SOURCE_DIR}/ROCm-Device-Libs already exists."
 fi

@@ -54,7 +54,7 @@ cd ${SOURCE_DIR}
 if [ ${ROCM_FORCE_GET_CODE} = true ] || [ ! -d ${SOURCE_DIR}/ROCT-Thunk-Interface ]; then
     git clone -b ${ROCM_VERSION_BRANCH} https://github.com/RadeonOpenCompute/ROCT-Thunk-Interface.git
     cd ${SOURCE_DIR}/ROCT-Thunk-Interface/
-    git checkout tags/${ROCM_VERSION_TAG}
+    git checkout ${ROCM_ROCT_CHECKOUT}
 
     # GCC 8.1 on Fedora is unhappy with a string copy in the thunk.
     # https://github.com/RadeonOpenCompute/ROCT-Thunk-Interface/issues/22
