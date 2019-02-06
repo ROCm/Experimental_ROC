@@ -1,6 +1,6 @@
 #!/bin/bash
 ###############################################################################
-# Copyright (c) 2018 Advanced Micro Devices, Inc.
+# Copyright (c) 2018-2019 Advanced Micro Devices, Inc.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -28,10 +28,32 @@ source "$BASE_DIR/common/common_options.sh"
 parse_args "$@"
 
 echo "Preparing to set up ROCm requirements. You must be root/sudo for this."
-sudo dnf install -y kernel-headers-`uname -r` kernel-devel-`uname -r`
+sudo dnf install -y dkms kernel-headers-`uname -r` kernel-devel-`uname -r` wget bzip2
+
+# 2.0.0 is an old release, so the deb packages have moved over to an archive
+# tarball. Let's set up a local repo to allow us to do the install here.
+# Store the repo in the source directory or a temp directory.
+if [ $ROCM_SAVE_SOURCE = true ]; then
+    SOURCE_DIR=${ROCM_SOURCE_DIR}
+    if [ ${ROCM_FORCE_GET_CODE} = true ] && [ -d ${SOURCE_DIR}/rocm_2.0.0 ]; then
+        rm -rf ${SOURCE_DIR}/rocm_2.0.0
+    fi
+    mkdir -p ${SOURCE_DIR}
+else
+    SOURCE_DIR=`mktemp -d`
+fi
+cd ${SOURCE_DIR}
+if [ ! -f ${SOURCE_DIR}/yum_2.0.0.tar.bz2 ]; then
+    wget http://repo.radeon.com/rocm/archive/yum_2.0.0.tar.bz2
+fi
+if [ ! -d yum_2.0.0.89 ]; then
+    tar -xf yum_2.0.0.tar.bz2
+fi
+cd yum_2.0.0.89
+REAL_SOURCE_DIR=`realpath ${SOURCE_DIR}`
 sudo sh -c "echo [ROCm] > /etc/yum.repos.d/rocm.repo"
 sudo sh -c "echo name=ROCm >> /etc/yum.repos.d/rocm.repo"
-sudo sh -c "echo baseurl=http://repo.radeon.com/rocm/yum/rpm >> /etc/yum.repos.d/rocm.repo"
+sudo sh -c "echo baseurl=file://${REAL_SOURCE_DIR}/yum_2.0.0.89/ >> /etc/yum.repos.d/rocm.repo"
 sudo sh -c "echo enabled=1 >> /etc/yum.repos.d/rocm.repo"
 sudo sh -c "echo gpgcheck=0 >> /etc/yum.repos.d/rocm.repo"
 
@@ -82,6 +104,7 @@ if [ ${ROCM_BUILD_HCC_FROM_SOURCE} = true ]; then
 else
     sudo dnf --setopt=install_weak_deps=False install -y rocm-device-libs atmi comgr rocr_debug_agent rocm_bandwidth_test rocm-utils
 fi
+sudo rm -f /etc/yum.repos.d/rocm.repo
 mkdir -p /opt/rocm/.info/
 echo ${ROCM_VERSION_LONG} | sudo tee /opt/rocm/.info/version
 sudo mkdir -p /etc/udev/rules.d/
