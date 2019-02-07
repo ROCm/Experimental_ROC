@@ -66,7 +66,7 @@ fi
 cd ${SOURCE_DIR}/rocRAND
 mkdir -p build/release
 cd build/release
-HIP_PLATFORM=hcc ROCM_PATH=${ROCM_INPUT_DIR} CXX=${ROCM_INPUT_DIR}/bin/hcc cmake -DCPACK_PACKAGING_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/ -DCPACK_GENERATOR=DEB  -DCMAKE_BUILD_TYPE=${ROCM_CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/ -DCMAKE_MODULE_PATH=${ROCM_INPUT_DIR}/hip/cmake/ ../../
+HIP_PLATFORM=hcc ROCM_PATH=${ROCM_INPUT_DIR} CXX=${ROCM_INPUT_DIR}/bin/hcc cmake -DCPACK_PACKAGING_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/ -DCPACK_GENERATOR=DEB  -DCMAKE_BUILD_TYPE=${ROCM_CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/ -DCMAKE_MODULE_PATH=${ROCM_INPUT_DIR}/hip/cmake/ -DBUILD_TEST=OFF ../../
 # Linking can take a large amount of memory, and it will fail if you do not
 # have enough memory available per thread. As such, this # logic limits the
 # number of build threads in response to the amount of available memory on

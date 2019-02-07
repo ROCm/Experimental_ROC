@@ -32,7 +32,7 @@ parse_args "$@"
 if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
     echo "Installing software required to build HIP."
     echo "You will need to have root privileges to do this."
-    sudo apt -y install build-essential cmake pkg-config git libelf-dev
+    sudo apt -y install build-essential cmake pkg-config git libelf-dev doxygen
     if [ ${ROCM_INSTALL_PREREQS} = true ] && [ ${ROCM_FORCE_GET_CODE} = false ]; then
         exit 0
     fi

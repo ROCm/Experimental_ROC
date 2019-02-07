@@ -34,7 +34,7 @@ parse_args "$@"
 if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
     echo "Installing software required to build HIP."
     echo "You will need to have root privileges to do this."
-    sudo yum -y install cmake pkgconfig git elfutils-libelf wget patch rpm-build
+    sudo yum -y install cmake pkgconfig git elfutils-libelf wget patch rpm-build doxygen
     if [ ${ROCM_INSTALL_PREREQS} = true ] && [ ${ROCM_FORCE_GET_CODE} = false ]; then
         exit 0
     fi

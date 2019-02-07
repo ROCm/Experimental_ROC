@@ -103,9 +103,9 @@ if [ ${ROCM_FORCE_PACKAGE} = true ]; then
             echo "Bad package name! ${pkg_name}"
             exit 1
         fi
-    cd ${SOURCE_DIR}/meta_packages/
-    mv ${pkg_name} ${pkg_name}-${ROCM_VERSION_LONG}_amd64
-    dpkg-deb --build ${pkg_name}-${ROCM_VERSION_LONG}_amd64
+        cd ${SOURCE_DIR}/meta_packages/
+        mv ${pkg_name} ${pkg_name}-${ROCM_VERSION_LONG}_amd64
+        dpkg-deb --build ${pkg_name}-${ROCM_VERSION_LONG}_amd64
         echo "Copying `ls -1 ${pkg_name}-*.deb` to ${ROCM_PACKAGE_DIR}"
         mkdir -p ${ROCM_PACKAGE_DIR}
         cp ${pkg_name}-*.deb ${ROCM_PACKAGE_DIR}
