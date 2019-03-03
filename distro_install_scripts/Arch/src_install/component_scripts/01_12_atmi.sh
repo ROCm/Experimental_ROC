@@ -32,7 +32,7 @@ parse_args "$@"
 if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
     echo "Installing software required to build ATMI."
     echo "You will need to have root privileges to do this."
-    sudo pacman -Sy --noconfirm --needed base-devel cmake pkgconf git
+    sudo pacman -Sy --noconfirm --needed base-devel cmake pkgconf git rsync
     if [ ${ROCM_INSTALL_PREREQS} = true ] && [ ${ROCM_FORCE_GET_CODE} = false ]; then
         exit 0
     fi
