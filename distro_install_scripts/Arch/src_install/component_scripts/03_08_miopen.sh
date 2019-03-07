@@ -104,7 +104,9 @@ if [ ${ROCM_FORCE_BUILD_ONLY} = true ]; then
     exit 0
 fi
 
-# if [ ${ROCM_FORCE_PACKAGE} = true ]; then
+if [ ${ROCM_FORCE_PACKAGE} = true ]; then
+    echo "Sorry, packaging not yet implemented for this distribution"
+    exit 2
 #     make package
 #     if [ ${MIOPEN_FORCE_OPENCL} = false ]; then
 #         echo "Copying `ls -1 MIOpen-HIP-*.deb` to ${ROCM_PACKAGE_DIR}"
@@ -131,7 +133,7 @@ fi
 #             sudo dpkg -i ./MIOpen-OpenCL-*.deb
 #         fi
 #     fi
-# else
+else
     ${ROCM_SUDO_COMMAND} make install
 
     if [ ${MIOPEN_FORCE_OPENCL} = false ]; then
@@ -143,7 +145,7 @@ fi
             echo ${ROCM_OUTPUT_DIR}/lib | ${ROCM_SUDO_COMMAND} tee -a /etc/ld.so.conf.d/MIOpen-OpenCL.conf
         fi
     fi
-# fi
+fi
 
 if [ $ROCM_SAVE_SOURCE = false ]; then
     rm -rf ${SOURCE_DIR}

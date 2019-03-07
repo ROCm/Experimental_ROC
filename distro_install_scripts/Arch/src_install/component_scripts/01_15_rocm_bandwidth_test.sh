@@ -75,7 +75,9 @@ if [ ${ROCM_FORCE_BUILD_ONLY} = true ]; then
     exit 0
 fi
 
-# if [ ${ROCM_FORCE_PACKAGE} = true ]; then
+if [ ${ROCM_FORCE_PACKAGE} = true ]; then
+    echo "Sorry, packaging not yet implemented for this distribution"
+    exit 2
 #     make package
 #     echo "Copying `ls -1 rocm_bandwidth_test-*.deb` to ${ROCM_PACKAGE_DIR}"
 #     mkdir -p ${ROCM_PACKAGE_DIR}
@@ -88,9 +90,9 @@ fi
 #         fi
 #         sudo dpkg -i ./rocm_bandwidth_test-*.deb
 #     fi
-# else
+else
     ${ROCM_SUDO_COMMAND} make install
-# fi
+fi
 
 if [ $ROCM_SAVE_SOURCE = false ]; then
     rm -rf ${SOURCE_DIR}

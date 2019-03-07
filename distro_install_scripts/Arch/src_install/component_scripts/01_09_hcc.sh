@@ -114,7 +114,9 @@ if [ ${ROCM_FORCE_BUILD_ONLY} = true ]; then
     exit 0
 fi
 
-# if [ ${ROCM_FORCE_PACKAGE} = true ]; then
+if [ ${ROCM_FORCE_PACKAGE} = true ]; then
+    echo "Sorry, packaging not yet implemented for this distribution"
+    exit 2
 #     make package
 #     echo "Copying `ls -1 hcc-*.deb` to ${ROCM_PACKAGE_DIR}"
 #     mkdir -p ${ROCM_PACKAGE_DIR}
@@ -127,7 +129,7 @@ fi
 #         fi
 #         sudo dpkg -i hcc-*.deb
 #     fi
-# else
+else
     ${ROCM_SUDO_COMMAND} make install
     ${ROCM_SUDO_COMMAND} mkdir -p ${ROCM_OUTPUT_DIR}/bin/
     ${ROCM_SUDO_COMMAND} bash -c 'for i in lld clamp-config extractkernel hcc hcc-config; do ln -sf '"${ROCM_OUTPUT_DIR}"'/hcc/bin/${i} '"${ROCM_OUTPUT_DIR}"'/bin/${i}; done'
@@ -137,7 +139,7 @@ fi
     fi
     ${ROCM_SUDO_COMMAND} mkdir -p ${ROCM_OUTPUT_DIR}/lib/
     ${ROCM_SUDO_COMMAND} bash -c 'for i in libclang_rt.builtins-x86_64.a libhc_am.so libmcwamp.a libmcwamp_atomic.a libmcwamp_cpu.so libmcwamp_hsa.so; do ln -sf '"${ROCM_OUTPUT_DIR}"'/hcc/lib/${i} '"${ROCM_OUTPUT_DIR}"'/lib/${i}; done'
-# fi
+fi
 
 if [ $ROCM_SAVE_SOURCE = false ]; then
     rm -rf ${SOURCE_DIR}

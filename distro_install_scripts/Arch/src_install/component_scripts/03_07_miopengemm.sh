@@ -92,7 +92,9 @@ if [ ${ROCM_FORCE_BUILD_ONLY} = true ]; then
     exit 0
 fi
 
-# if [ ${ROCM_FORCE_PACKAGE} = true ]; then
+if [ ${ROCM_FORCE_PACKAGE} = true ]; then
+    echo "Sorry, packaging not yet implemented for this distribution"
+    exit 2
 #     make package
 #     echo "Copying `ls -1 miopengemm-*.deb` to ${ROCM_PACKAGE_DIR}"
 #     mkdir -p ${ROCM_PACKAGE_DIR}
@@ -105,13 +107,13 @@ fi
 #         fi
 #         sudo dpkg -i ./miopengemm-*.deb
 #     fi
-# else
+else
     ${ROCM_SUDO_COMMAND} make install
 
     if [ ${ROCM_LOCAL_INSTALL} = false ]; then
         echo ${ROCM_OUTPUT_DIR}/lib | ${ROCM_SUDO_COMMAND} tee -a /etc/ld.so.conf.d/miopengemm.conf
     fi
-# fi
+fi
 
 if [ $ROCM_SAVE_SOURCE = false ]; then
     rm -rf ${SOURCE_DIR}

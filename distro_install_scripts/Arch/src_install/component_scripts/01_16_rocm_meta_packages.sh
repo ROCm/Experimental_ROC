@@ -76,7 +76,9 @@ fi
 #          those for this open source build.
 #  * rocm-utils, which depends/installs: rocminfo, rocm-clang-ocl, and
 #      rocm-cmake
-# if [ ${ROCM_FORCE_PACKAGE} = true ]; then
+if [ ${ROCM_FORCE_PACKAGE} = true ]; then
+    echo "Sorry, packaging not yet implemented for this distribution"
+    exit 2
 #     for pkg_name in rocm-utils rocm-dev rocm-dkms; do
 #         mkdir -p ${SOURCE_DIR}/meta_packages/${pkg_name}/DEBIAN/
 #         cd ${SOURCE_DIR}/meta_packages/${pkg_name}
@@ -118,14 +120,14 @@ fi
 #             sudo dpkg -i ${pkg_name}-*.deb
 #         fi
 #     done
-# else
+else
     # Normally, installing rocm-dkms handles this udev rule.
     # Since we are skipping the package, "install" this rule here.
     if [ ${ROCM_LOCAL_INSTALL} = false; then
         sudo mkdir -p /etc/udev/rules.d/
         echo 'SUBSYSTEM=="kfd", KERNEL=="kfd", TAG+="uaccess", GROUP="video"' | sudo tee /etc/udev/rules.d/70-kfd.rules
     fi
-# fi
+fi
 
 if [ $ROCM_SAVE_SOURCE = false ]; then
     rm -rf ${SOURCE_DIR}

@@ -95,18 +95,20 @@ if [ ${ROCM_FORCE_BUILD_ONLY} = true ]; then
 fi
 
 if [ ${ROCM_FORCE_PACKAGE} = true ]; then
-    make package
-    echo "Copying `ls -1 rocblas-*.deb` to ${ROCM_PACKAGE_DIR}"
-    mkdir -p ${ROCM_PACKAGE_DIR}
-    cp ./rocblas-*.deb ${ROCM_PACKAGE_DIR}
-    if [ ${ROCM_LOCAL_INSTALL} = false ]; then
-        ROCM_PKG_IS_INSTALLED=`dpkg -l rocblas | grep '^.i' | wc -l`
-        if [ ${ROCM_PKG_IS_INSTALLED} -gt 0 ]; then
-            PKG_NAME=`dpkg -l rocblas | grep '^.i' | awk '{print $2}'`
-            sudo dpkg -r --force-depends ${PKG_NAME}
-        fi
-        sudo dpkg -i ./rocblas-*.deb
-    fi
+    echo "Sorry, packaging not yet implemented for this distribution"
+    exit 2
+    # make package
+    # echo "Copying `ls -1 rocblas-*.deb` to ${ROCM_PACKAGE_DIR}"
+    # mkdir -p ${ROCM_PACKAGE_DIR}
+    # cp ./rocblas-*.deb ${ROCM_PACKAGE_DIR}
+    # if [ ${ROCM_LOCAL_INSTALL} = false ]; then
+    #     ROCM_PKG_IS_INSTALLED=`dpkg -l rocblas | grep '^.i' | wc -l`
+    #     if [ ${ROCM_PKG_IS_INSTALLED} -gt 0 ]; then
+    #         PKG_NAME=`dpkg -l rocblas | grep '^.i' | awk '{print $2}'`
+    #         sudo dpkg -r --force-depends ${PKG_NAME}
+    #     fi
+    #     sudo dpkg -i ./rocblas-*.deb
+    # fi
 else
     ${ROCM_SUDO_COMMAND} make install
 

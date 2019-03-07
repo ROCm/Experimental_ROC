@@ -130,7 +130,9 @@ if [ ${ROCM_FORCE_BUILD_ONLY} = true ]; then
     exit 0
 fi
 
-# if [ ${ROCM_FORCE_PACKAGE} = true ]; then
+if [ ${ROCM_FORCE_PACKAGE} = true ]; then
+    echo "Sorry, packaging not yet implemented for this distribution"
+    exit 2
 #     make package
 #     echo "Copying `ls -1 comgr-*.deb` to ${ROCM_PACKAGE_DIR}"
 #     mkdir -p ${ROCM_PACKAGE_DIR}
@@ -143,13 +145,13 @@ fi
 #         fi
 #         sudo dpkg -i ./comgr-*.deb
 #     fi
-# else
+else
     ${ROCM_SUDO_COMMAND} make install
     ${ROCM_SUDO_COMMAND} mkdir -p ${ROCM_OUTPUT_DIR}/include/comgr/
     #${ROCM_SUDO_COMMAND} cp ${ROCM_OUTPUT_DIR}/include/amd_comgr.h ${ROCM_OUTPUT_DIR}/include/comgr/
     #${ROCM_SUDO_COMMAND} cp ${ROCM_OUTPUT_DIR}/lib/libamd_comgr.so ${ROCM_OUTPUT_DIR}/lib/libcomgr.so
     #${ROCM_SUDO_COMMAND} cp ${ROCM_OUTPUT_DIR}/share/amd_comgr/ ${ROCM_OUTPUT_DIR}/
-# fi
+fi
 
 if [ $ROCM_SAVE_SOURCE = false ]; then
     rm -rf ${SOURCE_DIR}

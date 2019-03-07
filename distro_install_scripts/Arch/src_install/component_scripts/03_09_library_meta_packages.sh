@@ -67,7 +67,9 @@ fi
 
 # Our libraries ROCm meta-package is:
 #  * rocm-libs, which depends/installs: rocblas, rocfft, rocrand, and hipblas
-# if [ ${ROCM_FORCE_PACKAGE} = true ]; then
+if [ ${ROCM_FORCE_PACKAGE} = true ]; then
+    echo "Sorry, packaging not yet implemented for this distribution"
+    exit 2
 #     for pkg_name in rocm-libs; do
 #         mkdir -p ${SOURCE_DIR}/meta_packages/${pkg_name}/DEBIAN/
 #         cd ${SOURCE_DIR}/meta_packages/${pkg_name}
@@ -97,7 +99,7 @@ fi
 #             sudo dpkg -i ${pkg_name}-*.deb
 #         fi
 #     done
-# fi
+fi
 
 if [ $ROCM_SAVE_SOURCE = false ]; then
     rm -rf ${SOURCE_DIR}

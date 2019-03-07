@@ -75,7 +75,9 @@ if [ ${ROCM_FORCE_BUILD_ONLY} = true ]; then
     exit 0
 fi
 
-# if [ ${ROCM_FORCE_PACKAGE} = true ]; then
+if [ ${ROCM_FORCE_PACKAGE} = true ]; then
+    echo "Sorry, packaging not yet implemented for this distribution"
+    exit 2
 #     make package
 #     for pkg in base doc hcc samples; do
 #         echo "Copying `ls -1 hip_${pkg}-*.deb` to ${ROCM_PACKAGE_DIR}"
@@ -92,7 +94,7 @@ fi
 #             sudo dpkg -i ./hip_${pkg}-*.deb
 #         done
 #     fi
-# else
+else
     ${ROCM_SUDO_COMMAND} make install
 
     # Fix up files into the locations they s/hcc/hould be installed into
@@ -112,7 +114,7 @@ fi
 
     # hip_samples packages:
     ${ROCM_SUDO_COMMAND} cp -R ${SOURCE_DIR}/HIP/samples ${ROCM_OUTPUT_DIR}/hip/
-# fi
+fi
 
 if [ $ROCM_SAVE_SOURCE = false ]; then
     rm -rf ${SOURCE_DIR}

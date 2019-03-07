@@ -92,7 +92,9 @@ if [ ${ROCM_FORCE_BUILD_ONLY} = true ]; then
     exit 0
 fi
 
-# if [ ${ROCM_FORCE_PACKAGE} = true ]; then
+if [ ${ROCM_FORCE_PACKAGE} = true ]; then
+    echo "Sorry, packaging not yet implemented for this distribution"
+    exit 2
 #     # Temporarily delete the bad symlink mentioned above
 #     BAD_SYMLINK_LOCATION=`find ${SOURCE_DIR}/Thrust/ -name cub -type l`
 #     rm -f ${BAD_SYMLINK_LOCATION}
@@ -112,9 +114,9 @@ fi
 #         fi
 #         sudo dpkg -i ./hip-thrust-*.deb
 #     fi
-# else
+else
     ${ROCM_SUDO_COMMAND} make install
-# fi
+fi
 
 if [ $ROCM_SAVE_SOURCE = false ]; then
     rm -rf ${SOURCE_DIR}

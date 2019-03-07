@@ -78,33 +78,34 @@ if [ ${ROCM_FORCE_BUILD_ONLY} = true ]; then
     exit 0
 fi
 
-# This section could come back if PKGBUILD scripts were written for any of these, I guess
-# if [ ${ROCM_FORCE_PACKAGE} = true ]; then
-#     make package
-#     echo "Copying `ls -1 hsakmt-roct-*.deb` to ${ROCM_PACKAGE_DIR}"
-#     mkdir -p ${ROCM_PACKAGE_DIR}
-#     cp hsakmt-roct-*.deb ${ROCM_PACKAGE_DIR}
-#     if [ ${ROCM_LOCAL_INSTALL} = false ]; then
-#         ROCM_PKG_IS_INSTALLED=`dpkg -l hsakmt-roct-[0-9] | grep '^.i' | wc -l`
-#         if [ ${ROCM_PKG_IS_INSTALLED} -gt 0 ]; then
-#             PKG_NAME=`dpkg -l hsakmt-roct-[0-9] | grep '^.i' | awk '{print $2}'`
-#             sudo dpkg -r --force-depends ${PKG_NAME}
-#         fi
-#         sudo dpkg -i hsakmt-roct-*.deb
-#     fi
-#     cd hsakmt-roct-dev
-#     make package
-#     echo "Copying `ls -1 hsakmt-roct-dev-*.deb` to ${ROCM_PACKAGE_DIR}"
-#     cp hsakmt-roct-dev-*.deb ${ROCM_PACKAGE_DIR}
-#     if [ ${ROCM_LOCAL_INSTALL} = false ]; then
-#         ROCM_PKG_IS_INSTALLED=`dpkg -l hsakmt-roct-dev | grep '^.i' | wc -l`
-#         if [ ${ROCM_PKG_IS_INSTALLED} -gt 0 ]; then
-#             PKG_NAME=`dpkg -l hsakmt-roct-dev | grep '^.i' | awk '{print $2}'`
-#             sudo dpkg -r --force-depends ${PKG_NAME}
-#         fi
-#         sudo dpkg -i hsakmt-roct-dev-*.deb
-#     fi
-# else
+if [ ${ROCM_FORCE_PACKAGE} = true ]; then
+    echo "Sorry, packaging not yet implemented for this distribution"
+    exit 2
+    # make package
+    # echo "Copying `ls -1 hsakmt-roct-*.deb` to ${ROCM_PACKAGE_DIR}"
+    # mkdir -p ${ROCM_PACKAGE_DIR}
+    # cp hsakmt-roct-*.deb ${ROCM_PACKAGE_DIR}
+    # if [ ${ROCM_LOCAL_INSTALL} = false ]; then
+    #     ROCM_PKG_IS_INSTALLED=`dpkg -l hsakmt-roct-[0-9] | grep '^.i' | wc -l`
+    #     if [ ${ROCM_PKG_IS_INSTALLED} -gt 0 ]; then
+    #         PKG_NAME=`dpkg -l hsakmt-roct-[0-9] | grep '^.i' | awk '{print $2}'`
+    #         sudo dpkg -r --force-depends ${PKG_NAME}
+    #     fi
+    #     sudo dpkg -i hsakmt-roct-*.deb
+    # fi
+    # cd hsakmt-roct-dev
+    # make package
+    # echo "Copying `ls -1 hsakmt-roct-dev-*.deb` to ${ROCM_PACKAGE_DIR}"
+    # cp hsakmt-roct-dev-*.deb ${ROCM_PACKAGE_DIR}
+    # if [ ${ROCM_LOCAL_INSTALL} = false ]; then
+    #     ROCM_PKG_IS_INSTALLED=`dpkg -l hsakmt-roct-dev | grep '^.i' | wc -l`
+    #     if [ ${ROCM_PKG_IS_INSTALLED} -gt 0 ]; then
+    #         PKG_NAME=`dpkg -l hsakmt-roct-dev | grep '^.i' | awk '{print $2}'`
+    #         sudo dpkg -r --force-depends ${PKG_NAME}
+    #     fi
+    #     sudo dpkg -i hsakmt-roct-dev-*.deb
+    # fi
+else
     ${ROCM_SUDO_COMMAND} mkdir -p ${ROCM_OUTPUT_DIR}/lib/
     ${ROCM_SUDO_COMMAND} make install
     ${ROCM_SUDO_COMMAND} make install-dev
@@ -113,7 +114,7 @@ fi
         ${ROCM_SUDO_COMMAND} sh -c "echo ${ROCM_OUTPUT_DIR}/lib > /etc/ld.so.conf.d/x86_64-libhsakmt.conf"
         ${ROCM_SUDO_COMMAND} ldconfig
     fi
-# fi
+fi
 
 if [ $ROCM_SAVE_SOURCE = false ]; then
     rm -rf ${SOURCE_DIR}

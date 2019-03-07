@@ -70,7 +70,9 @@ if [ ${ROCM_FORCE_BUILD_ONLY} = true ]; then
 fi
 
 cd ${SOURCE_DIR}/ROC-smi
-# if [ ${ROCM_FORCE_PACKAGE} = true ]; then
+if [ ${ROCM_FORCE_PACKAGE} = true ]; then
+    echo "Sorry, packaging not yet implemented for this distribution"
+    exit 2
 #     sed -i 's#/opt/rocm/#'${ROCM_OUTPUT_DIR}/'#' ./Makefile
 #     make deb
 #     echo "Copying `ls -1 ./build/deb/rocm-smi-*.deb` to ${ROCM_PACKAGE_DIR}"
@@ -84,11 +86,11 @@ cd ${SOURCE_DIR}/ROC-smi
 #         fi
 #         sudo dpkg -i ./build/deb/rocm-smi-*.deb
 #     fi
-# else
+else
     # Install rocm-smi
     ${ROCM_SUDO_COMMAND} mkdir -p ${ROCM_OUTPUT_DIR}/bin/
     ${ROCM_SUDO_COMMAND} cp -R rocm* ${ROCM_OUTPUT_DIR}/bin/
-# fi
+fi
 
 if [ $ROCM_SAVE_SOURCE = false ]; then
     rm -rf ${SOURCE_DIR}

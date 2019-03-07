@@ -135,7 +135,9 @@ if [ ${ROCM_FORCE_BUILD_ONLY} = true ]; then
     exit 0
 fi
 
-# if [ ${ROCM_FORCE_PACKAGE} = true ]; then
+if [ ${ROCM_FORCE_PACKAGE} = true ]; then
+    echo "Sorry, packaging not yet implemented for this distribution"
+    exit 2
 #     # Making the packages from the OpenCL runtime build is not as simple as
 #     # calling make package. We are going to package/dpkg-deb this ourselves.
 #     OPENCL_PKG_VERSION=`git log -1 --date=iso | grep Date | awk '{print $2}' | sed 's/-//g'`
@@ -225,7 +227,7 @@ fi
 #         fi
 #         sudo dpkg -i rocm-opencl-dev-*.deb
 #     fi
-# else
+else
     ${ROCM_SUDO_COMMAND} make install
 
     if [ ${ROCM_LOCAL_INSTALL} = false ]; then
@@ -277,7 +279,7 @@ fi
     ${ROCM_SUDO_COMMAND} rm -f ${ROCM_OUTPUT_DIR}/opencl/include/CL/cl_dx9*
     ${ROCM_SUDO_COMMAND} rm -f ${ROCM_OUTPUT_DIR}/opencl/include/CL/cl2.hpp
     ${ROCM_SUDO_COMMAND} rm -rf /tmp/opencl2.2/
-# fi
+fi
 
 if [ $ROCM_SAVE_SOURCE = false ]; then
     rm -rf ${SOURCE_DIR}
