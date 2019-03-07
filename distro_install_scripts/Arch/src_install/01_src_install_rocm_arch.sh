@@ -36,7 +36,6 @@ if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
 fi
 
 
-# ${BASE_DIR}/component_scripts/01_00_rock-dkms.sh "$@"
 ${BASE_DIR}/component_scripts/01_01_roct.sh "$@"
 ${BASE_DIR}/component_scripts/01_02_rocr.sh "$@"
 ${BASE_DIR}/component_scripts/01_03_rocm_smi.sh "$@"
