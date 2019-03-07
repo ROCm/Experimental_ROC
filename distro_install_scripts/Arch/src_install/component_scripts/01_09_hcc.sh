@@ -86,11 +86,9 @@ MEM_AVAIL=`cat /proc/meminfo | grep MemTotal | awk {'print $2'}`
 AVAIL_THREADS=`nproc`
 
 # Give about 4 GB to each building thread
-# MAX_THREADS=`echo $(( ${MEM_AVAIL} / $(( 1024 * 1024 * 4 )) ))`
-MAX_THREADS=`echo $(( ${MEM_AVAIL} / $(( 1024 * 1024 * 2 )) ))`
+MAX_THREADS=`echo $(( ${MEM_AVAIL} / $(( 1024 * 1024 * 4 )) ))`
 if [ ${ROCM_CMAKE_BUILD_TYPE} = "RelWithDebInfo" ]; then
-    #MAX_THREADS=`echo $(( ${MEM_AVAIL} / $(( 1024 * 1024 * 6 )) ))`
-    MAX_THREADS=`echo $(( ${MEM_AVAIL} / $(( 1024 * 1024 * 3 )) ))`
+    MAX_THREADS=`echo $(( ${MEM_AVAIL} / $(( 1024 * 1024 * 6 )) ))`
 fi
 if [ ${MAX_THREADS} -lt ${AVAIL_THREADS} ]; then
     NUM_BUILD_THREADS=${MAX_THREADS}

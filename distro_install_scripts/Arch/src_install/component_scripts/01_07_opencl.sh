@@ -115,10 +115,8 @@ cmake -DCMAKE_BUILD_TYPE=${ROCM_CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${ROCM_
 MEM_AVAIL=`cat /proc/meminfo | grep MemTotal | awk {'print $2'}`
 AVAIL_THREADS=`nproc`
 
-# Originally tried to
 # Give about 4 GB to each building thread
-# 1 Gig seemed enough running 24 threads on 32GB
-MAX_THREADS=`echo $(( ${MEM_AVAIL} / $(( 1024 * 1024))))`
+MAX_THREADS=`echo $(( ${MEM_AVAIL} / $(( 1024 * 1024 * 4 )) ))`
 if [ ${MAX_THREADS} -lt ${AVAIL_THREADS} ]; then
     NUM_BUILD_THREADS=${MAX_THREADS}
 else
