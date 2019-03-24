@@ -55,7 +55,11 @@ echo "deb [trusted=yes arch=amd64] file:///${REAL_SOURCE_DIR}/apt_2.0.0.89/ xeni
 
 sudo apt update
 
-if [ `lsb_release -rs` = "18.10" ]; then
+sys_version=`lsb_release -rs` # lsb-core already installed
+sys_version_first=${sys_version%%.*}
+sys_version_tail=${sys_version#*.}
+sys_version_second=`expr ${sys_version_tail%%.*} + 0`
+if [[ sys_version_first -ge 18 && sys_version_second -ge 10 ]]; then
     # On Ubuntu 18.10, we can skip the kernel module because the proper
     # KFD version is available in the upstream kernel to allow our user-land
     # tools to work. This misses some features, but ROCm 2.0.0 kernel module
