@@ -32,7 +32,7 @@ parse_args "$@"
 if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
     echo "Installing software required to build HIP."
     echo "You will need to have root privileges to do this."
-    sudo dnf -y install cmake pkgconf-pkg-config git make elfutils-libelf gcc-c++ patch rpm-build doxygen
+    sudo zypper -n in cmake pkg-config git make elfutils- gcc-c++ patch rpm-build doxygen
     if [ ${ROCM_INSTALL_PREREQS} = true ] && [ ${ROCM_FORCE_GET_CODE} = false ]; then
         exit 0
     fi
@@ -40,7 +40,7 @@ fi
 # If we are going to build this as a package and then try to install it, then
 # we need to install the things it relies on or the rpm installation will fail
 if [ ${ROCM_LOCAL_INSTALL} = false ] && [ ${ROCM_FORCE_PACKAGE} = true ]; then
-    sudo dnf -y install perl
+    sudo zypper -n in perl
 fi
 
 # Set up source-code directory

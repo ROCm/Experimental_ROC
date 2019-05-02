@@ -32,7 +32,7 @@ parse_args "$@"
 if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
     echo "Installing software required to build the rocSPARSE."
     echo "You will need to have root privileges to do this."
-    sudo dnf -y install cmake pkgconf-pkg-config git make gcc-c++ boost-program-options rpm-build
+    sudo zypper -n in cmake pkg-config git make gcc-c++ boost_program_options rpm-build
     if [ ${ROCM_INSTALL_PREREQS} = true ] && [ ${ROCM_FORCE_GET_CODE} = false ]; then
         exit 0
     fi
