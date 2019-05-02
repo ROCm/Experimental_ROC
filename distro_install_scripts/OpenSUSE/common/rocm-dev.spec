@@ -1,0 +1,1 @@
+../../shared_files/rpm_specs/rocm-dev.spec
