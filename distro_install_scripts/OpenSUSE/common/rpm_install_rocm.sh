@@ -28,7 +28,7 @@ source "$BASE_DIR/common/common_options.sh"
 parse_args "$@"
 
 echo "Preparing to set up ROCm requirements. You must be root/sudo for this."
-sudo dnf install -y dkms kernel-headers-`uname -r` kernel-devel-`uname -r` wget bzip2
+sudo zypper -n in dkms kernel-devel wget bzip2
 
 # 2.0.0 is an old release, so the deb packages have moved over to an archive
 # tarball. Let's set up a local repo to allow us to do the install here.
@@ -63,7 +63,7 @@ sudo sh -c "echo gpgcheck=0 >> /etc/yum.repos.d/rocm.repo"
 # kernel, so we must skip the driver.
 
 # ROCm requirements
-sudo dnf install -y gcc-c++
+sudo zypper -n in gcc-c++
 
 # We must build HCC from source because the RPM that ships in the AMD binary
 # repo does not work here. Ask the user if they want to do this.
@@ -126,12 +126,12 @@ fi
 
 # Remove other OpenCL installations for stuff that isn't ROCm, or our OpenCL
 # programs may crash with a lot of noise.
-for app in pocl libclc beignet; do
-    num_pkgs=`dnf list installed ${app} 2>/dev/null | wc -l`
-    if [ ${num_pkgs} -gt 0 ]; then
-        sudo dnf remove -y ${app}
-    fi
-done
+# for app in pocl libclc beignet; do
+#     num_pkgs=`dnf list installed ${app} 2>/dev/null | wc -l`
+#     if [ ${num_pkgs} -gt 0 ]; then
+#         sudo dnf remove -y ${app}
+#     fi
+# done
 
 if [ ${ROCM_FORCE_YES} = true ]; then
     ROCM_RUN_NEXT_SCRIPT=true

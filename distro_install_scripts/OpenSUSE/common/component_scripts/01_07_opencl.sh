@@ -31,8 +31,7 @@ parse_args "$@"
 if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
     echo "Installing software required to build ROCm OpenCL."
     echo "You will need to have root privileges to do this."
-    sudo dnf -y install git make ocaml ocaml-findlib git-svn curl mesa-libGL-devel cmake gcc-c++ rpm-build
-    sudo dnf -y install python-pip
+    sudo zypper -n in git make ocaml ocaml-findlib git-svn curl Mesa-libGL-devel cmake gcc-c++ rpm-build python2-pip
     sudo pip install z3-solver
     if [ ! -f /usr/lib/libgtest.a ] || [ ! -f /usr/lib/libgtest_main.a ]; then
         # Install/Build a new-enough version of Gtest
@@ -50,7 +49,7 @@ if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
         sudo cp *.a /usr/lib
     fi
     if [ ${ROCM_FORCE_PACKAGE} = true ]; then
-        sudo yum -y install ocl-icd
+        zypper -n in clinfo
     fi
     if [ ${ROCM_INSTALL_PREREQS} = true ] && [ ${ROCM_FORCE_GET_CODE} = false ]; then
         exit 0

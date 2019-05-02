@@ -32,7 +32,7 @@ parse_args "$@"
 if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
     echo "Installing software required to build clang-ocl."
     echo "You will need to have root privileges to do this."
-    sudo dnf -y install cmake pkgconfig git gcc-c++ rpm-build
+    sudo zypper -n in cmake pkg-config git gcc-c++ rpm-build
     if [ ${ROCM_INSTALL_PREREQS} = true ] && [ ${ROCM_FORCE_GET_CODE} = false ]; then
         exit 0
     fi
@@ -92,16 +92,16 @@ else
     ${ROCM_SUDO_COMMAND} cmake --build . --target install
 fi
 
-if [ ${ROCM_LOCAL_INSTALL} = false ]; then
-    # Remove other OpenCL installations for stuff that isn't ROCm, or
-    # our OpenCL programs may crash with a lot of noise.
-    for app in pocl libclc beignet; do
-        num_pkgs=`dnf list installed ${app} 2>/dev/null | wc -l`
-        if [ ${num_pkgs} -gt 0 ]; then
-            sudo dnf -y remove ${app}
-        fi
-    done
-fi
+# if [ ${ROCM_LOCAL_INSTALL} = false ]; then
+#     # Remove other OpenCL installations for stuff that isn't ROCm, or
+#     # our OpenCL programs may crash with a lot of noise.
+#     for app in Mesa libclc beignet; do
+#         num_pkgs=`dnf list installed ${app} 2>/dev/null | wc -l`
+#         if [ ${num_pkgs} -gt 0 ]; then
+#             sudo zypper -n rm ${app}
+#         fi
+#     done
+# fi
 
 if [ $ROCM_SAVE_SOURCE = false ]; then
     rm -rf ${SOURCE_DIR}

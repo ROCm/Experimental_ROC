@@ -32,7 +32,7 @@ parse_args "$@"
 if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
     echo "Installing software required to build ROCt Thunk layer."
     echo "You will need to have root privileges to do this."
-    sudo dnf -y install cmake pkgconf-pkg-config git make gcc-c++ pciutils-devel numactl-devel rpm-build
+    sudo zypper -n in cmake pkg-config git make gcc-c++ pciutils-devel numactl libnuma-devel rpm-build
     if [ ${ROCM_INSTALL_PREREQS} = true ] && [ ${ROCM_FORCE_GET_CODE} = false ]; then
         exit 0
     fi
