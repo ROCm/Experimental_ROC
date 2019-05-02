@@ -1,0 +1,38 @@
+# The patch for Fedora is slightly different than the patch for other distros.
+# We need to change pth to npth because the package was renamed.
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -11,6 +11,8 @@ IF (NOT CMAKE_BUILD_TYPE)
+   SET(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build, options are: Release Debug" FORCE)
+ ENDIF(NOT CMAKE_BUILD_TYPE)
+
++option(HCC_OPEN_SOURCE_BUILD "Build HCC for installation on purely open source ROCm builds which do not supply closed-source extensions." OFF)
++
+ # Use two different methods to determine host distribution: lsb_release and if that fails grep /etc/os-release
+ find_program( lsb_executable lsb_release )
+
+@@ -556,10 +558,13 @@ endif( USE_LIBCXX )
+ # for non-official release build, we want to relax the dependency on rocr runtime
+ if (OFFICIAL_RELEASE_BUILD)
+   if (HCC_INTEGRATE_ROCDL)
+-    set(HCC_ROCR_DEP ", hsa-rocr-dev, hsa-ext-rocr-dev, rocm-utils")
++    set(HCC_ROCR_DEP ", hsa-rocr-dev, rocminfo")
+   else (HCC_INTEGRATE_ROCDL)
+-    set(HCC_ROCR_DEP ", hsa-rocr-dev, hsa-ext-rocr-dev, rocm-device-libs, rocm-utils")
++    set(HCC_ROCR_DEP ", hsa-rocr-dev, rocm-device-libs, rocminfo")
+   endif(HCC_INTEGRATE_ROCDL)
++  if (NOT HCC_OPEN_SOURCE_BUILD)
++    string(CONCAT "${HCC_ROCR_DEP}" ", hsa-ext-rocr-dev")
++  endif(NOT HCC_OPEN_SOURCE_BUILD)
+ else (OFFICIAL_RELEASE_BUILD)
+   set(HCC_ROCR_DEP "")
+ endif (OFFICIAL_RELEASE_BUILD)
+@@ -574,7 +579,7 @@ set(CPACK_RPM_PRE_UNINSTALL_SCRIPT_FILE "${PROJECT_BINARY_DIR}/packaging/debian/
+ # disable automatic shared libraries dependency detection
+ set(CPACK_RPM_PACKAGE_AUTOREQ 0)
+
+-set(HCC_GENERAL_RPM_DEP "coreutils, findutils, elfutils-libelf, pciutils-libs, file, pth")
++set(HCC_GENERAL_RPM_DEP "coreutils, findutils, elfutils-libelf, pciutils-libs, file, npth")
+ if ( USE_LIBCXX )
+   set(HCC_LIBCXX_RPM_DEP ", libcxx, libcxxabi")
+ else ( USE_LIBCXX )
