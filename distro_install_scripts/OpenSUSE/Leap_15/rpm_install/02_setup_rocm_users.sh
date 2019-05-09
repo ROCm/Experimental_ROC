@@ -1,1 +1,0 @@
-../../common/setup_rocm_users.sh
