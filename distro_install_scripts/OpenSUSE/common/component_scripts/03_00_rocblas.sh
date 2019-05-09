@@ -68,7 +68,7 @@ cd ${SOURCE_DIR}/rocBLAS
 sed -i 's/find_program(VIRTUALENV_PYTHON_EXE python)/find_program(VIRTUALENV_PYTHON_EXE python2)/' ./cmake/virtualenv.cmake
 mkdir -p build/release
 cd build/release
-CXX=${ROCM_INPUT_DIR}/hcc/bin/hcc cmake -DCPACK_PACKAGING_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/ -DCPACK_GENERATOR=RPM ${ROCM_CPACK_RPM_PERMISSIONS} -DCMAKE_BUILD_TYPE=${ROCM_CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/ ../..
+CXX=${ROCM_INPUT_DIR}/hcc/bin/hcc cmake -DPython_ADDITIONAL_VERSIONS=2.7 -DCPACK_PACKAGING_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/ -DCPACK_GENERATOR=RPM ${ROCM_CPACK_RPM_PERMISSIONS} -DCMAKE_BUILD_TYPE=${ROCM_CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/ ../..
 # Linking can take a large amount of memory, and it will fail if you do not
 # have enough memory available per thread. As such, this # logic limits the
 # number of build threads in response to the amount of available memory on
