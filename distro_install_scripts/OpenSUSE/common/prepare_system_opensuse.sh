@@ -36,7 +36,7 @@ else
     echo "You will need to have root privileges to do this."
     if [ "`which sudo`" = "" ]; then
         if [ "`whoami`" = "root" ]; then
-            zypper -n in coreutils sudo
+            zypper -n in coreutils sudo rpmbuild
         else
             echo "ERROR. Installing software on this system will require either"
             echo "running as root, or access to the 'sudo' application."
@@ -61,14 +61,15 @@ else
             echo "you have CUDA installed. nVidia provides officially only CUDA 10+"
             echo "for OpenSuSE, this means we need to guarantee CMake version is"
             echo "at least 3.13."
-            echo "CMake on Leap15's repos is 3.10 so we'll get it from Tumbleweed"
+            echo "CMake on Leap15's repos is 3.10 so we'll get it from obs:devel:tools"
             # We are going to install CMake from whatever's on Tumbleweed right now
             # this is guaranteed to be new enough
-            sudo zypper ar -ef -p 50 http://download.opensuse.org/tumbleweed/repo/oss "rocmTWtemp"
+            sudo zypper ar -ef -p 150 http://download.opensuse.org/repositories/devel:/tools:/building/openSUSE_Leap_15.0 "rocmOBStemp"
             sudo zypper --gpg-auto-import-keys ref
-            sudo zypper -n in cmake
+            CMAKE_OBS_CURRENT=$(zypper pa -ir "rocmOBStemp" | grep cmake | grep x86_64 | awk '{print $7}')
+            sudo zypper -n in cmake=${CMAKE_OBS_CURRENT}
             # We don't want this repo to stick around, though
-            sudo zypper rr "rocmTWtemp"
+            sudo zypper rr "rocmOBStemp"
         fi
     fi
 
