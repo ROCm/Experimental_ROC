@@ -31,7 +31,7 @@ parse_args "--miopen_option" "$@"
 if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
     echo "Installing software required to build the MIOpen."
     echo "You will need to have root privileges to do this."
-    sudo zypper -n in cmake pkg-config git make gcc-c++ openssl libopenssl-devel libboost_system1_66_0-devel libboost_filesystem1_66_0 unzip wget bzip2 rpm-build
+    sudo zypper -n in cmake pkg-config git make gcc-c++ openssl libopenssl-devel libboost_system1_66_0-devel libboost_filesystem1_66_0 libboost_filesystem1_66_0-devel unzip wget bzip2 rpm-build
     if [ ${ROCM_INSTALL_PREREQS} = true ] && [ ${ROCM_FORCE_GET_CODE} = false ]; then
         exit 0
     fi
