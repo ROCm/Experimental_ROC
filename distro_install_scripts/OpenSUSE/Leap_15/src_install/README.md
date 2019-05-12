@@ -1,5 +1,5 @@
-## Tools to Install ROCm 2.0.0 on Fedora 29 From Source
-The scripts in this directory will download, build, and install ROCm 2.0.0 from source on Fedora 29.
+## Tools to Install ROCm 2.0.0 on OpenSUSE Leap 15 From Source
+The scripts in this directory will download, build, and install ROCm 2.0.0 from source on OpenSUSE Leap 15.
 These scripts will download the source code for the ROCm software from AMD's public repositories, build the software locally, and install it onto your system in a desired location.
 These scripts assume a fresh system install, so, by default, they will attempt to add system-wide packages that are required for building the various ROCm projects.
 
@@ -25,7 +25,7 @@ These scripts assume a fresh system install, so, by default, they will attempt t
   * [Testing the Modified Software](#testing-the-modified-software)
 
 ### Directions for Globally Installing ROCm
-The following directions will set up a fresh installation of Fedora with ROCm built from public source repositories.
+The following directions will set up a fresh installation of OpenSUSE with ROCm built from public source repositories.
 The goal of the scripts run in these directions is to create a software installation that includes the same software and files created from a .rpm package installation of ROCm.
 In addition, there are scripts that will perform some of the same system setup commands that are included in the normal ROCm installation directions from <https://github.com/RadeonOpenCompute/ROCm>.
 
@@ -34,7 +34,7 @@ The following script will prepare the system for ROCm by updating the kernel on 
 This script will ask you for your password, since it attempts to run a number of commands with `sudo` to install software to your system.
 
 ```bash
-./00_prepare_system_fedora_29.sh
+./00_prepare_system_opensuse_15.sh
 ```
 
 It is recommended that you reboot after running this script.
@@ -51,11 +51,12 @@ This will cause all of the software builds to run with root access, which is not
 You could instead change time amount of time between password requests by modifying the `timestamp_timeout` value in your [sudoers file](https://www.sudo.ws/man/sudoers.man.html).
 
 ```bash
-./01_install_rocm_fedora_29.sh
+./01_install_rocm_opensuse_15.sh
 ```
 
 This script will install the following software:
 
+- ROCK kernel drivers (amdgpu and amdkfd)
 - ROCt Thunk (kernel/driver interface)
 - ROCr user-land runtime
 - ROCm OpenCL runtime and compiler
@@ -100,7 +101,7 @@ The script will automatically query the user to ask if it should try to run the 
 To skip this interactive query, pass "-y" or "-n" on the command line.
 
 Note that this will not install the ROCK kernel drivers.
-Instead, Fedora 29 uses the drivers included in the upstream Linux kernel.
+Instead, OpenSUSE Leap 15 uses the drivers included in the upstream Linux kernel.
 
 #### Configuring Users to have GPU Access
 If you want to allow all users on the system to use ROCm GPUs, you may want to run the following script that enables GPU access for all users that will be added from this point on.
@@ -137,7 +138,7 @@ This will cause all of the software builds to run with root access, which is not
 You could instead change time amount of time between password requests by modifying the `timestamp_timeout` value in your [sudoers file](https://www.sudo.ws/man/sudoers.man.html).
 
 ```bash
-./03_install_rocm_libraries_fedora_29.sh
+./03_install_rocm_libraries_opensuse_15.sh
 ```
 
 This script will install the following libraries:
@@ -146,6 +147,7 @@ This script will install the following libraries:
  - hipBLAS
  - rocFFT
  - rocRAND
+ - rocPRIM
  - rocSPARSE
  - hipSPARSE
  - rocALUTION
@@ -199,7 +201,7 @@ This may be useful if you plan to build and install ROCm to a non-standard locat
 If you do not want to install any system-wide dependencies, you can skip this step.
 
 ```bash
-./00_prepare_system_fedora_29.sh -r
+./00_prepare_system_opensuse_15.sh -r
 ```
 
 The `-r / --required` flag asks this script to install any required dependencies that would normally be needed if you ran this script to perform a system-wide software installation.
@@ -215,13 +217,13 @@ But, for instance, you need proper compilers and libraries installed on your sys
 These dependencies can be installed by running:
 
 ```bash
-./01_install_rocm_fedora_29.sh -r
+./01_install_rocm_opensuse_15.sh -r
 ```
 
 After installing all of the system-wide dependencies, you can download, build, and install ROCm and its utilities to a local destination with the following command:
 
 ```bash
-./01_install_rocm_fedora_29.sh -l -i {rocm_installation_directory} -o {rocm_installation_directory}
+./01_install_rocm_opensuse_15.sh -l -i {rocm_installation_directory} -o {rocm_installation_directory}
 ```
 
 This script will install the following software:
@@ -291,13 +293,13 @@ But, for instance, you need proper compilers and dependencies installed to build
 These dependencies can be installed by running:
 
 ```bash
-./03_install_rocm_libraries_fedora_29.sh -r
+./03_install_rocm_libraries_opensuse_15.sh -r
 ```
 
 After installing all of the system-wide dependencies, you can download, build, and install the ROCm libraries to a local destination with the following command:
 
 ```bash
-./03_install_rocm_libraries_fedora_29.sh -l -i ${rocm_installation_directory} -o {rocm_installation_directory}
+./03_install_rocm_libraries_opensuse_15.sh -l -i ${rocm_installation_directory} -o {rocm_installation_directory}
 ```
 
 This script will install the following libraries:
@@ -362,13 +364,13 @@ To begin with, you may need to install system-wide software dependencies needed 
 These dependencies can be installed by running:
 
 ```bash
-./01_install_rocm_fedora_29.sh -r
+./01_install_rocm_opensuse_15.sh -r
 ```
 
 After installing all of the system-wide dependencies, you can download, build, and package ROCm and its utilities to a local destination with the following command:
 
 ```bash
-./01_install_rocm_fedora_29.sh -p {directory_to_store_packages} -o {rocm_installation_directory}
+./01_install_rocm_opensuse_15.sh -p {directory_to_store_packages} -o {rocm_installation_directory}
 ```
 
 This script will build and package the following software:
@@ -425,13 +427,13 @@ To begin with, you may need to install system-wide software dependencies needed 
 These dependencies can be installed by running:
 
 ```bash
-./03_install_rocm_libraries_fedora_29.sh -r
+./03_install_rocm_libraries_opensuse_15.sh -r
 ```
 
 After installing all of the system-wide dependencies, you can download, build, and package the ROCm libraries to a local destination with the following command:
 
 ```bash
-./03_install_rocm_libraries_fedora_29.sh -p {directory_to_store_packages} -o {rocm_installation_directory}
+./03_install_rocm_libraries_opensuse_15.sh -p {directory_to_store_packages} -o {rocm_installation_directory}
 ```
 
 This script will install the following libraries:

@@ -20,6 +20,8 @@ These tools have been built and tested on the following distributions:
 - [Fedora](Fedora)
     - [Fedora 28](Fedora/Fedora_28)&dagger;
     - [Fedora 29](Fedora/Fedora_29)&dagger;
+- [OpenSUSE](OpenSUSE)
+    - [Leap 15](OpenSUSE/Leap_15)&dagger;
 - [Red Hat Enterprise Linux (RHEL)](RHEL)
     - [RHEL 7.4](RHEL/RHEL_7.4)
     - [RHEL 7.5](RHEL/RHEL_7.5)
