@@ -150,6 +150,7 @@ This script will install the following libraries:
  - hipBLAS
  - rocFFT
  - rocRAND
+ - rocPRIM
  - rocSPARSE
  - hipSPARSE
  - rocALUTION
