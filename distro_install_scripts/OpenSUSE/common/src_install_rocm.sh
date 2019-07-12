@@ -35,9 +35,12 @@ if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
     sudo zypper -n in coreutils git cmake pkg-config pciutils pciutils-devel
 fi
 
-# Driver confirmed needed to be built for Leap 15
+# On Fedora, we can skip the kernel module because the proper KFD
+# version was backported so our user-land tools can work cleanly.
+# In addition, the ROCm 2.0.0 DKMS module fails to build against this
+# kernel, so we must skip the driver.
 
-${BASE_DIR}/component_scripts/01_00_rock-dkms.sh "$@"
+#${BASE_DIR}/component_scripts/01_00_rock-dkms.sh "$@"
 ${BASE_DIR}/component_scripts/01_01_roct.sh "$@"
 ${BASE_DIR}/component_scripts/01_02_rocr.sh "$@"
 ${BASE_DIR}/component_scripts/01_03_rocm_smi.sh "$@"
