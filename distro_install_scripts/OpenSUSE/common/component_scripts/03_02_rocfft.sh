@@ -65,7 +65,6 @@ if [ ${ROCM_FORCE_GET_CODE} = true ]; then
 fi
 
 cd ${SOURCE_DIR}/rocFFT
-sed -i '/find_package( CUDA QUIET )/d' CMakeLists.txt
 mkdir -p build/release
 cd build/release
 CXX=${ROCM_INPUT_DIR}/hcc/bin/hcc cmake -DCPACK_PACKAGING_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/ -DCPACK_GENERATOR=RPM ${ROCM_CPACK_RPM_PERMISSIONS} -DCMAKE_BUILD_TYPE=${ROCM_CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/ ../../
