@@ -31,7 +31,7 @@ parse_args "$@"
 if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
     echo "Installing software required to build ROCm OpenCL."
     echo "You will need to have root privileges to do this."
-    sudo zypper -n in git make ocaml ocaml-findlib git-svn curl Mesa-libGL-devel cmake gcc-c++ rpm-build python2-pip llvm-gold binutils-gold
+    sudo zypper -n in git make ocaml ocaml-findlib git-svn curl Mesa-libGL-devel cmake gcc-c++ rpm-build python2-pip
     sudo pip install z3-solver
     if [ ! -f /usr/lib/libgtest.a ] || [ ! -f /usr/lib/libgtest_main.a ]; then
         # Install/Build a new-enough version of Gtest
@@ -229,22 +229,10 @@ else
     # bitcode  libamdocl64.so  libcltrace.so  libOpenCL.so  libOpenCL.so.1
     ${ROCM_SUDO_COMMAND} mkdir -p ${ROCM_OUTPUT_DIR}/opencl/lib/x86_64/bitcode/
     ${ROCM_SUDO_COMMAND} cp ${ROCM_OUTPUT_DIR}/opencl/lib/*.bc ${ROCM_OUTPUT_DIR}/opencl/lib/x86_64/bitcode/
-    if [ -e ${ROCM_OUTPUT_DIR}/opencl/lib/libOpenCL.so.1.2 ]; then
-        ${ROCM_SUDO_COMMAND} cp ${ROCM_OUTPUT_DIR}/opencl/lib/libOpenCL.so.1.2 ${ROCM_OUTPUT_DIR}/opencl/lib/x86_64/
-    elif [ ! -e ${ROCM_OUTPUT_DIR}/opencl/lib/x86_64/libOpenCL.so.1.2 ]; then
-        echo "Error: libOpenCL.so.1.2 is neither in its final directory nor where it'd be copied from"
-        echo "${ROCM_OUTPUT_DIR}/opencl/lib/x86_64/ and ${ROCM_OUTPUT_DIR}/opencl/lib/ respectively"
-        exit 2
-    fi
+    ${ROCM_SUDO_COMMAND} cp ${ROCM_OUTPUT_DIR}/opencl/lib/libOpenCL.so.1.2 ${ROCM_OUTPUT_DIR}/opencl/lib/x86_64/
     ${ROCM_SUDO_COMMAND} ln -sf ${ROCM_OUTPUT_DIR}/opencl/lib/x86_64/libOpenCL.so.1.2 ${ROCM_OUTPUT_DIR}/opencl/lib/x86_64/libOpenCL.so.1
     ${ROCM_SUDO_COMMAND} ln -sf ${ROCM_OUTPUT_DIR}/opencl/lib/x86_64/libOpenCL.so.1 ${ROCM_OUTPUT_DIR}/opencl/lib/x86_64/libOpenCL.so
-    if [ -e ${ROCM_OUTPUT_DIR}/opencl/lib/libamdocl64.so ]; then
-        ${ROCM_SUDO_COMMAND} cp ${ROCM_OUTPUT_DIR}/opencl/lib/libamdocl64.so ${ROCM_OUTPUT_DIR}/opencl/lib/x86_64/
-    elif [ ! -e ${ROCM_OUTPUT_DIR}/opencl/lib/x86_64/libamdocl64.so ]; then
-        echo "Error: llibamdocl64.so is neither in its final directory nor where it'd be copied from"
-        echo "${ROCM_OUTPUT_DIR}/opencl/lib/x86_64/ and ${ROCM_OUTPUT_DIR}/opencl/lib/ respectively"
-        exit 2
-    fi
+    ${ROCM_SUDO_COMMAND} cp ${ROCM_OUTPUT_DIR}/opencl/lib/libamdocl64.so ${ROCM_OUTPUT_DIR}/opencl/lib/x86_64/
     ${ROCM_SUDO_COMMAND} rm -f ${ROCM_OUTPUT_DIR}/opencl/lib/lib*
     ${ROCM_SUDO_COMMAND} rm -rf ${ROCM_OUTPUT_DIR}/opencl/lib/clang/
 
