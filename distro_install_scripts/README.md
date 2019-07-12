@@ -12,6 +12,7 @@ They can also be used to build pieces of the ROCm stack with debug symbols to he
 
 These tools have been built and tested on the following distributions:
 
+- [Arch Linux](Arch)&dagger;
 - [CentOS](CentOS)
     - [CentOS 7.4](CentOS/CentOS_7.4)
     - [CentOS 7.5](CentOS/CentOS_7.5)
