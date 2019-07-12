@@ -64,8 +64,6 @@ if [ ${ROCM_FORCE_GET_CODE} = true ]; then
 fi
 
 cd ${SOURCE_DIR}/rocBLAS
-# manually editing a file until my PR(#500) gets merged and integrated into the next tag
-sed -i 's/find_program(VIRTUALENV_PYTHON_EXE python)/find_program(VIRTUALENV_PYTHON_EXE python2)/' ./cmake/virtualenv.cmake
 mkdir -p build/release
 cd build/release
 CXX=${ROCM_INPUT_DIR}/hcc/bin/hcc cmake -DCPACK_PACKAGING_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/ -DCPACK_GENERATOR=RPM ${ROCM_CPACK_RPM_PERMISSIONS} -DCMAKE_BUILD_TYPE=${ROCM_CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${ROCM_OUTPUT_DIR}/ ../..
