@@ -27,7 +27,7 @@ trap 'errno=$?; print_cmd=$lastcmd; if [ $errno -ne 0 ]; then echo "\"${print_cm
 source "$BASE_DIR/common/common_options.sh"
 parse_args "$@"
 
-sudo zypper -n in wget bzip2
+sudo dnf -y install wget bzip2
 
 # 2.0.0 is an old release, so the deb packages have moved over to an archive
 # tarball. Let's set up a local repo to allow us to do the install here.
@@ -56,7 +56,7 @@ sudo sh -c "echo baseurl=file://${REAL_SOURCE_DIR}/yum_2.0.0.89/ >> /etc/yum.rep
 sudo sh -c "echo enabled=1 >> /etc/yum.repos.d/rocm.repo"
 sudo sh -c "echo gpgcheck=0 >> /etc/yum.repos.d/rocm.repo"
 
-sudo zypper -n in miopen-hip miopengemm rocm-libs rocsparse hipsparse Thrust rocm_smi64 rccl
+sudo dnf -y install miopen-hip miopengemm rocm-libs rocsparse hipsparse Thrust rocm_smi64 rccl
 # By default, this installs miopen-hip, because PyTorch and Tensorflow use it
 # If you want to use OpenVX you may need to install miopen-opencl instead of miopen-hip
 

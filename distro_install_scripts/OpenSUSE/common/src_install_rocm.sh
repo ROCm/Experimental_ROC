@@ -32,7 +32,7 @@ ROCM_RUN_NEXT_SCRIPT=false
 if [ ${ROCM_LOCAL_INSTALL} = false ] || [ ${ROCM_INSTALL_PREREQS} = true ]; then
     echo "Installing software required to build ROCm."
     echo "You will need to have root privileges to do this."
-    sudo zypper -n in coreutils git cmake pkg-config pciutils pciutils-devel
+    sudo yum -y install git cmake pkgconf-pkg-config pciutils pciutils-devel
 fi
 
 # On Fedora, we can skip the kernel module because the proper KFD

@@ -36,7 +36,7 @@ else
     echo "You will need to have root privileges to do this."
     if [ "`which sudo`" = "" ]; then
         if [ "`whoami`" = "root" ]; then
-            zypper -n in coreutils sudo
+            dnf -y install sudo
         else
             echo "ERROR. Installing software on this system will require either"
             echo "running as root, or access to the 'sudo' application."
@@ -44,6 +44,7 @@ else
             exit 1
         fi
     fi
+    sudo dnf -y update
 
     if [ ${ROCM_FORCE_YES} = true ]; then
         ROCM_REBOOT_SYSTEM=true
