@@ -1,5 +1,5 @@
-# The patch for OpenSuSE is slightly different than the patch for other distros.
-# We need to change pth to libnpth0 because the package was renamed.
+# The patch for Fedora is slightly different than the patch for other distros.
+# We need to change pth to npth because the package was renamed.
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -11,6 +11,8 @@ IF (NOT CMAKE_BUILD_TYPE)
@@ -32,7 +32,7 @@
  set(CPACK_RPM_PACKAGE_AUTOREQ 0)
 
 -set(HCC_GENERAL_RPM_DEP "coreutils, findutils, elfutils-libelf, pciutils-libs, file, pth")
-+set(HCC_GENERAL_RPM_DEP "coreutils, findutils, elfutils, pciutils, file, libnpth0")
++set(HCC_GENERAL_RPM_DEP "coreutils, findutils, elfutils-libelf, pciutils-libs, file, npth")
  if ( USE_LIBCXX )
-   set(HCC_LIBCXX_RPM_DEP ", libc++1, libc++abi1")
+   set(HCC_LIBCXX_RPM_DEP ", libcxx, libcxxabi")
  else ( USE_LIBCXX )
