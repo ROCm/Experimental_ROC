@@ -32,7 +32,7 @@ ROCM_REBOOT_SYSTEM=false
 if [ ${ROCM_INSTALL_PREREQS} = true ]; then
     exit 0
 else
-    echo "Preparing to update OpenSuSE to allow for ROCm installation."
+    echo "Preparing to update Fedora to allow for ROCm installation."
     echo "You will need to have root privileges to do this."
     if [ "`which sudo`" = "" ]; then
         if [ "`whoami`" = "root" ]; then
@@ -42,33 +42,6 @@ else
             echo "running as root, or access to the 'sudo' application."
             echo "sudo is not installed, and you are not root. Failing."
             exit 1
-        fi
-    fi
-
-    if [ ! "`which nvcc`" = "" ]; then
-        # If we have CUDA for OpenSuSE, nVidia provides CUDA 10 and 10.1
-        # This means we need a newer version of CMake than normally available
-        CMAKE_VERSION_GOOD=false
-        if [ ! "`which cmake`" = "" ]; then
-            CMAKE_VERSION=$(cmake --version | grep version | awk '{print $3;}' | awk -F. '{ printf("%d.%d\n", $1,$2); }' )
-            if [ $CMAKE_VERSION -ge 3.13 ]; then
-                CMAKE_VERSION_GOOD=true
-            fi
-        fi
-
-        if [ ${CMAKE_VERSION_GOOD} = false ]; then
-            echo "We'll need CMake to build all the projects and we've noticed"
-            echo "you have CUDA installed. nVidia provides officially only CUDA 10+"
-            echo "for OpenSuSE, this means we need to guarantee CMake version is"
-            echo "at least 3.13."
-            echo "CMake on Leap15's repos is 3.10 so we'll get it from Tumbleweed"
-            # We are going to install CMake from whatever's on Tumbleweed right now
-            # this is guaranteed to be new enough
-            sudo zypper ar -ef -p 50 http://download.opensuse.org/tumbleweed/repo/oss "rocmTWtemp"
-            sudo zypper --gpg-auto-import-keys ref
-            sudo zypper -n in cmake
-            # We don't want this repo to stick around, though
-            sudo zypper rr "rocmTWtemp"
         fi
     fi
 
