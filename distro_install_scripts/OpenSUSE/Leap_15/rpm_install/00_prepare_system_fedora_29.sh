@@ -1,1 +1,0 @@
-../../common/prepare_system_fedora.sh

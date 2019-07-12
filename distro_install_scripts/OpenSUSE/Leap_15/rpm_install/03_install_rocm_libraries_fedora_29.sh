@@ -1,1 +1,0 @@
-../../common/rpm_install_rocm_libraries.sh
